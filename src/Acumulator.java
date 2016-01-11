@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Acumulator 
+public class Acumulator
 {
 	private List<Enlace> enlace; // Armazena o uso de cada enlaces
 	

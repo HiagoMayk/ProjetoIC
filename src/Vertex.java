@@ -1,7 +1,7 @@
 public class Vertex
 {
 	final private int id;		// Id do vértice
-	final private String name;	// Nome do vértice
+	private String name;	// Nome do vértice
   
 	public Vertex(int  id, String name) 
 	{
@@ -23,6 +23,11 @@ public class Vertex
 	public String getName() 
 	{
 		return name;
+	}
+	
+	public void setName(String name) 
+	{
+		this.name = name;
 	}
   
 	/*

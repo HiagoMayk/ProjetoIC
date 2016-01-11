@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Calculator
 {	
 	private Graph grafo; 				// Grafo da aplicação
@@ -121,26 +124,33 @@ public class Calculator
 		  
 		  for(Vertex v : grafo.getVertexes())
 		  {
-			  System.out.println(v.getId());
+			  System.out.println(v.getName());
 		  }
 		  
 		  for(Edge e : grafo.getEdges())
 		  {
-			  System.out.println(e.getSource().getId() + " - " + e.getDestination().getId() + " -> " + e.getWeight());
+			  System.out.println(e.getSource().getName() + " - " + e.getDestination().getName() + " -> " + e.getWeight());
 		  }
   
 		  Processors mapeamento[][] = entrada.lerMapeamento(grafo.getVertexes());
 		  
-		   /*
+		  //Imprime rede
 		  for(int i = 0; i < 7; i++)
 		  {
 			  for(int j = 0; j < 6; j++)
 			  {
-				  System.out.print(mapeamento[i][j].getId() + "  ");
+				  if(mapeamento[i][j].getVertex() != null)
+				  {
+					  System.out.print(mapeamento[i][j].getVertex().getName() + " \t");
+				  }
+				  else
+				  {
+					  System.out.print(mapeamento[i][j].getId() + "\t");
+				  }
 			  }
 			  System.out.println();
 		  }
-		  */
+		  System.out.println();
 		  
 		  Calculator c = new Calculator(grafo, mapeamento, 7, 6);
 		  c.execute();
