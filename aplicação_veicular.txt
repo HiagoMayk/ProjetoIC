@@ -1,0 +1,55 @@
+Grafo:
+
+10
+21
+"Photo" "IP"    100
+"Photo" "OD"    600
+"IP"    "Photo" 100
+"IP"    "FB1"   100
+"IP"    "FB2"   100
+"IP"    "RI"    5000
+"FB1"   "IP"    5000
+"FB2"   "IP"    5000
+"RI"    "MC"    100
+"MC"    "IP"    100
+"MC"    "DC"    300
+"MC"    "PC"    200
+"MC"    "SI"    100
+"MC"    "OD"    100
+"DC"    "MC"    300
+"PC"    "MC"    200
+"OD"    "Photo" 100
+"OD"    "MC"    4000
+"OD"    "SI"    300
+"SI"    "MC"    300
+"SI"    "OD"    200
+
+Mapeamento(sequencial):
+
+8
+8
+0  "Photo"
+1  "IP"
+2  "FB1"
+3  "FB2"
+4  "RI"
+5  "MC"
+6  "DC"
+7  "PC"
+8  "OD"
+9  "SI"
+
+Mapeamento(proposto):
+
+8
+8
+9  "FB2"
+11 "RI"
+13 "DC"
+15 "PC"
+25 "FB1"
+27 "MC"
+29 "IP"
+41 "SI"
+43 "Photo"
+45 "OD"

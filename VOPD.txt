@@ -1,0 +1,52 @@
+Grafo:
+
+12
+13
+"StripeM" "IQuant"  128
+"ACDC"    "StripeM" 150
+"ACDC"    "IQuant"  3312
+"ISCan"   "ACDC"    1132
+"Run"     "ISCan"   1132
+"VLD"     "Run"     215
+"IQuant"  "IDCT2"   1096
+"ARM"     "IDCT2"   120
+"IDCT2"   "UPSAMP"  1085
+"VOPmd"   "VOPrex"  1500
+"UPSAMP"  "VOPrex"  922
+"VOPrex"  "pad"     962
+"pad"     "VOPmd"   289
+
+Mapeamento(sequencial):
+
+8
+8
+0  "StripeM"
+1  "ACDC"
+2  "ISCan"
+3  "Run"
+4  "VLD"
+5  "IQuant"
+6  "ARM"
+7  "IDCT2"
+8  "VOPmd"
+9  "UPSAMP"
+10 "VOPrex"
+11 "pad"
+
+Mapeamento(proposto):
+
+8
+8
+9  "StripeM"
+11 "UPSAMP"
+13 "VOPmd"
+15 "pad"
+25 "ISCan"
+27 "ACDC"
+29 "IQuant"
+31 "VLD"
+41 "Run"
+43 "VOPrex"
+45 "IDCT2"
+47 "ARM"
+

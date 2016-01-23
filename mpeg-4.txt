@@ -1,0 +1,58 @@
+Grafo:
+
+12
+19
+"IDCT"    "SRAM3"   422
+"SRAM3"   "IDCT"    422
+"SRAM3"   "RISC"    844
+"SRAM3"   "BAB"     293
+"SRAM3"   "UPSAMP2" 2235
+"RISC"    "SRAM3"   844
+"BAB"     "SDRAM"   328
+"UPSAMP2" "SDRAM"   1500
+"SDRAM"   "UPSAMP2" 1500
+"SDRAM"   "BAB"     320
+"SDRAM"   "MCPU"    120
+"SDRAM"   "ADSP"    320
+"SDRAM"   "VU"      321
+"SDRAM"   "AU"      320
+"SDRAM"   "RAST"    3013
+"ADSP"    "SDRAM"   320
+"RAST"    "SDRAM"   3013
+"MCPU"    "SRAM2"   320
+"SRAM2"   "RAST"    328
+
+
+Mapeamento(sequencial):
+
+8
+8
+0  "IDCT"
+1  "SRAM3"
+2  "RISC"
+3  "BAB"
+4  "UPSAMP2"
+5  "SDRAM"
+6  "ADSP"
+7  "VU"
+8  "AU"
+9  "MCPU"
+10 "SRAM2"
+11 "RAST"
+
+Mapeamento(proposto):
+
+8
+8
+9  "RISC"
+11 "MCPU"
+13 "SRAM3"
+15 "ADSP"
+25 "IDCT"
+27 "SDRAM"
+29 "SRAM2"
+31 "VU"
+41 "RAST"
+43 "UPSAMP2"
+45 "BAB"
+47 "AU"

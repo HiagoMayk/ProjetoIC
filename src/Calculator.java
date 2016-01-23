@@ -119,7 +119,11 @@ public class Calculator
 	{		
 		  Entrada entrada = new Entrada();
 		  
+		  int linhas = 0;
+		  int colunas = 0;
+		  
 		  System.out.println("Digite o grafo de entrada:");
+		  System.out.println();
 		  Graph grafo = entrada.lerGrafo();
 		  
 		  for(Vertex v : grafo.getVertexes())
@@ -131,13 +135,15 @@ public class Calculator
 		  {
 			  System.out.println(e.getSource().getName() + " - " + e.getDestination().getName() + " -> " + e.getWeight());
 		  }
-  
+		  
+		  System.out.println("Digite o mapeamento:");
+		  System.out.println();
 		  Processors mapeamento[][] = entrada.lerMapeamento(grafo.getVertexes());
 		  
 		  //Imprime rede
-		  for(int i = 0; i < 7; i++)
+		  for(int i = 0; i < entrada.getLinhasMap(); i++)
 		  {
-			  for(int j = 0; j < 6; j++)
+			  for(int j = 0; j < entrada.getColunasMap(); j++)
 			  {
 				  if(mapeamento[i][j].getVertex() != null)
 				  {
@@ -152,7 +158,7 @@ public class Calculator
 		  }
 		  System.out.println();
 		  
-		  Calculator c = new Calculator(grafo, mapeamento, 7, 6);
+		  Calculator c = new Calculator(grafo, mapeamento, entrada.getLinhasMap(), entrada.getColunasMap());
 		  c.execute();
 		  c.printResult();
 	}

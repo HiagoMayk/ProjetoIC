@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class Entrada
 {
 	Scanner sc = new Scanner(System.in);  // Variável para entrada de dados
+	private int linhasMap;
+	private int colunasMap;
 
 	/*
 	 * Ler o grafo da aplicação
@@ -128,6 +130,9 @@ public class Entrada
 		int id = 0;
 		int l = sc.nextInt();
 		int c = sc.nextInt();
+		
+		linhasMap = l;
+		colunasMap = c;
 		Processors network[][] = new Processors [l][c];
 		
 		for(int i = 0; i < l; i++)
@@ -164,5 +169,15 @@ public class Entrada
 		}
 
 		return network;
+	}
+	
+	public int getLinhasMap()
+	{
+		return linhasMap;
+	}
+	
+	public int getColunasMap()
+	{
+		return colunasMap;
 	}
 }
