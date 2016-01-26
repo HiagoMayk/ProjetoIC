@@ -33,12 +33,31 @@ public class Acumulator
 		}
 	}
 	
+
+	public Enlace returnEnlace(int i, int j)
+	{
+		for(Enlace e : enlace)
+		{
+			if((e.getSource() == i && e.getDestination() == j) || (e.getSource() == j && e.getDestination() == i))
+			{
+				return e;
+			}
+		}
+		return null;		
+	}
+	
 	/*
 	 * Retorna a lista de enlaces
 	 */
 	public List<Enlace> getEnlace()
 	{
 		return enlace;
+	}
+	
+	public void setEnlace(int i, int j)
+	{
+		Enlace e = new Enlace(i, j);
+		enlace.add(e);
 	}
 	
 	/*
