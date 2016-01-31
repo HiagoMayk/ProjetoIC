@@ -4,6 +4,7 @@ public class Edge
 	private final Vertex source;		// Vértice de origem
 	private final Vertex destination;	// Vértice de destino
 	private final int weight;			// Peso da aresta
+	private int hops;					// Quantidades de hops da comunicação
   
 	public Edge(String id, Vertex source, Vertex destination, int weight) 
 	{
@@ -45,6 +46,21 @@ public class Edge
 		return weight;
 	}
   
+	public void incrementaHops()
+	{
+		this.hops++;
+	}
+	
+	public void setHops(int h)
+	{
+		this.hops = h;
+	}
+	
+	public int getHops()
+	{
+		return hops;
+	}
+	
 	/*
 	 * retorna uma string contendo o vértice de origem e o de destino
 	 */

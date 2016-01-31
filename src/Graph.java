@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Graph 
+public class Graph implements Cloneable
 {
 	private List<Vertex> vertexes;	// Vértices do grafo
 	private List<Edge> edges;		// Arestas do grafo
@@ -12,7 +12,7 @@ public class Graph
 		this.vertexes = vertexes;
 		this.edges = edges;
 	}
-
+	
 	public Graph(List<Vertex> vertexes) 
 	{
 		this.vertexes = vertexes;
@@ -35,6 +35,14 @@ public class Graph
 		this.edges = edges;
 	}
 
+	public void zerarHops()
+	{
+		for(Edge e: edges)
+		{
+			e.setHops(0);
+		}
+	}
+	
 	/*
 	 * Retorna a lista de vértices
 	 */

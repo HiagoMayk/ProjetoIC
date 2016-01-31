@@ -24,21 +24,21 @@ public class Calculator
 	public void executeXY()
 	{
 		int linV = 0;
-		int colV = 0;  
+		int colV = 0;
 		int linU = 0;
 		int colU = 0;
 		boolean flagV = false;
 		boolean flagU = false;
 		
-		for(Vertex v : grafo.getVertexes())
+		for(Edge e : grafo.getEdges())
 		{
-			for(Vertex u: grafo.getVertexes())
+			for(Vertex v : grafo.getVertexes())
 			{
-				flagV = false;
-				flagU = false;
-				
-				for(Edge e : grafo.getEdges())
+				for(Vertex u: grafo.getVertexes())
 				{
+					flagV = false;
+					flagU = false;
+					
 					if(v.getId() == e.getSource().getId() && u.getId() == e.getDestination().getId())
 					{
 						for(int i = 0; i < linhas; i++)
@@ -69,7 +69,7 @@ public class Calculator
 							{
 								break;
 							}
-						}						
+						}					
 					}
 					
 					if(flagV && flagU)
@@ -79,12 +79,14 @@ public class Calculator
 						{
 							acumulator.incrementaEnlace(mapeamento[linV][aux].getId(), mapeamento[linV][aux+1].getId());
 							aux++;
+							e.incrementaHops();
 						}
 						
 						while(aux > colU)
 						{
 							acumulator.incrementaEnlace(mapeamento[linV][aux].getId(), mapeamento[linV][aux-1].getId());
 							aux--;
+							e.incrementaHops();
 						}
 						
 						aux = linV;
@@ -92,12 +94,14 @@ public class Calculator
 						{
 							acumulator.incrementaEnlace(mapeamento[aux][colU].getId(), mapeamento[aux+1][colU].getId());
 							aux++;
+							e.incrementaHops();
 						}
 						
 						while(aux > linU)
 						{
 							acumulator.incrementaEnlace(mapeamento[aux][colU].getId(), mapeamento[aux-1][colU].getId());
 							aux--;
+							e.incrementaHops();
 						}
 						
 						break;
@@ -113,21 +117,21 @@ public class Calculator
 	public void executeXY_YX()
 	{
 		int linV = 0;
-		int colV = 0;  
+		int colV = 0;
 		int linU = 0;
 		int colU = 0;
 		boolean flagV = false;
 		boolean flagU = false;
 		
-		for(Vertex v : grafo.getVertexes())
+		for(Edge e : grafo.getEdges())
 		{
-			for(Vertex u: grafo.getVertexes())
+			for(Vertex v : grafo.getVertexes())
 			{
-				flagV = false;
-				flagU = false;
-				
-				for(Edge e : grafo.getEdges())
+				for(Vertex u: grafo.getVertexes())
 				{
+					flagV = false;
+					flagU = false;
+					
 					if(v.getId() == e.getSource().getId() && u.getId() == e.getDestination().getId())
 					{
 						// Busca o local onde os processos foram mapeados
@@ -163,15 +167,15 @@ public class Calculator
 					}
 					
 					if(flagV && flagU)
-					{			
+					{
 						int auxColV = colV;
 						int auxLinV = linV;
-						boolean flag = true; 
+						boolean flag = true;
 						
 						while(flag)
-						{	
+						{
 							if(auxColV < colU)
-							{	
+							{
 								//Primeira linha
 								if(auxLinV == 0 ) //&& auxColV < colunas
 								{
@@ -181,6 +185,7 @@ public class Calculator
 										{
 												acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
 												auxColV++;
+												e.incrementaHops();
 										}
 										else
 										{
@@ -190,36 +195,41 @@ public class Calculator
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
 													auxLinV++;
+													e.incrementaHops();
 											}
 											else
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
 													auxColV++;
+													e.incrementaHops();
 											}
 										}
 								}
 								else if(auxLinV == (linhas-1))
 								{
 									if(acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()) == null || 
-									  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) != null) && 
-									  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos()))
+									 ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) != null) && 
+									  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos())))
 									{
 										acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
 										auxColV++;
+										e.incrementaHops();
 									}
 									else
 									{
 										if((auxLinV > linU) &&
-											   ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) == null) || 
-												(acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos())))
+										  ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) == null) || 
+										   (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos())))
 										{
 											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
 											auxLinV--;
+											e.incrementaHops();
 										}
 										else
 										{
 											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
 											auxColV++;
+											e.incrementaHops();
 										}
 									}
 								}
@@ -233,6 +243,7 @@ public class Calculator
 									{
 											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
 											auxColV++;
+											e.incrementaHops();
 									}
 									else
 									{
@@ -242,72 +253,81 @@ public class Calculator
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
 													auxLinV++;
+													e.incrementaHops();
 											}
 											else if((auxLinV > linU) &&
 												   ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) == null) || 
-													(acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos())))
+													(acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos() < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos())))
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
 													auxLinV--;
+													e.incrementaHops();
 											}
 											else
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
 													auxColV++;
+													e.incrementaHops();
 											}
 									}
 								}
-							}	
+							}
 							else if(auxColV > colU)
 							{
 								//Ultimo elemento da primeira linha
 								if(auxLinV == 0)
 								{
-										if(acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()) == null || 
-										 ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()) != null) && 
+										if(acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()) == null ||
+										 ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()) != null) &&
 										  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()).getAcessos())))
 										{
 												acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 												auxColV--;
+												e.incrementaHops();
 										}
 										else
 										{
 											if((auxLinV < linU) &&
-											  ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()) == null) || 
+											  ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()) == null) ||
 											   (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos())))
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
 													auxLinV++;
+													e.incrementaHops();
 											}
 											else
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 													auxColV--;
+													e.incrementaHops();
 											}
 										}
 								}
 								else if(auxLinV == (linhas-1))
 								{
 									if(acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()) == null || 
-									  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) != null) && 
-									  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos()))
+									 ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) != null) && 
+									  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos())))
 									{
 										acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 										auxColV--;
+										e.incrementaHops();
 									}
 									else
 									{
 										if((auxLinV > linU) &&
-										   ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) == null) || 
-										    (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos())))
+										  ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) == null) || 
+										   (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos())))
 										{
 											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
 											auxLinV--;
+											e.incrementaHops();
 										}
 										else
 										{
 											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 											auxColV--;
+											e.incrementaHops();
 										}
 									}
 								}
@@ -321,27 +341,31 @@ public class Calculator
 									{
 											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 											auxColV--;
+											e.incrementaHops();
 									}
 									else
 									{
 											if((auxLinV < linU) &&
 											  ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()) == null) || 
-											   (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos())))
+											   (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()).getAcessos() < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos())))
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
 													auxLinV++;
+													e.incrementaHops();
 											}
 											else if((auxLinV > linU) &&
 												   ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) == null) || 
-													(acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos())))
+													(acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos() < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos())))
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
 													auxLinV--;
+													e.incrementaHops();
 											}
 											else
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 													auxColV--;
+													e.incrementaHops();
 											}
 									}
 								}
@@ -350,11 +374,13 @@ public class Calculator
 							{
 								acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
 								auxLinV++;
+								e.incrementaHops();
 					 		}
 							else if(auxLinV > linU)
 							{
 								acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
 								auxLinV--;
+								e.incrementaHops();
 							}
 							else
 							{
@@ -367,16 +393,21 @@ public class Calculator
 			}
 		}
 	}
-	
+
 	/*
 	 * Imprime o resultado do acumulador
 	 */
 	public void printResult()
 	{
+		for(Edge e : grafo.getEdges())
+		{
+			  System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
+		}
+		
 		acumulator.printAcumulator();
 	}
 	
-	public static void main(String args[])
+	public static void main(String args[]) throws CloneNotSupportedException
 	{		
 		  Entrada entrada = new Entrada();
 		  
@@ -394,7 +425,7 @@ public class Calculator
 		  
 		  for(Edge e : grafo.getEdges())
 		  {
-			  System.out.println(e.getSource().getName() + " - " + e.getDestination().getName() + " -> " + e.getWeight());
+			  System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight());
 		  }
 		  
 		  System.out.println("Digite o mapeamento:");
@@ -423,6 +454,7 @@ public class Calculator
 		  c.executeXY();
 		  c.printResult();
 		  
+		  grafo.zerarHops();
 		  c = new Calculator(grafo, mapeamento, entrada.getLinhasMap(), entrada.getColunasMap());
 		  System.out.println();
 		  System.out.println();
