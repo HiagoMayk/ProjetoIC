@@ -211,9 +211,9 @@ public class Calculator
 									 ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) != null) && 
 									  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos())))
 									{
-										acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
-										auxColV++;
-										e.incrementaHops();
+											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
+											auxColV++;
+											e.incrementaHops();
 									}
 									else
 									{
@@ -221,15 +221,15 @@ public class Calculator
 										  ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) == null) || 
 										   (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos())))
 										{
-											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
-											auxLinV--;
-											e.incrementaHops();
+												acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
+												auxLinV--;
+												e.incrementaHops();
 										}
 										else
 										{
-											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
-											auxColV++;
-											e.incrementaHops();
+												acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
+												auxColV++;
+												e.incrementaHops();
 										}
 									}
 								}
@@ -399,11 +399,15 @@ public class Calculator
 	 */
 	public void printResult()
 	{
+		System.out.println();
+		System.out.println("Total de hops: ");
 		for(Edge e : grafo.getEdges())
 		{
 			  System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
 		}
 		
+		System.out.println();
+		System.out.println("Total de acessos aos enlaces: ");
 		acumulator.printAcumulator();
 	}
 	
@@ -414,23 +418,32 @@ public class Calculator
 		  int linhas = 0;
 		  int colunas = 0;
 		  
-		  System.out.println("Digite o grafo de entrada:");
+		  System.out.println("Digite o grafo de entrada: ");
 		  System.out.println();
 		  Graph grafo = entrada.lerGrafo();
 		  
+		  System.out.println();
+		  System.out.println("Digite o mapeamento: ");
+		  System.out.println();
+		  Processors mapeamento[][] = entrada.lerMapeamento(grafo.getVertexes());
+		  
+		  System.out.println();
+		  System.out.println("Tarefas: ");
 		  for(Vertex v : grafo.getVertexes())
 		  {
 			  System.out.println(v.getName());
 		  }
+		  
+		  System.out.println();
+		  System.out.println("Comunicações: ");
 		  
 		  for(Edge e : grafo.getEdges())
 		  {
 			  System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight());
 		  }
 		  
-		  System.out.println("Digite o mapeamento:");
 		  System.out.println();
-		  Processors mapeamento[][] = entrada.lerMapeamento(grafo.getVertexes());
+		  System.out.println("Mapeamento: ");
 		  
 		  //Imprime rede
 		  for(int i = 0; i < entrada.getLinhasMap(); i++)
@@ -448,16 +461,18 @@ public class Calculator
 			  }
 			  System.out.println();
 		  }
-		  System.out.println();
 		  
+		  System.out.println();
+		  System.out.println("ALGORITMO XY: ");
 		  Calculator c = new Calculator(grafo, mapeamento, entrada.getLinhasMap(), entrada.getColunasMap());
 		  c.executeXY();
 		  c.printResult();
 		  
 		  grafo.zerarHops();
+		  
+		  System.out.println();
+		  System.out.println("ALGORITMO XY-YX:");
 		  c = new Calculator(grafo, mapeamento, entrada.getLinhasMap(), entrada.getColunasMap());
-		  System.out.println();
-		  System.out.println();
 		  c.executeXY_YX();
 		  c.printResult();
 	}

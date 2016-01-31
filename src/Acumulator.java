@@ -16,6 +16,7 @@ public class Acumulator
 	public void incrementaEnlace(int i, int j)
 	{
 		boolean flag = false;
+		
 		for(Enlace e : enlace)
 		{
 			if((e.getSource() == i && e.getDestination() == j) || (e.getSource() == j && e.getDestination() == i))
@@ -33,7 +34,6 @@ public class Acumulator
 		}
 	}
 	
-
 	public Enlace returnEnlace(int i, int j)
 	{
 		for(Enlace e : enlace)
