@@ -78,6 +78,7 @@ public class Calculator
 						while(aux < colU)
 						{
 							acumulator.incrementaEnlace(mapeamento[linV][aux].getId(), mapeamento[linV][aux+1].getId());
+							e.addEnlace(mapeamento[linV][aux].getId(), mapeamento[linV][aux+1].getId());
 							aux++;
 							e.incrementaHops();
 						}
@@ -85,23 +86,29 @@ public class Calculator
 						while(aux > colU)
 						{
 							acumulator.incrementaEnlace(mapeamento[linV][aux].getId(), mapeamento[linV][aux-1].getId());
+							e.addEnlace(mapeamento[linV][aux].getId(), mapeamento[linV][aux-1].getId());
 							aux--;
 							e.incrementaHops();
+			
 						}
 						
 						aux = linV;
 						while(aux < linU)
 						{
 							acumulator.incrementaEnlace(mapeamento[aux][colU].getId(), mapeamento[aux+1][colU].getId());
+							e.addEnlace(mapeamento[aux][colU].getId(), mapeamento[aux+1][colU].getId());
 							aux++;
 							e.incrementaHops();
+							
 						}
 						
 						while(aux > linU)
 						{
 							acumulator.incrementaEnlace(mapeamento[aux][colU].getId(), mapeamento[aux-1][colU].getId());
+							e.addEnlace(mapeamento[aux][colU].getId(), mapeamento[aux-1][colU].getId());
 							aux--;
 							e.incrementaHops();
+							
 						}
 						
 						break;
@@ -184,8 +191,9 @@ public class Calculator
 										  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()).getAcessos())))
 										{
 												acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
+												e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
 												auxColV++;
-												e.incrementaHops();
+												e.incrementaHops();												
 										}
 										else
 										{
@@ -194,14 +202,16 @@ public class Calculator
 											   (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos())))
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
+													e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
 													auxLinV++;
-													e.incrementaHops();
+													e.incrementaHops();													
 											}
 											else
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
+													e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
 													auxColV++;
-													e.incrementaHops();
+													e.incrementaHops();													
 											}
 										}
 								}
@@ -212,8 +222,9 @@ public class Calculator
 									  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos())))
 									{
 											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
+											e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
 											auxColV++;
-											e.incrementaHops();
+											e.incrementaHops();											
 									}
 									else
 									{
@@ -222,14 +233,16 @@ public class Calculator
 										   (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos())))
 										{
 												acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
+												e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
 												auxLinV--;
-												e.incrementaHops();
+												e.incrementaHops();												
 										}
 										else
 										{
 												acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
+												e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
 												auxColV++;
-												e.incrementaHops();
+												e.incrementaHops();												
 										}
 									}
 								}
@@ -242,8 +255,9 @@ public class Calculator
 									  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos())))
 									{
 											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
+											e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
 											auxColV++;
-											e.incrementaHops();
+											e.incrementaHops();											
 									}
 									else
 									{
@@ -252,22 +266,25 @@ public class Calculator
 											   (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos())))
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
+													e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
 													auxLinV++;
-													e.incrementaHops();
+													e.incrementaHops();													
 											}
 											else if((auxLinV > linU) &&
 												   ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) == null) || 
 													(acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos() < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId()).getAcessos())))
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
+													e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
 													auxLinV--;
-													e.incrementaHops();
+													e.incrementaHops();													
 											}
 											else
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
+													e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV+1].getId());
 													auxColV++;
-													e.incrementaHops();
+													e.incrementaHops();													
 											}
 									}
 								}
@@ -282,8 +299,9 @@ public class Calculator
 										  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()).getAcessos())))
 										{
 												acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
+												e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 												auxColV--;
-												e.incrementaHops();
+												e.incrementaHops();												
 										}
 										else
 										{
@@ -292,14 +310,16 @@ public class Calculator
 											   (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos())))
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
+													e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
 													auxLinV++;
-													e.incrementaHops();
+													e.incrementaHops();													
 											}
 											else
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
+													e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 													auxColV--;
-													e.incrementaHops();
+													e.incrementaHops();													
 											}
 										}
 								}
@@ -310,8 +330,9 @@ public class Calculator
 									  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos())))
 									{
 										acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
+										e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 										auxColV--;
-										e.incrementaHops();
+										e.incrementaHops();										
 									}
 									else
 									{
@@ -320,14 +341,16 @@ public class Calculator
 										   (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos())))
 										{
 											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
+											e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
 											auxLinV--;
-											e.incrementaHops();
+											e.incrementaHops();											
 										}
 										else
 										{
 											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
+											e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 											auxColV--;
-											e.incrementaHops();
+											e.incrementaHops();											
 										}
 									}
 								}
@@ -340,8 +363,9 @@ public class Calculator
 									  (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos())))
 									{
 											acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
+											e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 											auxColV--;
-											e.incrementaHops();
+											e.incrementaHops();											
 									}
 									else
 									{
@@ -350,22 +374,25 @@ public class Calculator
 											   (acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId()).getAcessos() < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos())))
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
+													e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
 													auxLinV++;
-													e.incrementaHops();
+													e.incrementaHops();													
 											}
 											else if((auxLinV > linU) &&
 												   ((acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()) == null) || 
 													(acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId()).getAcessos() < acumulator.returnEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId()).getAcessos())))
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
+													e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
 													auxLinV--;
-													e.incrementaHops();
+													e.incrementaHops();													
 											}
 											else
 											{
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
+													e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 													auxColV--;
-													e.incrementaHops();
+													e.incrementaHops();													
 											}
 									}
 								}
@@ -373,12 +400,14 @@ public class Calculator
 							else if(auxLinV < linU)
 							{
 								acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
+								e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV+1][auxColV].getId());
 								auxLinV++;
-								e.incrementaHops();
+								e.incrementaHops();								
 					 		}
 							else if(auxLinV > linU)
 							{
 								acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
+								e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV-1][auxColV].getId());
 								auxLinV--;
 								e.incrementaHops();
 							}
@@ -400,13 +429,18 @@ public class Calculator
 	public void printResult()
 	{
 		System.out.println();
-		System.out.println("Total de hops: ");
+		System.out.println("Total de hops e caminhos percorridos: ");
 		for(Edge e : grafo.getEdges())
 		{
 			  System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
+			  
+			  for(Enlace en : e.getEnlaces())
+			  {
+				  System.out.println(en.getSource() + " - " + en.getDestination());
+			  }
+			  System.out.println();
 		}
-		
-		System.out.println();
+
 		System.out.println("Total de acessos aos enlaces: ");
 		acumulator.printAcumulator();
 	}
@@ -469,6 +503,7 @@ public class Calculator
 		  c.printResult();
 		  
 		  grafo.zerarHops();
+		  grafo.zerarEnlaces();
 		  
 		  System.out.println();
 		  System.out.println("ALGORITMO XY-YX:");

@@ -43,6 +43,14 @@ public class Graph implements Cloneable
 		}
 	}
 	
+	public void zerarEnlaces()
+	{
+		for(Edge e: edges)
+		{
+			e.resetaEnlaces();
+		}
+	}
+	
 	/*
 	 * Retorna a lista de vértices
 	 */
