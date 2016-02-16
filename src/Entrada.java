@@ -17,7 +17,6 @@ public class Entrada
 	 */
 	public Graph lerGrafo()
 	{	
-		//Map<String, Integer> dic = new HashMap<String, Integer>();
 		List<Vertex> nodes = new ArrayList<Vertex>();
 		List<Edge> edges = new ArrayList<Edge>();
 		int quantVertices = sc.nextInt();
@@ -49,13 +48,11 @@ public class Entrada
 				if(v.getName() != null && v.getName().equals(no1))
 				{
 					flag1 = true;
-					//System.out.print(v.getName()+"|");
 				}
 				
 				if(v.getName() != null && v.getName().equals(no2))
 				{
 					flag2 = true;
-					//System.out.print(v.getName());
 				}
 			}
 			

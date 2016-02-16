@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Calculator
@@ -455,11 +456,19 @@ public class Calculator
 		  System.out.println("Digite o grafo de entrada: ");
 		  System.out.println();
 		  Graph grafo = entrada.lerGrafo();
-		  
+		 
+		  /*
 		  System.out.println();
 		  System.out.println("Digite o mapeamento: ");
 		  System.out.println();
 		  Processors mapeamento[][] = entrada.lerMapeamento(grafo.getVertexes());
+		  */
+		  
+		  //-------------- Parte do algoritmo PropostoHM, para usar a entrada por console é só
+		  // descomentar o código acima e comentar esse. 
+		  PropostoHM hm = new PropostoHM(grafo.getVertexes(), grafo.getEdges());
+		  Processors mapeamento[][] = hm.execute();
+		  //--------------
 		  
 		  System.out.println();
 		  System.out.println("Tarefas: ");

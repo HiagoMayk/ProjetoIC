@@ -2,6 +2,8 @@ public class Vertex
 {
 	final private int id;		// Id do vértice
 	private String name;	// Nome do vértice
+	private int outdegree;
+	private int indegree;
   
 	public Vertex(int  id, String name) 
 	{
@@ -12,7 +14,7 @@ public class Vertex
 	/*
 	 * Retorna o id do vértice
 	 */
-	public int getId() 
+	public int getId()
 	{
 		return id;
 	}
@@ -29,7 +31,22 @@ public class Vertex
 	{
 		this.name = name;
 	}
-  
+	
+	public int getTotalDegree()
+	{
+		return indegree + outdegree;
+	}
+	
+	public void incrementsIndegree()
+	{
+		indegree++;
+	}
+	
+	public void incrementsOutdegree()
+	{
+		outdegree++;
+	}
+	
 	/*
 	 * Retorna resultado do armazenamento na tabela hash
 	 */
