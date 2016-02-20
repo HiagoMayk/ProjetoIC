@@ -464,12 +464,6 @@ public class Calculator
 		  Processors mapeamento[][] = entrada.lerMapeamento(grafo.getVertexes());
 		  */
 		  
-		  //-------------- Parte do algoritmo PropostoHM, para usar a entrada por console é só
-		  // descomentar o código acima e comentar esse. 
-		  PropostoHM hm = new PropostoHM(grafo.getVertexes(), grafo.getEdges());
-		  Processors mapeamento[][] = hm.execute();
-		  //--------------
-		  
 		  System.out.println();
 		  System.out.println("Tarefas: ");
 		  for(Vertex v : grafo.getVertexes())
@@ -485,8 +479,16 @@ public class Calculator
 			  System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight());
 		  }
 		  
+		  //-------------- Parte do algoritmo PropostoHM, para usar a entrada por console é só
+		  // descomentar o código acima e comentar esse. 
+		  PropostoHM hm = new PropostoHM(grafo.getVertexes(), grafo.getEdges());
+		  Processors mapeamento[][] = hm.execute();
+		  //--------------
+		  
+		  /*
 		  System.out.println();
 		  System.out.println("Mapeamento: ");
+		 
 		  
 		  //Imprime rede
 		  for(int i = 0; i < entrada.getLinhasMap(); i++)
@@ -504,6 +506,7 @@ public class Calculator
 			  }
 			  System.out.println();
 		  }
+		  */
 		  
 		  System.out.println();
 		  System.out.println("ALGORITMO XY: ");

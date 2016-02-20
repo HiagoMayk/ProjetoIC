@@ -1,15 +1,32 @@
-public class Vertex
+public class Vertex implements Comparable<Vertex>
 {
 	final private int id;		// Id do vértice
 	private String name;	// Nome do vértice
 	private int outdegree;
 	private int indegree;
+	private int degree;
   
-	public Vertex(int  id, String name) 
+	public Vertex(int  id, String Vertex) 
 	{
 		this.id = id;
 		this.name = name;
 	}
+	
+	// Observe que os retornos estão invertidos 
+	// Isso é para ordenar de forma decrescente
+	public int compareTo(Vertex outraConta)
+	{
+        if (this.degree < outraConta.degree)
+        {
+            return 1;
+        }
+        
+        if (this.degree > outraConta.degree) 
+        {
+            return -1;
+        }
+        return 0;
+    }
   
 	/*
 	 * Retorna o id do vértice
@@ -34,17 +51,19 @@ public class Vertex
 	
 	public int getTotalDegree()
 	{
-		return indegree + outdegree;
+		return degree;
 	}
 	
 	public void incrementsIndegree()
 	{
 		indegree++;
+		degree++;
 	}
 	
 	public void incrementsOutdegree()
 	{
 		outdegree++;
+		degree++;
 	}
 	
 	/*
