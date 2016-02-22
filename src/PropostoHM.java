@@ -107,9 +107,57 @@ public class PropostoHM
 		coordinates.add(coord);
 	}
 	
+	public void setCoordinateToLinesDownLeftSecond(ArrayList<Coordinate> coordinates)
+	{
+		Coordinate coord = new Coordinate((linhaAlocada + maxDist-1), colunaAlocada-1);
+		
+		coord.setDown((linhas-1) - (linhaAlocada + maxDist));
+		coord.setTop((linhaAlocada + maxDist));
+		coord.setRight(colunas - (colunaAlocada + 1));
+		coord.setLeft(colunaAlocada);
+		
+		coordinates.add(coord);
+	}
+	
+	public void setCoordinateToLinesDownRightSecond(ArrayList<Coordinate> coordinates)
+	{
+		Coordinate coord = new Coordinate((linhaAlocada + maxDist-1), colunaAlocada+1);
+		
+		coord.setDown((linhas-1) - (linhaAlocada + maxDist));
+		coord.setTop((linhaAlocada + maxDist));
+		coord.setRight(colunas - (colunaAlocada + 1));
+		coord.setLeft(colunaAlocada);
+		
+		coordinates.add(coord);
+	}
+	
 	public void setCoordinateToLinesTop(ArrayList<Coordinate> coordinates)
 	{
 		Coordinate coord = new Coordinate((linhaAlocada - maxDist), colunaAlocada);
+		
+		coord.setDown((linhas-1) - (linhaAlocada - maxDist));
+		coord.setTop(linhaAlocada - maxDist);
+		coord.setRight(colunas - (colunaAlocada + 1));
+		coord.setLeft(colunaAlocada);
+		
+		coordinates.add(coord);
+	}
+	
+	public void setCoordinateToLinesTopLeftSecond(ArrayList<Coordinate> coordinates)
+	{
+		Coordinate coord = new Coordinate((linhaAlocada - maxDist+1), colunaAlocada-1);
+		
+		coord.setDown((linhas-1) - (linhaAlocada - maxDist));
+		coord.setTop(linhaAlocada - maxDist);
+		coord.setRight(colunas - (colunaAlocada + 1));
+		coord.setLeft(colunaAlocada);
+		
+		coordinates.add(coord);
+	}
+	
+	public void setCoordinateToLinesTopRightSecond(ArrayList<Coordinate> coordinates)
+	{
+		Coordinate coord = new Coordinate((linhaAlocada - maxDist+1), colunaAlocada+1);
 		
 		coord.setDown((linhas-1) - (linhaAlocada - maxDist));
 		coord.setTop(linhaAlocada - maxDist);
@@ -131,6 +179,30 @@ public class PropostoHM
 		coordinates.add(coord);
 	}
 	
+	public void setCoordinateToColumnsRightDownSecond(ArrayList<Coordinate> coordinates)
+	{
+		Coordinate coord = new Coordinate(linhaAlocada+1, (colunaAlocada + maxDist-1));
+		
+		coord.setDown((colunas-1) - (colunaAlocada + maxDist));
+		coord.setTop(colunaAlocada + maxDist);
+		coord.setRight(linhas - (linhaAlocada + 1));
+		coord.setLeft(linhaAlocada);
+		
+		coordinates.add(coord);
+	}
+	
+	public void setCoordinateToColumnsRightTopSecond(ArrayList<Coordinate> coordinates)
+	{
+		Coordinate coord = new Coordinate(linhaAlocada-1, (colunaAlocada + maxDist-1));
+		
+		coord.setDown((colunas-1) - (colunaAlocada + maxDist));
+		coord.setTop(colunaAlocada + maxDist);
+		coord.setRight(linhas - (linhaAlocada + 1));
+		coord.setLeft(linhaAlocada);
+		
+		coordinates.add(coord);
+	}
+	
 	public void setCoordinateToColumnsLeft(ArrayList<Coordinate> coordinates)
 	{
 		Coordinate coord = new Coordinate(linhaAlocada, (colunaAlocada - maxDist));
@@ -143,10 +215,32 @@ public class PropostoHM
 		coordinates.add(coord);
 	}
 	
-	public void alocateNext()
+	public void setCoordinateToColumnsLeftTopSecond(ArrayList<Coordinate> coordinates)
 	{
-		ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+		Coordinate coord = new Coordinate(linhaAlocada-1, (colunaAlocada - maxDist+1));
 		
+		coord.setDown((colunas-1) - (colunaAlocada - maxDist));
+		coord.setTop(colunaAlocada - maxDist);
+		coord.setRight(linhas - (linhaAlocada + 1));
+		coord.setLeft(linhaAlocada);
+		
+		coordinates.add(coord);
+	}
+	
+	public void setCoordinateToColumnsLeftDownSecond(ArrayList<Coordinate> coordinates)
+	{
+		Coordinate coord = new Coordinate(linhaAlocada+1, (colunaAlocada - maxDist));
+		
+		coord.setDown((colunas-1) - (colunaAlocada - maxDist));
+		coord.setTop(colunaAlocada - maxDist);
+		coord.setRight(linhas - (linhaAlocada + 1));
+		coord.setLeft(linhaAlocada);
+		
+		coordinates.add(coord);
+	}
+	
+	public void firstCriterion(ArrayList<Coordinate> coordinates)
+	{
 		if((linhaAlocada + maxDist) < linhas)
 		{
 			if(((linhas - (linhaAlocada + 1)) >= maxDist) && network[linhaAlocada + maxDist][colunaAlocada].getVertex() == null)
@@ -179,7 +273,85 @@ public class PropostoHM
 				setCoordinateToColumnsLeft(coordinates);
 			}
 		}
-			
+	}
+	
+	public void secondCriterion(ArrayList<Coordinate> coordinates)
+	{
+		if(((linhaAlocada + maxDist-1) < linhas) && colunaAlocada > 0)
+		{
+			if(((linhas - (linhaAlocada + 1)) >= maxDist-1) && network[linhaAlocada + maxDist-1][colunaAlocada-1].getVertex() == null)
+			{
+				setCoordinateToLinesDownLeftSecond(coordinates);
+			}
+		}
+		
+		if(((linhaAlocada + maxDist-1) < linhas) && colunaAlocada < colunas-1)
+		{
+			if(((linhas - (linhaAlocada + 1)) >= maxDist-1) && network[linhaAlocada + maxDist-1][colunaAlocada+1].getVertex() == null)
+			{
+				setCoordinateToLinesDownRightSecond(coordinates);
+			}
+		}
+		
+		if((linhaAlocada - maxDist+1) >= 0 && (colunaAlocada > 0))
+		{
+			if((linhaAlocada >= maxDist-1) && network[linhaAlocada - maxDist+1][colunaAlocada-1].getVertex() == null)
+			{
+				setCoordinateToLinesTopLeftSecond(coordinates);
+			}
+		}
+		
+		if((linhaAlocada - maxDist+1) >= 0 && (colunaAlocada < colunas-1))
+		{
+			if((linhaAlocada >= maxDist-1) && network[linhaAlocada - maxDist+1][colunaAlocada+1].getVertex() == null)
+			{
+				setCoordinateToLinesTopRightSecond(coordinates);
+			}
+		}
+		
+		if((colunaAlocada + maxDist-1) < colunas && (linhaAlocada > 0))
+		{
+			if(((colunas - (colunaAlocada + 1)) >= maxDist-1) && network[linhaAlocada-1][colunaAlocada + maxDist-1].getVertex() == null)
+			{
+				setCoordinateToColumnsRightTopSecond(coordinates);
+			}
+		}
+		
+		if((colunaAlocada + maxDist-1) < colunas && (linhaAlocada < linhas-1))
+		{
+			if(((colunas - (colunaAlocada + 1)) >= maxDist-1) && network[linhaAlocada+1][colunaAlocada + maxDist-1].getVertex() == null)
+			{
+				setCoordinateToColumnsRightDownSecond(coordinates);
+			}
+		}
+		
+		if((colunaAlocada - maxDist+1) >= 0 && (linhaAlocada > 0))
+		{
+			if((colunaAlocada >= maxDist-1) && network[linhaAlocada-1][colunaAlocada - maxDist+1].getVertex() == null)
+			{
+				setCoordinateToColumnsLeftTopSecond(coordinates);
+			}
+		}
+		
+		if((colunaAlocada - maxDist+1) >= 0 && (linhaAlocada < linhas-1))
+		{
+			if((colunaAlocada >= maxDist-1) && network[linhaAlocada+1][colunaAlocada - maxDist+1].getVertex() == null)
+			{
+				setCoordinateToColumnsLeftDownSecond(coordinates);
+			}
+		}
+	}
+	
+	public void alocateNext()
+	{
+		ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+		
+		// firstCriterion(coordinates);
+		
+		// Verificar bug neste método (em algum momento ele não seta o processo no mais central)
+		// Obs: Verificar os métodos que ele usa um por um
+		secondCriterion(coordinates);
+				
 		Collections.sort(coordinates);
 		
 		linhaAlocada = coordinates.get(0).getLine();
@@ -212,7 +384,7 @@ public class PropostoHM
 		alocateFirst();
 		
 		// Aloca os processos restantes aplicando os critérios de alocação
-		for(int i = 0; i < 8; i++)
+		for(int i = 0; i < 6; i++)
 		{
 			alocateNext();
 		}
