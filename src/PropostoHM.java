@@ -98,7 +98,7 @@ public class PropostoHM
 	public void setCoordinateToLinesDown(ArrayList<Coordinate> coordinates)
 	{
 		Coordinate coord = new Coordinate((linhaAlocada + maxDist), colunaAlocada);
-		
+		 
 		coord.setDown((linhas-1) - (linhaAlocada + maxDist));
 		coord.setTop((linhaAlocada + maxDist));
 		coord.setRight(colunas - (colunaAlocada + 1));
@@ -110,11 +110,14 @@ public class PropostoHM
 	public void setCoordinateToLinesDownLeftSecond(ArrayList<Coordinate> coordinates)
 	{
 		Coordinate coord = new Coordinate((linhaAlocada + maxDist-1), colunaAlocada-1);
-		
-		coord.setDown((linhas-1) - (linhaAlocada + maxDist));
-		coord.setTop((linhaAlocada + maxDist));
-		coord.setRight(colunas - (colunaAlocada + 1));
-		coord.setLeft(colunaAlocada);
+
+		int la = (linhaAlocada + maxDist-1);
+		int ca = colunaAlocada-1;
+				
+		coord.setDown(linhas - 1 - la);
+		coord.setTop(la);
+		coord.setRight(colunas - 1 - ca);
+		coord.setLeft(ca);
 		
 		coordinates.add(coord);
 	}
@@ -122,11 +125,14 @@ public class PropostoHM
 	public void setCoordinateToLinesDownRightSecond(ArrayList<Coordinate> coordinates)
 	{
 		Coordinate coord = new Coordinate((linhaAlocada + maxDist-1), colunaAlocada+1);
-		
-		coord.setDown((linhas-1) - (linhaAlocada + maxDist));
-		coord.setTop((linhaAlocada + maxDist));
-		coord.setRight(colunas - (colunaAlocada + 1));
-		coord.setLeft(colunaAlocada);
+	
+		int la = (linhaAlocada + maxDist-1);
+		int ca = colunaAlocada+1;
+				
+		coord.setDown(linhas - 1 - la);
+		coord.setTop(la);
+		coord.setRight(colunas - 1 - ca);
+		coord.setLeft(ca);
 		
 		coordinates.add(coord);
 	}
@@ -147,10 +153,13 @@ public class PropostoHM
 	{
 		Coordinate coord = new Coordinate((linhaAlocada - maxDist+1), colunaAlocada-1);
 		
-		coord.setDown((linhas-1) - (linhaAlocada - maxDist));
-		coord.setTop(linhaAlocada - maxDist);
-		coord.setRight(colunas - (colunaAlocada + 1));
-		coord.setLeft(colunaAlocada);
+		int la = (linhaAlocada - maxDist+1);
+		int ca = colunaAlocada-1;
+				
+		coord.setDown(linhas - 1 - la);
+		coord.setTop(la);
+		coord.setRight(colunas - 1 - ca);
+		coord.setLeft(ca);
 		
 		coordinates.add(coord);
 	}
@@ -159,10 +168,13 @@ public class PropostoHM
 	{
 		Coordinate coord = new Coordinate((linhaAlocada - maxDist+1), colunaAlocada+1);
 		
-		coord.setDown((linhas-1) - (linhaAlocada - maxDist));
-		coord.setTop(linhaAlocada - maxDist);
-		coord.setRight(colunas - (colunaAlocada + 1));
-		coord.setLeft(colunaAlocada);
+		int la = (linhaAlocada - maxDist+1);
+		int ca = colunaAlocada+1;
+				
+		coord.setDown(linhas - 1 - la);
+		coord.setTop(la);
+		coord.setRight(colunas - 1 - ca);
+		coord.setLeft(ca);
 		
 		coordinates.add(coord);
 	}
@@ -183,10 +195,13 @@ public class PropostoHM
 	{
 		Coordinate coord = new Coordinate(linhaAlocada+1, (colunaAlocada + maxDist-1));
 		
-		coord.setDown((colunas-1) - (colunaAlocada + maxDist));
-		coord.setTop(colunaAlocada + maxDist);
-		coord.setRight(linhas - (linhaAlocada + 1));
-		coord.setLeft(linhaAlocada);
+		int la = linhaAlocada+1;
+		int ca = (colunaAlocada + maxDist-1);
+				
+		coord.setDown(linhas - 1 - la);
+		coord.setTop(la);
+		coord.setRight(colunas - 1 - ca);
+		coord.setLeft(ca);
 		
 		coordinates.add(coord);
 	}
@@ -195,10 +210,13 @@ public class PropostoHM
 	{
 		Coordinate coord = new Coordinate(linhaAlocada-1, (colunaAlocada + maxDist-1));
 		
-		coord.setDown((colunas-1) - (colunaAlocada + maxDist));
-		coord.setTop(colunaAlocada + maxDist);
-		coord.setRight(linhas - (linhaAlocada + 1));
-		coord.setLeft(linhaAlocada);
+		int la = linhaAlocada-1;
+		int ca = (colunaAlocada + maxDist-1);
+				
+		coord.setDown(linhas - 1 - la);
+		coord.setTop(la);
+		coord.setRight(colunas - 1 - ca);
+		coord.setLeft(ca);
 		
 		coordinates.add(coord);
 	}
@@ -219,22 +237,28 @@ public class PropostoHM
 	{
 		Coordinate coord = new Coordinate(linhaAlocada-1, (colunaAlocada - maxDist+1));
 		
-		coord.setDown((colunas-1) - (colunaAlocada - maxDist));
-		coord.setTop(colunaAlocada - maxDist);
-		coord.setRight(linhas - (linhaAlocada + 1));
-		coord.setLeft(linhaAlocada);
+		int la = linhaAlocada-1;
+		int ca = (colunaAlocada - maxDist+1);
+				
+		coord.setDown(linhas - 1 - la);
+		coord.setTop(la);
+		coord.setRight(colunas - 1 - ca);
+		coord.setLeft(ca);
 		
 		coordinates.add(coord);
 	}
 	
 	public void setCoordinateToColumnsLeftDownSecond(ArrayList<Coordinate> coordinates)
 	{
-		Coordinate coord = new Coordinate(linhaAlocada+1, (colunaAlocada - maxDist));
+		Coordinate coord = new Coordinate(linhaAlocada+1, (colunaAlocada - maxDist+1));
 		
-		coord.setDown((colunas-1) - (colunaAlocada - maxDist));
-		coord.setTop(colunaAlocada - maxDist);
-		coord.setRight(linhas - (linhaAlocada + 1));
-		coord.setLeft(linhaAlocada);
+		int la = linhaAlocada+1;
+		int ca = (colunaAlocada - maxDist+1);
+				
+		coord.setDown(linhas - 1 - la);
+		coord.setTop(la);
+		coord.setRight(colunas - 1 - ca);
+		coord.setLeft(ca);
 		
 		coordinates.add(coord);
 	}
@@ -255,7 +279,6 @@ public class PropostoHM
 			{
 				setCoordinateToLinesTop(coordinates);
 			}
-		
 		}
 		
 		if((colunaAlocada + maxDist) < colunas)
@@ -383,13 +406,16 @@ public class PropostoHM
 		// Aloca o primeiro processo no centro
 		alocateFirst();
 		
+		printNetwork();
 		// Aloca os processos restantes aplicando os critérios de alocação
-		for(int i = 0; i < 6; i++)
+		for(int i = 0; i < 11; i++)
 		{
 			alocateNext();
+			printNetwork();
+			System.out.println("--------------------------");
 		}
 		
-		printNetwork();	
+		//printNetwork();	
 
 		return network;
 	}
