@@ -142,7 +142,7 @@ public class Entrada
 		}
 		
 		// número do processador onde se quer inserir o processo
-		for(int k = 0; k < nodes.size(); k++)	
+		for(int k = 0; k < nodes.size(); k++)
 		{
 			int local = sc.nextInt();
 			String proc = sc.next();

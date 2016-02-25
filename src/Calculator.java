@@ -1,6 +1,8 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Calculator
 {
@@ -429,11 +431,14 @@ public class Calculator
 	 */
 	public void printResult()
 	{
+		int hopAcumulator = 0;
 		System.out.println();
 		System.out.println("Total de hops e caminhos percorridos: ");
 		for(Edge e : grafo.getEdges())
 		{
 			  System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
+			  
+			  hopAcumulator = hopAcumulator + e.getHops();
 			  
 			  for(Enlace en : e.getEnlaces())
 			  {
@@ -441,6 +446,8 @@ public class Calculator
 			  }
 			  System.out.println();
 		}
+		
+		System.out.println("Total de hops: " + hopAcumulator);
 
 		System.out.println("Total de acessos aos enlaces: ");
 		acumulator.printAcumulator();
@@ -479,21 +486,30 @@ public class Calculator
 			  System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight());
 		  }
 		  
+		  ArrayList<Edge> copyEdgers = new ArrayList<Edge>();
+		  copyEdgers = grafo.copyEdgers(grafo.getEdges());
+		  
 		  //-------------- Parte do algoritmo PropostoHM, para usar a entrada por console é só
 		  // descomentar o código acima e comentar esse. 
 		  PropostoHM hm = new PropostoHM(grafo.getVertexes(), grafo.getEdges());
-		  Processors mapeamento[][] = hm.execute();
+		  
+		  System.out.println("Digite a quantidade de linhas e colunas da rede: ");
+		  Scanner sc = new Scanner(System.in);
+		  int lin = sc.nextInt();
+		  int col = sc.nextInt();
+		  
+		  Processors mapeamento[][] = hm.execute(lin, col);
 		  //--------------
 		  
-		  /*
+		  grafo.setEdges(copyEdgers);
+		  
 		  System.out.println();
 		  System.out.println("Mapeamento: ");
-		 
-		  
+		 	  
 		  //Imprime rede
-		  for(int i = 0; i < entrada.getLinhasMap(); i++)
+		  for(int i = 0; i < lin; i++)
 		  {
-			  for(int j = 0; j < entrada.getColunasMap(); j++)
+			  for(int j = 0; j < col; j++)
 			  {
 				  if(mapeamento[i][j].getVertex() != null)
 				  {
@@ -506,11 +522,10 @@ public class Calculator
 			  }
 			  System.out.println();
 		  }
-		  */
 		  
 		  System.out.println();
 		  System.out.println("ALGORITMO XY: ");
-		  Calculator c = new Calculator(grafo, mapeamento, entrada.getLinhasMap(), entrada.getColunasMap());
+		  Calculator c = new Calculator(grafo, mapeamento, lin, col);
 		  c.executeXY();
 		  c.printResult();
 		  
@@ -519,7 +534,7 @@ public class Calculator
 		  
 		  System.out.println();
 		  System.out.println("ALGORITMO XY-YX:");
-		  c = new Calculator(grafo, mapeamento, entrada.getLinhasMap(), entrada.getColunasMap());
+		  c = new Calculator(grafo, mapeamento, lin, col);
 		  c.executeXY_YX();
 		  c.printResult();
 	}

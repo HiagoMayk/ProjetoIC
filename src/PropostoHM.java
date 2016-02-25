@@ -1,13 +1,11 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 public class PropostoHM
 {
 	private ArrayList<Edge> comunications;
 	private ArrayList<Vertex> procs;
-	private Scanner sc = new Scanner(System.in);
 	private Processors network[][];
 	private int linhas;
 	private int colunas;
@@ -23,14 +21,10 @@ public class PropostoHM
 		this.procs = (ArrayList<Vertex>) procs;
 	}
 	
-	public Processors[][] criateNetwork()
+	public Processors[][] criateNetwork(int linhas, int colunas)
 	{
 		int id = 0;
 		
-		System.out.println("Digite a quantidade de linhas e colunas da rede: ");
-		linhas = sc.nextInt();
-		colunas = sc.nextInt();
-
 		Processors network[][] = new Processors [linhas][colunas];
 		
 		for(int i = 0; i < linhas; i++)
@@ -87,7 +81,7 @@ public class PropostoHM
 	{
 		linhaAlocada = (linhas/2);
 		colunaAlocada = (colunas/2);
-		network[linhaAlocada][colunaAlocada].setVertex(procs.remove(0));
+		network[linhaAlocada][colunaAlocada].setVertex(procs.get(0));
 	}
 	
 	public void calculateMaxDist()
@@ -263,13 +257,19 @@ public class PropostoHM
 		coordinates.add(coord);
 	}
 	
-	public void firstCriterion(ArrayList<Coordinate> coordinates)
+	public boolean firstCriterion(ArrayList<Coordinate> coordinates)
 	{
+		boolean b1 = false;
+		boolean b2 = false;
+		boolean b3 = false;
+		boolean b4 = false;
+		
 		if((linhaAlocada + maxDist) < linhas)
 		{
 			if(((linhas - (linhaAlocada + 1)) >= maxDist) && network[linhaAlocada + maxDist][colunaAlocada].getVertex() == null)
 			{
 				setCoordinateToLinesDown(coordinates);
+				b1 = true;
 			}
 		}
 		
@@ -278,6 +278,7 @@ public class PropostoHM
 			if((linhaAlocada >= maxDist) && network[linhaAlocada - maxDist][colunaAlocada].getVertex() == null)
 			{
 				setCoordinateToLinesTop(coordinates);
+				b2 = true;
 			}
 		}
 		
@@ -286,6 +287,7 @@ public class PropostoHM
 			if(((colunas - (colunaAlocada + 1)) >= maxDist) && network[linhaAlocada][colunaAlocada + maxDist].getVertex() == null)
 			{
 				setCoordinateToColumnsRight(coordinates);
+				b3 = true;
 			}
 		}
 		
@@ -294,17 +296,36 @@ public class PropostoHM
 			if((colunaAlocada >= maxDist) && network[linhaAlocada][colunaAlocada - maxDist].getVertex() == null)
 			{
 				setCoordinateToColumnsLeft(coordinates);
+				b4 = true;
 			}
 		}
+		
+		if(b1 || b2 || b3 || b4)
+		{
+			return true;
+		}
+		
+		return false;
+
 	}
 	
-	public void secondCriterion(ArrayList<Coordinate> coordinates)
+	public boolean secondCriterion(ArrayList<Coordinate> coordinates)
 	{
+		boolean b1 = false;
+		boolean b2 = false;
+		boolean b3 = false;
+		boolean b4 = false;
+		boolean b5 = false;
+		boolean b6 = false;
+		boolean b7 = false;
+		boolean b8 = false;
+		
 		if(((linhaAlocada + maxDist-1) < linhas) && colunaAlocada > 0)
 		{
 			if(((linhas - (linhaAlocada + 1)) >= maxDist-1) && network[linhaAlocada + maxDist-1][colunaAlocada-1].getVertex() == null)
 			{
 				setCoordinateToLinesDownLeftSecond(coordinates);
+				b1 = true;
 			}
 		}
 		
@@ -313,6 +334,7 @@ public class PropostoHM
 			if(((linhas - (linhaAlocada + 1)) >= maxDist-1) && network[linhaAlocada + maxDist-1][colunaAlocada+1].getVertex() == null)
 			{
 				setCoordinateToLinesDownRightSecond(coordinates);
+				b2 = true;
 			}
 		}
 		
@@ -321,6 +343,7 @@ public class PropostoHM
 			if((linhaAlocada >= maxDist-1) && network[linhaAlocada - maxDist+1][colunaAlocada-1].getVertex() == null)
 			{
 				setCoordinateToLinesTopLeftSecond(coordinates);
+				b3 = true;
 			}
 		}
 		
@@ -329,6 +352,7 @@ public class PropostoHM
 			if((linhaAlocada >= maxDist-1) && network[linhaAlocada - maxDist+1][colunaAlocada+1].getVertex() == null)
 			{
 				setCoordinateToLinesTopRightSecond(coordinates);
+				b4 = true;
 			}
 		}
 		
@@ -337,6 +361,7 @@ public class PropostoHM
 			if(((colunas - (colunaAlocada + 1)) >= maxDist-1) && network[linhaAlocada-1][colunaAlocada + maxDist-1].getVertex() == null)
 			{
 				setCoordinateToColumnsRightTopSecond(coordinates);
+				b5 = true;
 			}
 		}
 		
@@ -345,6 +370,7 @@ public class PropostoHM
 			if(((colunas - (colunaAlocada + 1)) >= maxDist-1) && network[linhaAlocada+1][colunaAlocada + maxDist-1].getVertex() == null)
 			{
 				setCoordinateToColumnsRightDownSecond(coordinates);
+				b6 = true;
 			}
 		}
 		
@@ -353,6 +379,7 @@ public class PropostoHM
 			if((colunaAlocada >= maxDist-1) && network[linhaAlocada-1][colunaAlocada - maxDist+1].getVertex() == null)
 			{
 				setCoordinateToColumnsLeftTopSecond(coordinates);
+				b7 = true;
 			}
 		}
 		
@@ -361,31 +388,57 @@ public class PropostoHM
 			if((colunaAlocada >= maxDist-1) && network[linhaAlocada+1][colunaAlocada - maxDist+1].getVertex() == null)
 			{
 				setCoordinateToColumnsLeftDownSecond(coordinates);
+				b8 = true;
 			}
 		}
+		
+		if(b1 || b2 || b3 || b4 || b5 || b6 || b7 || b8)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
-	public void alocateNext()
+	public boolean alocateNext(int index)
 	{
 		ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
 		
-		// firstCriterion(coordinates);
-		
-		// Verificar bug neste método (em algum momento ele não seta o processo no mais central)
-		// Obs: Verificar os métodos que ele usa um por um
-		secondCriterion(coordinates);
+		while(maxDist > 0)
+		{
+			if(firstCriterion(coordinates))
+			{
+				Collections.sort(coordinates);
 				
-		Collections.sort(coordinates);
-		
-		linhaAlocada = coordinates.get(0).getLine();
-		colunaAlocada = coordinates.get(0).getColumn();
-		network[linhaAlocada][colunaAlocada].setVertex(procs.remove(0));
+				linhaAlocada = coordinates.get(0).getLine();
+				colunaAlocada = coordinates.get(0).getColumn();
+				network[linhaAlocada][colunaAlocada].setVertex(procs.get(index));
+				return true;
+			}
+			else if(secondCriterion(coordinates))
+			{
+				Collections.sort(coordinates);
+				
+				linhaAlocada = coordinates.get(0).getLine();
+				colunaAlocada = coordinates.get(0).getColumn();
+				network[linhaAlocada][colunaAlocada].setVertex(procs.get(index));
+				return true;
+			}
+			else
+			{
+				maxDist--;
+			}
+		}
+		return false;
 	}
 	
-	public Processors[][] execute()
+	public Processors[][] execute(int linhas, int colunas)
 	{
+		this.linhas = linhas;
+		this.colunas = colunas;
+				
 		// Cria a rede
-		network = criateNetwork();
+		network = criateNetwork(linhas, colunas);
 		
 		int totalProcs = procs.size();
 		
@@ -406,13 +459,13 @@ public class PropostoHM
 		// Aloca o primeiro processo no centro
 		alocateFirst();
 		
-		printNetwork();
+		//printNetwork();
 		// Aloca os processos restantes aplicando os critérios de alocação
-		for(int i = 0; i < 11; i++)
+		for(int i = 1; i < procs.size(); i++)
 		{
-			alocateNext();
-			printNetwork();
-			System.out.println("--------------------------");
+			alocateNext(i);
+			//printNetwork();
+			//System.out.println("--------------------------");
 		}
 		
 		//printNetwork();	

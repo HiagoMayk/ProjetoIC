@@ -66,4 +66,16 @@ public class Graph implements Cloneable
 	{
 		return edges;
 	}
+	
+	public ArrayList<Edge> copyEdgers(List<Edge> g)
+	{
+		ArrayList<Edge> aux = new ArrayList<Edge>();
+		
+		for(Edge e: g)
+		{
+			aux.add(e);
+		}
+		
+		return aux;
+	}
 }
