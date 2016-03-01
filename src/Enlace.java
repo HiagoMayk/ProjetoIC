@@ -1,5 +1,5 @@
 
-public class Enlace 
+public class Enlace
 {
 	private int source;
 	private int destination;

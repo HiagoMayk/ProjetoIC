@@ -5,11 +5,28 @@ public class Vertex implements Comparable<Vertex>
 	private int outdegree;
 	private int indegree;
 	private int degree;
+	private boolean alocated;
   
 	public Vertex(int  id, String Vertex) 
 	{
 		this.id = id;
 		this.name = name;
+		this.alocated = false;
+	}
+	
+	public void alocatedTrue()
+	{
+		this.alocated = true;
+	}
+	
+	public void alocatedFalse()
+	{
+		this.alocated = false;
+	}
+	
+	public boolean getAlocationStatus()
+	{
+		return alocated;
 	}
 	
 	// Observe que os retornos estão invertidos 

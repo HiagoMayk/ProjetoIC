@@ -491,7 +491,7 @@ public class Calculator
 		  
 		  //-------------- Parte do algoritmo PropostoHM, para usar a entrada por console é só
 		  // descomentar o código acima e comentar esse. 
-		  PropostoHM hm = new PropostoHM(grafo.getVertexes(), grafo.getEdges());
+		  PropostoV2 hm = new PropostoV2(grafo.getVertexes(), grafo.getEdges());
 		  
 		  System.out.println("Digite a quantidade de linhas e colunas da rede: ");
 		  Scanner sc = new Scanner(System.in);
