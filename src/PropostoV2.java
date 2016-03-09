@@ -120,7 +120,7 @@ public class PropostoV2 extends PropostoHM
 		return false;
 	}
 
-	public Processors[][] execute(int linhas, int colunas)
+	public Processor[][] execute(int linhas, int colunas)
 	{
 		this.linhas = linhas;
 		this.colunas = colunas;

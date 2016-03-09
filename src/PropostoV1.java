@@ -9,7 +9,7 @@ public class PropostoV1 extends PropostoHM
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Processors[][] execute(int linhas, int colunas)
+	public Processor[][] execute(int linhas, int colunas)
 	{
 		this.linhas = linhas;
 		this.colunas = colunas;
@@ -41,8 +41,8 @@ public class PropostoV1 extends PropostoHM
 		for(int i = 1; i < procs.size(); i++)
 		{
 			alocateNext(i);
-			//printNetwork();
-			//System.out.println("--------------------------");
+			printNetwork();
+			System.out.println("--------------------------");
 		}
 		
 		//printNetwork();	

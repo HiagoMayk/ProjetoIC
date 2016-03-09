@@ -6,7 +6,7 @@ public class PropostoHM
 {
 	protected ArrayList<Edge> comunications;
 	protected ArrayList<Vertex> procs;
-	protected Processors network[][];
+	protected Processor network[][];
 	protected int linhas;
 	protected int colunas;
 	protected int maxDist;
@@ -22,17 +22,17 @@ public class PropostoHM
 		this.procs = (ArrayList<Vertex>) procs;
 	}
 	
-	public Processors[][] criateNetwork(int linhas, int colunas)
+	public Processor[][] criateNetwork(int linhas, int colunas)
 	{
 		int id = 0;
 		
-		Processors network[][] = new Processors [linhas][colunas];
+		Processor network[][] = new Processor [linhas][colunas];
 		
 		for(int i = 0; i < linhas; i++)
 		{
 			for(int j = 0; j < colunas; j++)
 			{
-				network[i][j] = new Processors(id);
+				network[i][j] = new Processor(id);
 				id++;
 			}
 		}
@@ -87,7 +87,7 @@ public class PropostoHM
 	
 	public void calculateMaxDist()
 	{
-		maxDist = ((linhas * colunas) / procs.size()) - 1; 
+		maxDist = ((linhas * colunas) / procs.size()); 
 	}
 	
 	public void setCoordinateToLinesDown(ArrayList<Coordinate> coordinates)

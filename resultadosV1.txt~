@@ -1,0 +1,29 @@
+ Código do algoritmo
+
+    ordena tarefas em ordem decrescente de grau
+    calcula a distancia máxima inicial que será dada entre as tarefas
+    aloca no centro o primeiro processo
+    aloca os processos restantes (repete até alocar tudo para n igual o valor da distancia máxima inicial, se não conseguir diminui ela em 1)
+        tenta as laterais
+        caso contrario tenta as diagonais
+
+Obs: Existem outros casos a serem testados/implementados/tratados, tais como a quantidade de processos maior ou igual a quantidade da rede ou até mesmo até chegar o momento onde a alocação nas laterais ou nas diagonais não seja mais aplicável.
+    Para as aplicações usadas até o momento esse versão funciona bem.
+
+Testes da Implementação
+
+MPEG-4
+
+
+
+-----------------------------------------------------------------------------------
+
+Aplicação Veicular
+
+
+
+-----------------------------------------------------------------------------------
+
+VOID
+
+

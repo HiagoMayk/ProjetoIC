@@ -7,12 +7,12 @@ import java.util.Scanner;
 public class Calculator
 {
 	private Graph grafo; 				// Grafo da aplicação
-	private Processors mapeamento[][];	// Rede para mapear os processos
+	private Processor mapeamento[][];	// Rede para mapear os processos
 	private Acumulator acumulator;		// Armazena o valor dos acessos a cada enlace
 	private int linhas;					// Quantidade de linhas da rede
 	private int colunas;				// Quantidade de colunas da rede
 	
-	public Calculator(Graph grafo, Processors mapeamento[][], int linhas, int colunas)
+	public Calculator(Graph grafo, Processor mapeamento[][], int linhas, int colunas)
 	{
 		this.grafo = grafo;
 		this.mapeamento = mapeamento;
@@ -425,7 +425,35 @@ public class Calculator
 			}
 		}
 	}
-
+	
+	
+	public int totalReutilizado()
+	{
+		int totalReutilizado = 0;
+		
+		for(Enlace e: acumulator.getEnlace())
+		{
+			if(e.getAcessos() > 1)
+			{
+				totalReutilizado = totalReutilizado + e.getAcessos() - 1;
+			}
+		}
+		
+		return totalReutilizado;
+	}
+	
+	public float calculaTaxaReuso()
+	{
+		int totalAcessos = 0;
+		
+		for(Enlace e: acumulator.getEnlace())
+		{
+			totalAcessos = totalAcessos + e.getAcessos();
+		}
+		
+		return (100 * totalReutilizado()) / totalAcessos;
+	}
+	
 	/*
 	 * Imprime o resultado do acumulador
 	 */
@@ -446,11 +474,14 @@ public class Calculator
 			  }
 			  System.out.println();
 		}
+
+		System.out.println("Enlaces acessados:");
+		acumulator.printAcumulator();
 		
 		System.out.println("Total de hops: " + hopAcumulator);
-
-		System.out.println("Total de acessos aos enlaces: ");
-		acumulator.printAcumulator();
+		System.out.println("Quantidade de enlaces acessados: " + acumulator.getEnlace().size());
+		System.out.println("Total de reuso dos enlaces: " + totalReutilizado());
+		System.out.println("Taxa de reuso dos enlaces: " + calculaTaxaReuso() + "%");
 	}
 	
 	public static void main(String args[]) throws CloneNotSupportedException
@@ -491,51 +522,59 @@ public class Calculator
 		  
 		  //-------------- Parte do algoritmo PropostoHM, para usar a entrada por console é só
 		  // descomentar o código acima e comentar esse. 
-		  PropostoV2 hm = new PropostoV2(grafo.getVertexes(), grafo.getEdges());
+		  PropostoV1 hm = new PropostoV1(grafo.getVertexes(), grafo.getEdges());
 		  
 		  System.out.println("Digite a quantidade de linhas e colunas da rede: ");
 		  Scanner sc = new Scanner(System.in);
 		  int lin = sc.nextInt();
 		  int col = sc.nextInt();
 		  
-		  Processors mapeamento[][] = hm.execute(lin, col);
-		  //--------------
-		  
-		  grafo.setEdges(copyEdgers);
-		  
-		  System.out.println();
-		  System.out.println("Mapeamento: ");
-		 	  
-		  //Imprime rede
-		  for(int i = 0; i < lin; i++)
+		  if(lin * col >= grafo.getVertexes().size())
 		  {
-			  for(int j = 0; j < col; j++)
-			  {
-				  if(mapeamento[i][j].getVertex() != null)
-				  {
-					  System.out.print(mapeamento[i][j].getVertex().getName() + " \t");
-				  }
-				  else
-				  {
-					  System.out.print(mapeamento[i][j].getId() + "\t");
-				  }
-			  }
+			  Processor mapeamento[][] = hm.execute(lin, col);
+			  //--------------
+			  
+			  grafo.setEdges(copyEdgers);
+			  
 			  System.out.println();
+			  System.out.println("Mapeamento: ");
+			 	  
+			  //Imprime rede
+			  for(int i = 0; i < lin; i++)
+			  {
+				  for(int j = 0; j < col; j++)
+				  {
+					  if(mapeamento[i][j].getVertex() != null)
+					  {
+						  System.out.print(mapeamento[i][j].getVertex().getName() + " \t");
+					  }
+					  else
+					  {
+						  System.out.print(mapeamento[i][j].getId() + "\t");
+					  }
+				  }
+				  System.out.println();
+			  }
+			  
+			  System.out.println();
+			  System.out.println("ALGORITMO XY: ");
+			  Calculator c = new Calculator(grafo, mapeamento, lin, col);
+			  c.executeXY();
+			  c.printResult();
+			  
+			  grafo.zerarHops();
+			  grafo.zerarEnlaces();
+			  
+			  System.out.println();
+			  System.out.println("ALGORITMO XY-YX:");
+			  c = new Calculator(grafo, mapeamento, lin, col);
+			  c.executeXY_YX();
+			  c.printResult();
+		  }
+		  else
+		  {
+			  System.out.println("Número de processos maior que o de processadores!");
 		  }
 		  
-		  System.out.println();
-		  System.out.println("ALGORITMO XY: ");
-		  Calculator c = new Calculator(grafo, mapeamento, lin, col);
-		  c.executeXY();
-		  c.printResult();
-		  
-		  grafo.zerarHops();
-		  grafo.zerarEnlaces();
-		  
-		  System.out.println();
-		  System.out.println("ALGORITMO XY-YX:");
-		  c = new Calculator(grafo, mapeamento, lin, col);
-		  c.executeXY_YX();
-		  c.printResult();
 	}
 }

@@ -122,7 +122,7 @@ public class Entrada
 	 * Ler o mapeamento dos processadores na rede
 	 * Retorna o mapeamento
 	 */
-	public Processors[][] lerMapeamento(List<Vertex> nodes)
+	public Processor[][] lerMapeamento(List<Vertex> nodes)
 	{
 		int id = 0;
 		int l = sc.nextInt();
@@ -130,13 +130,13 @@ public class Entrada
 		
 		linhasMap = l;
 		colunasMap = c;
-		Processors network[][] = new Processors [l][c];
+		Processor network[][] = new Processor [l][c];
 		
 		for(int i = 0; i < l; i++)
 		{
 			for(int j = 0; j < c; j++)
 			{
-				network[i][j] = new Processors(id);
+				network[i][j] = new Processor(id);
 				id++;
 			}
 		}

@@ -1,10 +1,10 @@
 
-public class Processors 
+public class Processor 
 {
 	private int id;
 	private Vertex vertex;
 	
-	public Processors(int id)
+	public Processor(int id)
 	{
 		this.id = id;
 	}
