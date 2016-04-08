@@ -1,3 +1,4 @@
+package entidades;
 public class Vertex implements Comparable<Vertex>
 {
 	final private int id;		// Id do vértice

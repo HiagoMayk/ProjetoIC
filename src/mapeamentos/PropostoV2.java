@@ -1,7 +1,13 @@
+package mapeamentos;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import entidades.Coordinate;
+import entidades.Edge;
+import entidades.Processor;
+import entidades.Vertex;
 
 public class PropostoV2 extends PropostoHM
 {	

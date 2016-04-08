@@ -1,3 +1,4 @@
+package entidades;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -6,6 +7,12 @@ public class Graph implements Cloneable
 {
 	private List<Vertex> vertexes;	// Vértices do grafo
 	private List<Edge> edges;		// Arestas do grafo
+	
+	public Graph()
+	{
+		this.vertexes = new ArrayList<Vertex>();
+		this.edges = new ArrayList<Edge>();
+	}
 
 	public Graph(List<Vertex> vertexes, List<Edge> edges) 
 	{

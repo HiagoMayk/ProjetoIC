@@ -1,4 +1,4 @@
-
+package entidades;
 public class Processor 
 {
 	private int id;
