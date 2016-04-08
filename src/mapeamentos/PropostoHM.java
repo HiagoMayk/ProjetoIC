@@ -438,4 +438,83 @@ public class PropostoHM
 		}
 		return false;
 	}
+	
+	public ArrayList<Edge> getComunications() 
+	{
+		return comunications;
+	}
+
+	public void setComunications(ArrayList<Edge> comunications)
+	{
+		this.comunications = comunications;
+	}
+
+	public ArrayList<Vertex> getProcs() 
+	{
+		return procs;
+	}
+
+	public void setProcs(ArrayList<Vertex> procs) 
+	{
+		this.procs = procs;
+	}
+
+	public Processor[][] getNetwork() 
+	{
+		return network;
+	}
+
+	public void setNetwork(Processor[][] network) 
+	{
+		this.network = network;
+	}
+
+	public int getLinhas() 
+	{
+		return linhas;
+	}
+
+	public void setLinhas(int linhas)
+	{
+		this.linhas = linhas;
+	}
+
+	public int getColunas() {
+		return colunas;
+	}
+
+	public void setColunas(int colunas)
+	{
+		this.colunas = colunas;
+	}
+
+	public int getMaxDist() 
+	{
+		return maxDist;
+	}
+
+	public void setMaxDist(int maxDist)
+	{
+		this.maxDist = maxDist;
+	}
+
+	public int getLinhaAlocada() 
+	{
+		return linhaAlocada;
+	}
+
+	public void setLinhaAlocada(int linhaAlocada)
+	{
+		this.linhaAlocada = linhaAlocada;
+	}
+
+	public int getColunaAlocada()
+	{
+		return colunaAlocada;
+	}
+
+	public void setColunaAlocada(int colunaAlocada) 
+	{
+		this.colunaAlocada = colunaAlocada;
+	}
 }

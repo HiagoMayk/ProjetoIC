@@ -166,4 +166,24 @@ public class PropostoV2 extends PropostoHM
 
 		return network;
 	}
+	
+	public Vertex getLastProc() 
+	{
+		return lastProc;
+	}
+
+	public void setLastProc(Vertex lastProc) 
+	{
+		this.lastProc = lastProc;
+	}
+
+	public ArrayList<Vertex> getAlocated() 
+	{
+		return alocated;
+	}
+
+	public void setAlocated(ArrayList<Vertex> alocated)
+	{
+		this.alocated = alocated;
+	}
 }

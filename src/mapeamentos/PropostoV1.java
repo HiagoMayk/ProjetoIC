@@ -8,7 +8,6 @@ import entidades.Vertex;
 
 public class PropostoV1 extends PropostoHM
 {
-
 	public PropostoV1(List<Vertex> procs, List<Edge> comunications) {
 		super(procs, comunications);
 		// TODO Auto-generated constructor stub
