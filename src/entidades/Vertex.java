@@ -84,6 +84,46 @@ public class Vertex implements Comparable<Vertex>
 		degree++;
 	}
 	
+	public int getOutdegree() 
+	{
+		return outdegree;
+	}
+
+	public void setOutdegree(int outdegree) 
+	{
+		this.outdegree = outdegree;
+	}
+
+	public int getIndegree() 
+	{
+		return indegree;
+	}
+
+	public void setIndegree(int indegree) 
+	{
+		this.indegree = indegree;
+	}
+
+	public int getDegree() 
+	{
+		return degree;
+	}
+
+	public void setDegree(int degree) 
+	{
+		this.degree = degree;
+	}
+
+	public boolean isAlocated() 
+	{
+		return alocated;
+	}
+
+	public void setAlocated(boolean alocated) 
+	{
+		this.alocated = alocated;
+	}
+	
 	/*
 	 * Retorna resultado do armazenamento na tabela hash
 	 */

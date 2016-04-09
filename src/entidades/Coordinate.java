@@ -28,7 +28,7 @@ public class Coordinate implements Comparable<Coordinate>
 		
 		if(top > down)
 		{
-			topDown = top - down; 
+			topDown = top - down;
 		}
 		else
 		{

@@ -17,10 +17,9 @@ public class PropostoHM
 	protected int colunas;
 	protected int maxDist;
 	
-	// As variaveis seguintes guardam as ultimas coordenadas de alocação de tarefas 
+	//As variáveis seguintes guardam as ultimas coordenadas de alocação de tarefas 
 	int linhaAlocada;
 	int colunaAlocada;
-	
 	
 	public PropostoHM(List<Vertex> procs, List<Edge> comunications)
 	{
@@ -37,14 +36,23 @@ public class PropostoHM
 		for(int i = 0; i < linhas; i++)
 		{
 			for(int j = 0; j < colunas; j++)
-			{
-				network[i][j] = new Processor(id);
+			{	
+				//Cria um processador e insere sua respectiva coordenada.
+				//Essa coordenada irá facilitar a implementação do método executeByStep. 
+				network[i][j] = new Processor(id, i, j);
+				
+				//Incrementa o valor do identificador do processador
 				id++;
 			}
 		}
 		return network;
 	}
 	
+	/*
+	 * Método que incrementa os graus de saída e de entrada dos processos.
+	 * Esses graus sevem de comparação para o mapeamento e também para as comunicações.
+	 * Na implementação do simulador, esses graus serão a prioridade dos pacotes enviados por determinado processo. 
+	 */
 	public void calculateDegrees()
 	{
 		for(Vertex v: procs)

@@ -26,26 +26,16 @@ public class Calculator
 	
 	public void init()
 	{
-		 System.out.println("Digite o grafo de entrada: ");
-		 System.out.println();
-		 
 		 grafo = entrada.lerGrafo();
 		 
-		 /*
-		  System.out.println();
-		  System.out.println("Digite o mapeamento: ");
-		  System.out.println();
-		  Processors mapeamento[][] = entrada.lerMapeamento(grafo.getVertexes());
-		  */
+		 //printTasks();
+		 //printComunications();
 		 
-		 printTasks();
-		 printComunications();
-		 
+		 //Usado para copiar somente os valores e não a instância dos edges
 		 ArrayList<Edge> copyEdgers = new ArrayList<Edge>();
 		 copyEdgers = grafo.copyEdgers(grafo.getEdges());
-		  
-		 //-------------- Parte do algoritmo PropostoHM, para usar a entrada por console é só
-		 // descomentar o código acima e comentar esse. 
+		 
+		 //Instancia o mapeamento proposto
 		 hm = new PropostoV1(grafo.getVertexes(), grafo.getEdges());
 		  
 		 System.out.println("Digite a quantidade de linhas e colunas da rede: ");
@@ -53,8 +43,8 @@ public class Calculator
 		 int lin = sc.nextInt();
 		 int col = sc.nextInt();
 		 getMapeamento(lin, col, copyEdgers);
+		 //printMapeamento(lin, col);
 		 executaRotemento(lin, col);
-		 
 	}
 	
 	public void getMapeamento(int lin, int col, ArrayList<Edge> copyEdgers)
@@ -62,29 +52,7 @@ public class Calculator
 		if(lin * col >= grafo.getVertexes().size())
 		{
 			  mapeamento = hm.execute(lin, col);
-			  //--------------
-			  
 			  grafo.setEdges(copyEdgers);
-			  
-			  System.out.println();
-			  System.out.println("Mapeamento: ");
-			 	  
-			  //Imprime rede
-			  for(int i = 0; i < lin; i++)
-			  {
-				  for(int j = 0; j < col; j++)
-				  {
-					  if(mapeamento[i][j].getVertex() != null)
-					  {
-						  System.out.print(mapeamento[i][j].getVertex().getName() + " \t");
-					  }
-					  else
-					  {
-						  System.out.print(mapeamento[i][j].getId() + "\t");
-					  }
-				  }
-				  System.out.println();
-			  }
 		 }
 		 else
 		 {
@@ -92,13 +60,35 @@ public class Calculator
 		 }
 	}
 	
+	public void printMapeamento(int lin, int col)
+	{
+		 System.out.println();
+		 System.out.println("Mapeamento: ");
+		 	  
+		 for(int i = 0; i < lin; i++)
+		 {
+			 for(int j = 0; j < col; j++)
+			 {
+				 if(mapeamento[i][j].getVertex() != null)
+				 {
+					 System.out.print(mapeamento[i][j].getVertex().getName() + " \t");
+				 }
+				 else
+				 {
+					 System.out.print(mapeamento[i][j].getId() + "\t");
+				 }
+			 }
+			 System.out.println();
+		 }
+	}
+	
 	public void executaRotemento(int lin, int col)
 	{
-		  System.out.println();
-		  System.out.println("ALGORITMO XY: ");
-		  RoteamentoXY r = new RoteamentoXY(grafo, mapeamento, lin, col);
-		  r.executeFull();
-		  r.printResult();
+		  //System.out.println();
+		  //System.out.println("ALGORITMO XY: ");
+		  //RoteamentoXY r = new RoteamentoXY(grafo, mapeamento, lin, col);
+		  //r.executeFull();
+		  //r.printResult();
 		  
 		  grafo.zerarHops();
 		  grafo.zerarEnlaces();
@@ -106,8 +96,8 @@ public class Calculator
 		  System.out.println();
 		  System.out.println("ALGORITMO XY-YX:");
 		  RoteamentoXY_YX c = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
-		  c.executeFull();
-		  c.printResult();
+		  c.executeByStep();
+		  //c.printResult();
 	}
 	
 	public void printTasks()
@@ -141,7 +131,7 @@ public class Calculator
 		this.entrada = entrada;
 	}
 
-	public Graph getGrafo() 
+	public Graph getGrafo()
 	{
 		return grafo;
 	}
@@ -151,7 +141,7 @@ public class Calculator
 		this.grafo = grafo;
 	}
 
-	public Processor[][] getMapeamento() 
+	public Processor[][] getMapeamento()
 	{
 		return mapeamento;
 	}
@@ -161,12 +151,12 @@ public class Calculator
 		this.mapeamento = mapeamento;
 	}
 
-	public PropostoV1 getHm() 
+	public PropostoV1 getHm()
 	{
 		return hm;
 	}
 
-	public void setHm(PropostoV1 hm) 
+	public void setHm(PropostoV1 hm)
 	{
 		this.hm = hm;
 	}
@@ -174,7 +164,7 @@ public class Calculator
 	public static void main(String args[]) throws CloneNotSupportedException
 	{		
 		  Calculator c = new Calculator();
-		  c.init();  
+		  
+		  c.init();
 	}
-	
 }

@@ -6,7 +6,7 @@ public class Acumulator
 {
 	private List<Enlace> enlace; // Armazena o uso de cada enlaces
 	
-	public Acumulator(int linhas, int colunas)
+	public Acumulator()
 	{
 		this.enlace = new ArrayList<Enlace>();
 	}
@@ -44,7 +44,7 @@ public class Acumulator
 				return e;
 			}
 		}
-		return null;	
+		return null;
 	}
 	
 	/*

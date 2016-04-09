@@ -19,7 +19,7 @@ public class RoteamentoXY
 	{
 		this.grafo = grafo;
 		this.mapeamento = mapeamento;
-		this.acumulator = new Acumulator(linhas, colunas);
+		this.acumulator = new Acumulator();
 		this.linhas = linhas;
 		this.colunas = colunas;
 	}

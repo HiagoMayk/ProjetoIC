@@ -25,13 +25,17 @@ public class Entrada
 	{	
 		List<Vertex> nodes = new ArrayList<Vertex>();
 		List<Edge> edges = new ArrayList<Edge>();
+		
+		System.out.println("Digite o grafo de entrada: ");
+		System.out.println();
+		 
 		int quantVertices = sc.nextInt();
 		
 		// Inicializa vértices
 		for (int i = 0; i < quantVertices; i++)
 		{
 			Vertex location = new Vertex(i, null);
-			nodes.add(location);	
+			nodes.add(location);
 		}
 
 		int quantAresta = sc.nextInt();
@@ -125,10 +129,10 @@ public class Entrada
 	}
 	
 	/*
-	 * Ler o mapeamento dos processadores na rede
+	 * Ler o mapeamento dos processadores na rede pelo console
 	 * Retorna o mapeamento
 	 */
-	public Processor[][] lerMapeamento(List<Vertex> nodes)
+	public Processor[][] lerMapConsole(List<Vertex> nodes)
 	{
 		int id = 0;
 		int l = sc.nextInt();

@@ -28,12 +28,12 @@ public class PropostoV1 extends PropostoHM
 		
 		// Ordena de forma decrescente de graus totais
 		Collections.sort(procs);
-		
+		/*
 		for(Vertex v: procs)
 		{
 			System.out.println(v.getName() + " - " + v.getTotalDegree());
 		}
-		
+		*/
 		// Calcula a distancia máxima entre od processos
 		calculateMaxDist();
 		
@@ -45,8 +45,8 @@ public class PropostoV1 extends PropostoHM
 		for(int i = 1; i < procs.size(); i++)
 		{
 			alocateNext(i);
-			printNetwork();
-			System.out.println("--------------------------");
+			//printNetwork();
+			//System.out.println("--------------------------");
 		}
 		
 		//printNetwork();	

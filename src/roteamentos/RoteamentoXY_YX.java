@@ -1,11 +1,8 @@
 package roteamentos;
 
-import entidades.Acumulator;
-import entidades.Edge;
-import entidades.Enlace;
-import entidades.Graph;
-import entidades.Processor;
-import entidades.Vertex;
+import java.util.ArrayList;
+
+import entidades.*;
 
 public class RoteamentoXY_YX
 {
@@ -14,14 +11,22 @@ public class RoteamentoXY_YX
 	private Acumulator acumulator;		// Armazena o valor dos acessos a cada enlace
 	private int linhas;					// Quantidade de linhas da rede
 	private int colunas;				// Quantidade de colunas da rede
+	private Router roteadores[][];
 	
 	public RoteamentoXY_YX(Graph grafo, Processor mapeamento[][], int linhas, int colunas)
 	{
 		this.grafo = grafo;
 		this.mapeamento = mapeamento;
-		this.acumulator = new Acumulator(linhas, colunas);
+		this.acumulator = new Acumulator();
 		this.linhas = linhas;
 		this.colunas = colunas;
+		this.roteadores = new Router[linhas][colunas];
+		
+		//Sincroniza os roteadores, ou seja, insere os processos referente a cada roteador
+		sincronizeRouters();
+		printRoteadores();
+		printBufferRoteadores();		
+		
 	}
 
 	public void executeFull()
@@ -295,7 +300,7 @@ public class RoteamentoXY_YX
 													acumulator.incrementaEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 													e.addEnlace(mapeamento[auxLinV][auxColV].getId(), mapeamento[auxLinV][auxColV-1].getId());
 													auxColV--;
-													e.incrementaHops();													
+													e.incrementaHops();										
 											}
 									}
 								}
@@ -326,6 +331,119 @@ public class RoteamentoXY_YX
 		}
 	}
 	
+	public void executeByStep()
+	{
+		
+	}
+	
+	/*
+	 * Pega todos os processoa para o qual o processo parassado como parâmetro manda pacotes
+	 */
+	public ArrayList<Processor> comunicateTo(Processor proc)
+	{
+		ArrayList<Processor> procs = new ArrayList<Processor>();
+		
+		//Para toda comunicação existste
+		for(Edge e : grafo.getEdges())
+		{
+			//Se o identificador do processo for o mesmo que o identificador 
+			//da cominucação que está enviando o pacote
+			if(proc.getVertex().getId() == e.getSource().getId())
+			{
+				//Percorre todos os roteadores para encontar o processo de destino do pacote
+				//Isso será feito para poder pegar a referencia do processo assim como a cua coordenada
+				for(int i = 0; i < linhas; i++)
+				{
+					for(int j = 0; j < colunas; j++)
+					{
+						if(mapeamento[i][j].getVertex() != null && mapeamento[i][j].getVertex().getId() == e.getDestination().getId())
+						{
+							procs.add(mapeamento[i][j]);
+						}
+					}
+				}
+			}
+		}
+		
+		return procs;
+	}
+	
+	public void printBufferRoteadores()
+	{
+		for(int i = 0; i < linhas; i++)
+		{
+			for(int j = 0; j < colunas; j++)
+			{
+				if(roteadores[i][j].getProcessor().getVertex() != null)
+				{
+					System.out.println("-------------------- " + roteadores[i][j].getProcessor().getVertex().getName() + "-------------------- ");
+					for(Pacote p : roteadores[i][j].getBuffer())
+					{
+						System.out.println("Coordenada: " + p.getCoordinate().getLine() + ", " + p.getCoordinate().getColumn());
+						System.out.println("Prioridade: " + p.getPriority() );
+						System.out.println("Origem: " + p.getSource().getId());
+						System.out.println("Destino: " + p.getDestination().getId());
+						System.out.println();
+					}
+				}
+			}
+			
+		}
+	}
+	
+	public void printRoteadores()
+	{
+		for(int i = 0; i < linhas; i++)
+		{
+			for(int j = 0; j < colunas; j++)
+			{
+				if(roteadores[i][j].getProcessor().getVertex() == null)
+				{
+					System.out.print(roteadores[i][j].getProcessor().getId() + "\t");
+				}
+				else
+				{
+					System.out.print(roteadores[i][j].getProcessor().getVertex().getName() + "\t");
+				}
+			}
+			
+			System.out.println();
+		}
+	}
+	
+	public void sincronizeRouters()
+	{
+		for(int i = 0; i < linhas; i++)
+		{
+			for(int j = 0; j < colunas; j++)
+			{
+				roteadores[i][j] = new Router(mapeamento[i][j]);
+				if(mapeamento[i][j].getVertex() != null)
+				{
+					ArrayList<Processor> comunica = new ArrayList<Processor>();
+					comunica = comunicateTo(roteadores[i][j].getProcessor());
+					
+					//Pode ocorrer a existencia de processos que não  enviam mensagens
+					if(comunica.size() > 0)
+					{
+						for(int k = 0; k < roteadores[i][j].getProcessor().getVertex().getOutdegree(); k++)
+						{
+							if(roteadores[i][j].getProcessor().getVertex().getOutdegree() > 0)
+							{
+								//Contrutur de Pacote: 
+								//Pacote(int priority, Processor source, Processor destination, int x, int y)
+								//System.out.println(comunica.size() + " ====== " + roteadores[i][j].getProcessor().getVertex().getOutdegree());
+								Pacote p = new Pacote(roteadores[i][j].getProcessor().getVertex().getOutdegree(), roteadores[i][j].getProcessor(), comunica.get(k), i, j);
+								roteadores[i][j].addBuffer(p);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
 	public int totalReutilizado()
 	{
 		int totalReutilizado = 0;
@@ -341,6 +459,7 @@ public class RoteamentoXY_YX
 		return totalReutilizado;
 	}
 	
+	
 	public float calculaTaxaReuso()
 	{
 		int totalAcessos = 0;
@@ -353,29 +472,32 @@ public class RoteamentoXY_YX
 		return (100 * totalReutilizado()) / totalAcessos;
 	}
 	
+
 	/*
 	 * Imprime o resultado do acumulador
 	 */
 	public void printResult()
 	{
 		int hopAcumulator = 0;
-		System.out.println();
-		System.out.println("Total de hops e caminhos percorridos: ");
+		//System.out.println();
+		//System.out.println("Total de hops e caminhos percorridos: ");
 		for(Edge e : grafo.getEdges())
 		{
-			  System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
+			  //System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
 			  
-			  hopAcumulator = hopAcumulator + e.getHops();
+			  hopAcumulator += e.getHops();
 			  
+			  /*
 			  for(Enlace en : e.getEnlaces())
 			  {
 				  System.out.println(en.getSource() + " - " + en.getDestination());
 			  }
 			  System.out.println();
+			  */
 		}
 
-		System.out.println("Enlaces acessados:");
-		acumulator.printAcumulator();
+		//System.out.println("Enlaces acessados:");
+		//acumulator.printAcumulator();
 		
 		System.out.println("Total de hops: " + hopAcumulator);
 		System.out.println("Quantidade de enlaces acessados: " + acumulator.getEnlace().size());
@@ -398,7 +520,7 @@ public class RoteamentoXY_YX
 		return mapeamento;
 	}
 
-	public void setMapeamento(Processor[][] mapeamento) 
+	public void setMapeamento(Processor[][] mapeamento)
 	{
 		this.mapeamento = mapeamento;
 	}
