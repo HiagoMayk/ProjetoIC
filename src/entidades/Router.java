@@ -27,13 +27,15 @@ public class Router
 			flag = true;
 		}
 		else
-		{
+		{	//int index = 0;
+			//Deu problema aqui, pois estava mudando o tamanho do ArrayLista com a inserção do novo elemento 
 			for(Pacote p : buffer)
-			{
+			{	//index++;
 				if(pacote.getPriority() > p.getPriority())
 				{
 					buffer.add(buffer.indexOf(p), pacote);
 					flag = true;
+					break;
 				}
 			}
 		}

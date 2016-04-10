@@ -1,5 +1,7 @@
 package entidades;
 
+import java.util.ArrayList;
+
 /**
  * @author mayk
  * Representaçao dos pacotes
@@ -7,16 +9,19 @@ package entidades;
 public class Pacote 
 {
 	private int priority;
-	private Coordinate coordinate;
+	private Coordinate currentCoordinate;
 	private Processor source;
 	private Processor destination;
-	
+	private int hops;
+	private ArrayList<Enlace> enlaces;
+
 	public Pacote(int priority, Processor source, Processor destination, int x, int y)
 	{
 		this.priority = priority;
 		this.source = source;
 		this.destination = destination;
-		this.coordinate = new Coordinate(x, y);
+		this.currentCoordinate = new Coordinate(x, y);
+		this.enlaces = new ArrayList<Enlace>();
 	}
 
 	public int getPriority() 
@@ -49,19 +54,24 @@ public class Pacote
 		this.destination = destination;
 	}
 
-	public Coordinate getCoordinate() 
+	public void setCurrentCoordinate(int x, int y) 
 	{
-		return coordinate;
-	}
-
-	public void setCoordinate(int x, int y) 
-	{
-		this.coordinate = new Coordinate(x, y);
+		this.currentCoordinate = new Coordinate(x, y);
 	}
 	
-	public void setCoordinate(Coordinate coordinate)
+	public void setCurrentCoordinate(Coordinate coordinate)
 	{
-		this.coordinate = coordinate;
+		this.currentCoordinate = coordinate;
+	}
+	
+	public void setCurrentCoordinateColumn(int y) 
+	{
+		this.currentCoordinate.setColumn(y);
+	}
+	
+	public void setCurrentCoordinateLine(int x) 
+	{
+		this.currentCoordinate.setLine(x);
 	}
 	
 	public Coordinate getCoordinateSource() 
@@ -74,4 +84,34 @@ public class Pacote
 		return this.destination.getCoordinate();
 	}
 	
+	public int getHops() 
+	{
+		return hops;
+	}
+
+	public void setHops(int hops) 
+	{
+		this.hops = hops;
+	}
+
+	public Coordinate getCurrentCoordinate() 
+	{
+		return currentCoordinate;
+	}
+	
+	public void addEnlace(int x, int y) 
+	{
+		this.enlaces.add(new Enlace(x, y));
+	}
+	
+	public ArrayList<Enlace> getEnlaces() 
+	{
+		return enlaces;
+	}
+
+	public void setEnlaces(ArrayList<Enlace> enlaces) 
+	{
+		this.enlaces = enlaces;
+	}
+
 }

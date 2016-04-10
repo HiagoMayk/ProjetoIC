@@ -90,4 +90,34 @@ public class Coordinate implements Comparable<Coordinate>
 	{
 		return column;
 	}
+
+	public int getDown() 
+	{
+		return down;
+	}
+
+	public int getTop() 
+	{
+		return top;
+	}
+
+	public int getRight() 
+	{
+		return right;
+	}
+
+	public int getLeft() 
+	{
+		return left;
+	}
+
+	public void setLine(int line) 
+	{
+		this.line = line;
+	}
+
+	public void setColumn(int column) 
+	{
+		this.column = column;
+	}
 }
