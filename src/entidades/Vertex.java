@@ -6,7 +6,7 @@ public class Vertex implements Comparable<Vertex>
 	private int outdegree;
 	private int indegree;
 	private int degree;
-	private boolean alocated;
+	private boolean alocated; 
   
 	public Vertex(int  id, String Vertex) 
 	{

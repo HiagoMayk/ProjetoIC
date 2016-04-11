@@ -27,12 +27,20 @@ public class RoteamentoXY_YX
 		printRoteadores();
 		//printBufferRoutersWithProcess();
 		
+		System.out.println("============ IN ===============");
 		System.out.println("Antes:===========================");
-		printBufferRoutersWithoutProcess();
+		printBufferInRouters();
+		System.out.println("============ OUT ===============");
+		System.out.println("Antes:===========================");
+		printBufferOutRouters();
 		executeByStep();
 		
+		System.out.println("============ IN ===============");
 		System.out.println("Depois:===========================");
-		printBufferRoutersWithoutProcess();
+		printBufferInRouters();
+		System.out.println("============ OUT ===============");
+		System.out.println("Depois:===========================");
+		printBufferOutRouters();
 	}
 
 	public void executeFull()
@@ -343,7 +351,26 @@ public class RoteamentoXY_YX
 		{
 			for(int j = 0; j < colunas; j++)
 			{
-				if(roteadores[i][j].getBuffer().size() > 0)
+				//Remove o primeiro pacote do bufferIn
+				//Assumimos que o pacote está sendo entregue ao processo que executa no processador referente a esse roteador
+				roteadores[i][j].removeBufferIn();
+			}
+		}
+		
+		for(int i = 0; i < linhas; i++)
+		{
+			for(int j = 0; j < colunas; j++)
+			{
+				//Aplica a troca dos pacotes entre os buffers
+				roteadores[i][j].changeBuffer();
+			}
+		}
+		
+		for(int i = 0; i < linhas; i++)
+		{
+			for(int j = 0; j < colunas; j++)
+			{
+				if(roteadores[i][j].getBufferOut().size() > 0)
 				{
 					//Não precisa verificar se os pacotes estão em ordem de prioridade no buffer, pois
 					//isso já é feito na inserção dos pacotes no buffer na classe Router.
@@ -351,7 +378,7 @@ public class RoteamentoXY_YX
 					//Devemos Verificar a coordenada do lugar de destino e mandar o pacote
 					
 					//Remove o primeiro pacote do buffer, lembre-se que esse tem a maior prioridade
-					Pacote pacote = roteadores[i][j].getBuffer().remove(0);
+					Pacote pacote = roteadores[i][j].getBufferOut().remove(0);
 					if(pacote.getCurrentCoordinate().getColumn() < pacote.getCoordinateDestination().getColumn())
 		            {
 						//Primeira linha
@@ -367,7 +394,7 @@ public class RoteamentoXY_YX
                                         pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
                                         pacote.setHops(pacote.getHops() + 1);
                                         
-                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                 }
                                 else
                                 {
@@ -381,7 +408,7 @@ public class RoteamentoXY_YX
                                            pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
                                            pacote.setHops(pacote.getHops() + 1); 
                                            
-                                           roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                           roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                     }
                                     else
                                     {
@@ -390,7 +417,7 @@ public class RoteamentoXY_YX
                                            pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
                                            pacote.setHops(pacote.getHops() + 1);    
                                            
-                                           roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                           roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                     }
                                 }
                         }
@@ -406,7 +433,7 @@ public class RoteamentoXY_YX
                                     pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
                                     pacote.setHops(pacote.getHops() + 1);  
                                     
-                                    roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                    roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                             }
                             else
                             {
@@ -420,7 +447,7 @@ public class RoteamentoXY_YX
                                                    pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
                                                    pacote.setHops(pacote.getHops() + 1);  
                                                    
-                                                   roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                                   roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                            }
                                            else
                                            {
@@ -429,7 +456,7 @@ public class RoteamentoXY_YX
                                                    pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
                                                    pacote.setHops(pacote.getHops() + 1);     
                                                    
-                                                   roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                                   roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                            }
                                        }
                                    }
@@ -446,7 +473,7 @@ public class RoteamentoXY_YX
                                                pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
                                                pacote.setHops(pacote.getHops() + 1);  
                                                
-                                               roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                               roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                        }
                                        else
                                        {
@@ -459,7 +486,7 @@ public class RoteamentoXY_YX
                                                        pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);;
                                                        pacote.setHops(pacote.getHops() + 1);
                                                        
-                                                       roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                                       roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                                }
                                                else if((pacote.getCurrentCoordinate().getLine() > roteadores[i][j].getProcessor().getCoordinate().getLine()) &&
                                                       ((acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId()) == null) || 
@@ -470,7 +497,7 @@ public class RoteamentoXY_YX
                                                        pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
                                                        pacote.setHops(pacote.getHops() + 1);   
                                                        
-                                                       roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                                       roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                                }
                                                else
                                                {
@@ -479,7 +506,7 @@ public class RoteamentoXY_YX
                                                        pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
                                                        pacote.setHops(pacote.getHops() + 1);   
                                                        
-                                                       roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                                       roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                                }
                                        }
                              }
@@ -498,7 +525,7 @@ public class RoteamentoXY_YX
                                     pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
                                     pacote.setHops(pacote.getHops() + 1);   
                                                    
-                                    roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                    roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                  }
                                  else
                                  {
@@ -511,7 +538,7 @@ public class RoteamentoXY_YX
                                         pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
                                         pacote.setHops(pacote.getHops() + 1); 
                                                        
-                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                      }
                                      else
                                      {
@@ -520,7 +547,7 @@ public class RoteamentoXY_YX
                                         pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);;
                                         pacote.setHops(pacote.getHops() + 1); 
                                                        
-                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                      }
                                  }
                              }
@@ -535,7 +562,7 @@ public class RoteamentoXY_YX
                                      pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
                                      pacote.setHops(pacote.getHops() + 1);          
                                            
-                                     roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                     roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                   }
                                   else
                                   {
@@ -548,7 +575,7 @@ public class RoteamentoXY_YX
                                           pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
                                           pacote.setHops(pacote.getHops() + 1);  
                                                
-                                          roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                          roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                    }
                                    else
                                    {
@@ -557,7 +584,7 @@ public class RoteamentoXY_YX
                                         pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
                                         pacote.setHops(pacote.getHops() + 1); 
                                                
-                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                    }
                               }
                         }
@@ -574,7 +601,7 @@ public class RoteamentoXY_YX
                                 pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
                                 pacote.setHops(pacote.getHops() + 1);  
                                                
-                                roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                             }
                             else
                             {
@@ -587,7 +614,7 @@ public class RoteamentoXY_YX
                                     pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
                                     pacote.setHops(pacote.getHops() + 1);  
                                                        
-                                    roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                    roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                  }
                                  else if((pacote.getCurrentCoordinate().getLine() > pacote.getCoordinateDestination().getLine()) &&
                                 		((acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId()) == null) || 
@@ -598,7 +625,7 @@ public class RoteamentoXY_YX
                                             pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
                                             pacote.setHops(pacote.getHops() + 1);     
                                                        
-                                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                          }
                                          else
                                          {
@@ -607,7 +634,7 @@ public class RoteamentoXY_YX
                                              pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
                                              pacote.setHops(pacote.getHops() + 1);    
                                                        
-                                             roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                                             roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                           }
                                  }
                              }
@@ -619,7 +646,7 @@ public class RoteamentoXY_YX
                             pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
                             pacote.setHops(pacote.getHops() + 1);
                                    
-                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                         }
                         else if(pacote.getCurrentCoordinate().getLine() > pacote.getCoordinateDestination().getLine())
                         {
@@ -628,7 +655,7 @@ public class RoteamentoXY_YX
                             pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
                             pacote.setHops(pacote.getHops()+1);
                                    
-                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBuffer(pacote);
+                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                         }
                    }
               }
@@ -667,8 +694,8 @@ public class RoteamentoXY_YX
 		return procs;
 	}
 	
-	//Imprime os buffers dos roteadores que possem processos rodando
-	public void printBufferRoutersWithProcess()
+	//Imprime os bufferIn dos roteadores que possem processos rodando
+	public void printBufferInRoutersWithProcess()
 	{
 		for(int i = 0; i < linhas; i++)
 		{
@@ -677,7 +704,7 @@ public class RoteamentoXY_YX
 				if(roteadores[i][j].getProcessor().getVertex() != null)
 				{
 					System.out.println("-------------------- " + roteadores[i][j].getProcessor().getVertex().getName() + "-------------------- ");
-					for(Pacote p : roteadores[i][j].getBuffer())
+					for(Pacote p : roteadores[i][j].getBufferIn())
 					{
 						System.out.println("Coordenada: " + p.getCurrentCoordinate().getLine() + ", " + p.getCurrentCoordinate().getColumn());
 						System.out.println("Prioridade: " + p.getPriority() );
@@ -691,17 +718,17 @@ public class RoteamentoXY_YX
 		}
 	}
 	
-	//Imprime todos os rotedores que possuem pacotes no buffer e seus respectivos pacotes
-	public void printBufferRoutersWithoutProcess()
+	//Imprime todos os rotedores que possuem pacotes no bufferIn e seus respectivos pacotes
+	public void printBufferInRouters()
 	{
 		for(int i = 0; i < linhas; i++)
 		{
 			for(int j = 0; j < colunas; j++)
 			{
-				if(roteadores[i][j].getBuffer().size() != 0)
+				if(roteadores[i][j].getBufferIn().size() != 0)
 				{
 					System.out.println("-------------------- Roteador (" + i + ", " + j + ") -------------------- ");
-					for(Pacote p : roteadores[i][j].getBuffer())
+					for(Pacote p : roteadores[i][j].getBufferIn())
 					{
 						System.out.println("Coordenada: " + p.getCurrentCoordinate().getLine() + ", " + p.getCurrentCoordinate().getColumn());
 						System.out.println("Prioridade: " + p.getPriority() );
@@ -714,6 +741,54 @@ public class RoteamentoXY_YX
 			
 		}
 	}
+	
+	//Imprime os bufferOut dos roteadores que possem processos rodando
+		public void printBufferOutRoutersWithProcess()
+		{
+			for(int i = 0; i < linhas; i++)
+			{
+				for(int j = 0; j < colunas; j++)
+				{
+					if(roteadores[i][j].getProcessor().getVertex() != null)
+					{
+						System.out.println("-------------------- " + roteadores[i][j].getProcessor().getVertex().getName() + "-------------------- ");
+						for(Pacote p : roteadores[i][j].getBufferOut())
+						{
+							System.out.println("Coordenada: " + p.getCurrentCoordinate().getLine() + ", " + p.getCurrentCoordinate().getColumn());
+							System.out.println("Prioridade: " + p.getPriority() );
+							System.out.println("Origem: " + p.getSource().getId());
+							System.out.println("Destino: " + p.getDestination().getId());
+							System.out.println();
+						}
+					}
+				}
+				
+			}
+		}
+		
+		//Imprime todos os rotedores que possuem pacotes no buffeOut e seus respectivos pacotes
+		public void printBufferOutRouters()
+		{
+			for(int i = 0; i < linhas; i++)
+			{
+				for(int j = 0; j < colunas; j++)
+				{
+					if(roteadores[i][j].getBufferOut().size() != 0)
+					{
+						System.out.println("-------------------- Roteador (" + i + ", " + j + ") -------------------- ");
+						for(Pacote p : roteadores[i][j].getBufferOut())
+						{
+							System.out.println("Coordenada: " + p.getCurrentCoordinate().getLine() + ", " + p.getCurrentCoordinate().getColumn());
+							System.out.println("Prioridade: " + p.getPriority() );
+							System.out.println("Origem: " + p.getSource().getId());
+							System.out.println("Destino: " + p.getDestination().getId());
+							System.out.println();
+						}
+					}
+				}
+				
+			}
+		}
 	
 	public void printRoteadores()
 	{
@@ -757,8 +832,10 @@ public class RoteamentoXY_YX
 								//Contrutur de Pacote: 
 								//Pacote(int priority, Processor source, Processor destination, int x, int y)
 								//System.out.println(comunica.size() + " ====== " + roteadores[i][j].getProcessor().getVertex().getOutdegree());
-								Pacote p = new Pacote(roteadores[i][j].getProcessor().getVertex().getOutdegree(), roteadores[i][j].getProcessor(), comunica.get(k), i, j);
-								roteadores[i][j].addBuffer(p);
+								Pacote pacote = new Pacote(roteadores[i][j].getProcessor().getVertex().getOutdegree(), roteadores[i][j].getProcessor(), comunica.get(k), i, j);
+								
+								//Assumimos aqui também que um processo pode enviar mensagem para ele mesmo
+								roteadores[i][j].addBufferIn(pacote);
 							}
 						}
 					}

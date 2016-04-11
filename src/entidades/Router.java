@@ -1,6 +1,7 @@
 package entidades;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author mayk
@@ -9,31 +10,33 @@ import java.util.ArrayList;
 public class Router 
 {
 	private Processor processor;
-	private ArrayList<Pacote> buffer;
+	private ArrayList<Pacote> bufferOut; //Buffer dos pacotes que deveraão ser enviados para outro roteador
+	private ArrayList<Pacote> bufferIn;  //Buffer dos pacotes que estão para execuar e dos que chegam
 	
 	public Router(Processor processor)
 	{
 		this.processor = processor;
-		this.buffer = new ArrayList<Pacote>();
+		this.bufferOut = new ArrayList<Pacote>();
+		this.bufferIn = new ArrayList<Pacote>();
 	}
-
-	public void addBuffer(Pacote pacote)
+	
+	public void addBufferOut(Pacote pacote)
 	{
 		boolean flag = false;
 		
-		if(buffer.size() == 0)
+		if(bufferOut.size() == 0)
 		{
-			buffer.add(pacote);
+			bufferOut.add(pacote);
 			flag = true;
 		}
 		else
 		{	//int index = 0;
 			//Deu problema aqui, pois estava mudando o tamanho do ArrayLista com a inserção do novo elemento 
-			for(Pacote p : buffer)
+			for(Pacote p : bufferOut)
 			{	//index++;
 				if(pacote.getPriority() > p.getPriority())
 				{
-					buffer.add(buffer.indexOf(p), pacote);
+					bufferOut.add(bufferOut.indexOf(p), pacote);
 					flag = true;
 					break;
 				}
@@ -42,18 +45,91 @@ public class Router
 		
 		if(!flag)
 		{
-			buffer.add(pacote);	
+			bufferOut.add(pacote);	
+		}
+	}
+
+	public void addBufferIn(Pacote pacote)
+	{
+		boolean flag = false;
+		
+		if(bufferIn.size() == 0)
+		{
+			bufferIn.add(pacote);
+			flag = true;
+		}
+		else
+		{	//int index = 0;
+			//Deu problema aqui, pois estava mudando o tamanho do ArrayLista com a inserção do novo elemento 
+			for(Pacote p : bufferIn)
+			{	//index++;
+				if(pacote.getPriority() > p.getPriority())
+				{
+					bufferIn.add(bufferIn.indexOf(p), pacote);
+					flag = true;
+					break;
+				}
+			}
+		}
+		
+		if(!flag)
+		{
+			bufferIn.add(pacote);	
 		}
 	}
 	
-	public Pacote removeBuffer()
+	public void changeBuffer()
 	{
-		if(buffer.size() == 0)
+		 Iterator<Pacote> itr = bufferIn.iterator();
+	     while(itr.hasNext())
+	     {
+	         Pacote element = itr.next();
+	         
+	         if(element.getCoordinateDestination().getLine() != processor.getCoordinate().getLine() ||
+	        	element.getCoordinateDestination().getColumn() != processor.getCoordinate().getColumn())
+	         {
+	        	 addBufferOut(element);
+	        	 itr.remove();
+	         }
+	      }
+	}
+	
+	//Simula entrega do pacote para o processador referente a esse roteador
+	public void pacoteToHere()
+	{
+		Iterator<Pacote> itr = bufferIn.iterator();
+	     while(itr.hasNext())
+	     {
+	         Pacote element = itr.next();
+	         
+	         if(element.getCoordinateDestination().getLine() == processor.getCoordinate().getLine() &&
+	        	element.getCoordinateDestination().getColumn() == processor.getCoordinate().getColumn())
+	         {
+	        	 //Apenas removemos, porém podemos inserir no processo em uma lista de pacotes recebidos para ter o controle
+	        	 //de quantos e quais pacotes foram recebidos por determinado processo
+	        	 itr.remove();
+	         }
+	      }
+	}
+	
+	public Pacote removeBufferOut()
+	{
+		if(bufferOut.size() == 0)
 		{
 			return null;
 		}
 		
-		return buffer.get(0); 
+		return bufferOut.get(0); 
+	}
+	
+	public Pacote removeBufferIn()
+	{
+		if(bufferIn.size() == 0)
+		{
+			return null;
+		}
+		
+		return bufferIn.get(0); 
 	}
 	
 	public Processor getProcessor() 
@@ -61,18 +137,30 @@ public class Router
 		return processor;
 	}
 
-	public void setProcessor(Processor processor) 
+	public void setProcessor(Processor processor)
 	{
 		this.processor = processor;
 	}
 
-	public ArrayList<Pacote> getBuffer() 
+	public ArrayList<Pacote> getBufferOut() 
 	{
-		return buffer;
+		return bufferOut;
 	}
 
-	public void setBuffer(ArrayList<Pacote> buffer) 
+	public void setBufferOut(ArrayList<Pacote> buffer) 
 	{
-		this.buffer = buffer;
+		this.bufferOut = buffer;
 	}
+	
+	public ArrayList<Pacote> getBufferIn() 
+	{
+		return bufferIn;
+	}
+
+	public void setBufferIn(ArrayList<Pacote> buffer) 
+	{
+		this.bufferIn = buffer;
+	}
+	
+	
 }
