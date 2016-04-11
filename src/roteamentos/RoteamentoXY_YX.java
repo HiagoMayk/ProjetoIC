@@ -12,6 +12,7 @@ public class RoteamentoXY_YX
 	private int linhas;					// Quantidade de linhas da rede
 	private int colunas;				// Quantidade de colunas da rede
 	private Router roteadores[][];
+	private int count; 
 	
 	public RoteamentoXY_YX(Graph grafo, Processor mapeamento[][], int linhas, int colunas)
 	{
@@ -21,26 +22,19 @@ public class RoteamentoXY_YX
 		this.linhas = linhas;
 		this.colunas = colunas;
 		this.roteadores = new Router[linhas][colunas];
+		count = 0;
 		
 		//Sincroniza os roteadores, ou seja, insere os processos referente a cada roteador
 		sincronizeRouters();
 		printRoteadores();
 		//printBufferRoutersWithProcess();
 		
-		System.out.println("============ IN ===============");
-		System.out.println("Antes:===========================");
-		printBufferInRouters();
-		System.out.println("============ OUT ===============");
-		System.out.println("Antes:===========================");
-		printBufferOutRouters();
-		executeByStep();
+		while(count < grafo.getEdges().size())
+		{
+			executeByStep();
+		}
 		
-		System.out.println("============ IN ===============");
-		System.out.println("Depois:===========================");
-		printBufferInRouters();
-		System.out.println("============ OUT ===============");
-		System.out.println("Depois:===========================");
-		printBufferOutRouters();
+		System.out.println("Count:" + count);
 	}
 
 	public void executeFull()
@@ -353,7 +347,7 @@ public class RoteamentoXY_YX
 			{
 				//Remove o primeiro pacote do bufferIn
 				//Assumimos que o pacote está sendo entregue ao processo que executa no processador referente a esse roteador
-				roteadores[i][j].removeBufferIn();
+				count += roteadores[i][j].pacoteToHere();
 			}
 		}
 		
@@ -365,6 +359,19 @@ public class RoteamentoXY_YX
 				roteadores[i][j].changeBuffer();
 			}
 		}
+		
+		//Ultima inserçãooooooooooooooooo
+		for(int i = 0; i < linhas; i++)
+		{
+			for(int j = 0; j < colunas; j++)
+			{
+				for(Pacote pacote : roteadores[i][j].getBufferOut())
+				{
+					pacote.setHops(pacote.getHops() + 1);
+				}
+			}
+		}
+		
 		
 		for(int i = 0; i < linhas; i++)
 		{
@@ -392,7 +399,7 @@ public class RoteamentoXY_YX
                                         acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
                                         pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn() + 1].getId());
                                         pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
-                                        pacote.setHops(pacote.getHops() + 1);
+                                        //pacote.setHops(pacote.getHops() + 1);
                                         
                                         roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                 }
@@ -406,7 +413,7 @@ public class RoteamentoXY_YX
                                            acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
                                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
                                            pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
-                                           pacote.setHops(pacote.getHops() + 1); 
+                                           //pacote.setHops(pacote.getHops() + 1); 
                                            
                                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                     }
@@ -415,7 +422,7 @@ public class RoteamentoXY_YX
                                            acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
                                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
                                            pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
-                                           pacote.setHops(pacote.getHops() + 1);    
+                                           //pacote.setHops(pacote.getHops() + 1);    
                                            
                                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                     }
@@ -431,7 +438,7 @@ public class RoteamentoXY_YX
                                     acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
                                     pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
                                     pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
-                                    pacote.setHops(pacote.getHops() + 1);  
+                                    //pacote.setHops(pacote.getHops() + 1);  
                                     
                                     roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                             }
@@ -445,7 +452,7 @@ public class RoteamentoXY_YX
                                                    acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
                                                    pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
                                                    pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
-                                                   pacote.setHops(pacote.getHops() + 1);  
+                                                   //pacote.setHops(pacote.getHops() + 1);  
                                                    
                                                    roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                            }
@@ -454,7 +461,7 @@ public class RoteamentoXY_YX
                                                    acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
                                                    pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
                                                    pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
-                                                   pacote.setHops(pacote.getHops() + 1);     
+                                                   //pacote.setHops(pacote.getHops() + 1);     
                                                    
                                                    roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                            }
@@ -471,7 +478,7 @@ public class RoteamentoXY_YX
                                                acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
                                                pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
                                                pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
-                                               pacote.setHops(pacote.getHops() + 1);  
+                                               //pacote.setHops(pacote.getHops() + 1);  
                                                
                                                roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                        }
@@ -484,7 +491,7 @@ public class RoteamentoXY_YX
                                                        acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
                                                        pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
                                                        pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);;
-                                                       pacote.setHops(pacote.getHops() + 1);
+                                                       //pacote.setHops(pacote.getHops() + 1);
                                                        
                                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                                }
@@ -495,7 +502,7 @@ public class RoteamentoXY_YX
                                                        acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
                                                        pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
                                                        pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
-                                                       pacote.setHops(pacote.getHops() + 1);   
+                                                       //pacote.setHops(pacote.getHops() + 1);   
                                                        
                                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                                }
@@ -504,7 +511,7 @@ public class RoteamentoXY_YX
                                                        acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
                                                        pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
                                                        pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
-                                                       pacote.setHops(pacote.getHops() + 1);   
+                                                       //pacote.setHops(pacote.getHops() + 1);   
                                                        
                                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                                }
@@ -523,7 +530,7 @@ public class RoteamentoXY_YX
                         			acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
                                     pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
                                     pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
-                                    pacote.setHops(pacote.getHops() + 1);   
+                                    //pacote.setHops(pacote.getHops() + 1);   
                                                    
                                     roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                  }
@@ -536,7 +543,7 @@ public class RoteamentoXY_YX
                                      	acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
                                         pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
                                         pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
-                                        pacote.setHops(pacote.getHops() + 1); 
+                                        //pacote.setHops(pacote.getHops() + 1); 
                                                        
                                         roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                      }
@@ -545,7 +552,7 @@ public class RoteamentoXY_YX
                                         acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
                                         pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
                                         pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);;
-                                        pacote.setHops(pacote.getHops() + 1); 
+                                        //pacote.setHops(pacote.getHops() + 1); 
                                                        
                                         roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                      }
@@ -560,7 +567,7 @@ public class RoteamentoXY_YX
                             		 acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
                                      pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
                                      pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
-                                     pacote.setHops(pacote.getHops() + 1);          
+                                     //pacote.setHops(pacote.getHops() + 1);          
                                            
                                      roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                   }
@@ -573,7 +580,7 @@ public class RoteamentoXY_YX
                                 		  acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
                                           pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
                                           pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
-                                          pacote.setHops(pacote.getHops() + 1);  
+                                          //pacote.setHops(pacote.getHops() + 1);  
                                                
                                           roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                    }
@@ -582,7 +589,7 @@ public class RoteamentoXY_YX
                                    		acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
                                         pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
                                         pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
-                                        pacote.setHops(pacote.getHops() + 1); 
+                                        //pacote.setHops(pacote.getHops() + 1); 
                                                
                                         roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                    }
@@ -599,7 +606,7 @@ public class RoteamentoXY_YX
                         		acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
                                 pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
                                 pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
-                                pacote.setHops(pacote.getHops() + 1);  
+                                //pacote.setHops(pacote.getHops() + 1);  
                                                
                                 roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                             }
@@ -612,7 +619,7 @@ public class RoteamentoXY_YX
                             		acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
                                     pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
                                     pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
-                                    pacote.setHops(pacote.getHops() + 1);  
+                                    //pacote.setHops(pacote.getHops() + 1);  
                                                        
                                     roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                  }
@@ -623,7 +630,7 @@ public class RoteamentoXY_YX
                                 	 		acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
                                             pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
                                             pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
-                                            pacote.setHops(pacote.getHops() + 1);     
+                                            //pacote.setHops(pacote.getHops() + 1);     
                                                        
                                             roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                          }
@@ -632,7 +639,7 @@ public class RoteamentoXY_YX
                                         	 acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
                                              pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
                                              pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
-                                             pacote.setHops(pacote.getHops() + 1);    
+                                             //pacote.setHops(pacote.getHops() + 1);    
                                                        
                                              roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                                           }
@@ -644,7 +651,7 @@ public class RoteamentoXY_YX
                         	acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
                             pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
                             pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
-                            pacote.setHops(pacote.getHops() + 1);
+                            //pacote.setHops(pacote.getHops() + 1);
                                    
                             roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                         }
@@ -653,12 +660,12 @@ public class RoteamentoXY_YX
                         	acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
                             pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
                             pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
-                            pacote.setHops(pacote.getHops()+1);
+                            //pacote.setHops(pacote.getHops()+1);
                                    
                             roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
                         }
                    }
-              }
+              }	
          }
     }
 	
@@ -738,7 +745,6 @@ public class RoteamentoXY_YX
 					}
 				}
 			}
-			
 		}
 	}
 	
@@ -877,24 +883,53 @@ public class RoteamentoXY_YX
 	/*
 	 * Imprime o resultado do acumulador
 	 */
-	public void printResult()
+	public void printResultFull()
 	{
 		int hopAcumulator = 0;
-		//System.out.println();
-		//System.out.println("Total de hops e caminhos percorridos: ");
+		System.out.println();
+		System.out.println("Total de hops e caminhos percorridos: ");
 		for(Edge e : grafo.getEdges())
 		{
-			  //System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
+			  System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
 			  
 			  hopAcumulator += e.getHops();
 			  
-			  /*
+			  
 			  for(Enlace en : e.getEnlaces())
 			  {
 				  System.out.println(en.getSource() + " - " + en.getDestination());
 			  }
 			  System.out.println();
-			  */
+			  
+		}
+
+		System.out.println("Enlaces acessados:");
+		acumulator.printAcumulator();
+		
+		System.out.println("Total de hops: " + hopAcumulator);
+		System.out.println("Quantidade de enlaces acessados: " + acumulator.getEnlace().size());
+		System.out.println("Total de reuso dos enlaces: " + totalReutilizado());
+		System.out.println("Taxa de reuso dos enlaces: " + calculaTaxaReuso() + "%");
+	}
+	/*
+	public void printResultByStep()
+	{
+		int hopAcumulator = 0;
+		//System.out.println();
+		//System.out.println("Total de hops e caminhos percorridos: ");
+		for( e : )
+		{
+			  //System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
+			  
+			  hopAcumulator += e.getHops();
+			  
+			  
+			  for(Enlace en : e.getEnlaces())
+			  {
+				  System.out.println(en.getSource() + " - " + en.getDestination());
+			  }
+			  System.out.println();
+			  
 		}
 
 		//System.out.println("Enlaces acessados:");
@@ -905,7 +940,7 @@ public class RoteamentoXY_YX
 		System.out.println("Total de reuso dos enlaces: " + totalReutilizado());
 		System.out.println("Taxa de reuso dos enlaces: " + calculaTaxaReuso() + "%");
 	}
-	
+	*/
 	public Graph getGrafo() 
 	{
 		return grafo;

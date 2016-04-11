@@ -80,36 +80,45 @@ public class Router
 	
 	public void changeBuffer()
 	{
-		 Iterator<Pacote> itr = bufferIn.iterator();
-	     while(itr.hasNext())
-	     {
-	         Pacote element = itr.next();
-	         
-	         if(element.getCoordinateDestination().getLine() != processor.getCoordinate().getLine() ||
-	        	element.getCoordinateDestination().getColumn() != processor.getCoordinate().getColumn())
-	         {
-	        	 addBufferOut(element);
-	        	 itr.remove();
-	         }
-	      }
+		 for(int i = 0; i < bufferIn.size(); i++)
+		 {
+			 addBufferOut(bufferIn.get(i));
+		 }
+		 
+		 bufferIn = new ArrayList<Pacote>();
 	}
 	
 	//Simula entrega do pacote para o processador referente a esse roteador
-	public void pacoteToHere()
+	public int pacoteToHere()
 	{
+		int count = 0;
 		Iterator<Pacote> itr = bufferIn.iterator();
-	     while(itr.hasNext())
-	     {
-	         Pacote element = itr.next();
+	    while(itr.hasNext())
+	    {
+	        Pacote element = itr.next();
 	         
-	         if(element.getCoordinateDestination().getLine() == processor.getCoordinate().getLine() &&
-	        	element.getCoordinateDestination().getColumn() == processor.getCoordinate().getColumn())
-	         {
-	        	 //Apenas removemos, porém podemos inserir no processo em uma lista de pacotes recebidos para ter o controle
-	        	 //de quantos e quais pacotes foram recebidos por determinado processo
-	        	 itr.remove();
-	         }
-	      }
+	        if(processor != null && (element.getCoordinateDestination().getLine() == processor.getCoordinate().getLine() &&
+	        element.getCoordinateDestination().getColumn() == processor.getCoordinate().getColumn()))
+	        {
+	        	//Apenas removemos, porém podemos inserir no processo em uma lista de pacotes recebidos para ter o controle
+	        	//de quantos e quais pacotes foram recebidos por determinado processo
+	        	System.out.println("--------------------------------------- ");
+	  
+	        	System.out.println("Coordenada: " + element.getCurrentCoordinate().getLine() + ", " + element.getCurrentCoordinate().getColumn());
+	        	System.out.println("Prioridade: " + element.getPriority() );
+	        	System.out.println("Origem: " + element.getSource().getId());
+	        	System.out.println("Destino: " + element.getDestination().getId());
+	        	System.out.println("Hops: " + element.getHops());
+	        	System.out.println("Enlaces: " + element.getEnlaces().size());
+	        	
+	        	System.out.println();
+	        	
+	        	itr.remove();
+	        	count++;
+	        }
+	     }
+	    
+	    return count;
 	}
 	
 	public Pacote removeBufferOut()
@@ -129,10 +138,10 @@ public class Router
 			return null;
 		}
 		
-		return bufferIn.get(0); 
+		return bufferIn.get(0);
 	}
 	
-	public Processor getProcessor() 
+	public Processor getProcessor()
 	{
 		return processor;
 	}
