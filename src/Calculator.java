@@ -84,20 +84,44 @@ public class Calculator
 	
 	public void executaRotemento(int lin, int col)
 	{
-		  //System.out.println();
-		  //System.out.println("ALGORITMO XY: ");
-		  //RoteamentoXY r = new RoteamentoXY(grafo, mapeamento, lin, col);
-		  //r.executeFull();
-		  //r.printResult();
+		RoteamentoXY xyFull = new RoteamentoXY(grafo, mapeamento, lin, col);
+		xyFull.printRoteadores();
+		System.out.println();
+		System.out.println("ALGORITMO XY FULL:");
 		  
-		  grafo.zerarHops();
-		  grafo.zerarEnlaces();
+		xyFull.executeFull();
+		xyFull.printResultFull();
 		  
-		  System.out.println();
-		  System.out.println("ALGORITMO XY-YX:");
-		  RoteamentoXY_YX c = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
-		  c.executeByStep();
-		  //c.printResult();
+		grafo.zerarHops();
+		grafo.zerarEnlaces();
+		  
+		System.out.println();
+		System.out.println("ALGORITMO XY BY STEP:");
+		RoteamentoXY xyStep = new RoteamentoXY(grafo, mapeamento, lin, col);
+		xyStep.executeByStep();
+		xyStep.printResultByStep();
+		
+		grafo.zerarHops();
+		grafo.zerarEnlaces();
+		
+		System.out.println();
+		
+		RoteamentoXY_YX xy_xyFull = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
+
+		System.out.println();
+		System.out.println("ALGORITMO XY_YX FULL:");
+		  
+		xy_xyFull.executeFull();
+		xy_xyFull.printResultFull();
+		  
+		grafo.zerarHops();
+		grafo.zerarEnlaces();
+		  
+		System.out.println();
+		System.out.println("ALGORITMO XY_YX BY STEP:");
+		RoteamentoXY_YX xy_xyStep = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
+		xy_xyStep.executeByStep();
+		xy_xyStep.printResultByStep();
 	}
 	
 	public void printTasks()

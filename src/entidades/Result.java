@@ -4,13 +4,45 @@ public class Result
 {
 	private int totalHops;
 	private int totalEnlaces;
-	private float taxaReuso;
 	
 	public Result(int totalHops, int totalEnlaces, float taxaReuso)
 	{
 		this.totalHops = totalHops;
 		this.totalEnlaces = totalEnlaces;
-		this.taxaReuso = taxaReuso;
+	}
+	
+	public Result()
+	{
+		this.totalHops = 0;
+		this.totalEnlaces = 0;
+	}
+	
+	public int totalReutilizado(Acumulator acumulator)
+	{
+		int totalReutilizado = 0;
+		
+		for(Enlace e: acumulator.getEnlace())
+		{
+			if(e.getAcessos() > 1)
+			{
+				totalReutilizado = totalReutilizado + e.getAcessos() - 1;
+			}
+		}
+		
+		return totalReutilizado;
+	}
+	
+	
+	public float calculaTaxaReuso(Acumulator acumulator)
+	{
+		int totalAcessos = 0;
+		
+		for(Enlace e: acumulator.getEnlace())
+		{
+			totalAcessos = totalAcessos + e.getAcessos();
+		}
+		
+		return (100 * totalReutilizado(acumulator)) / totalAcessos;
 	}
 
 	public int getTotalHops() 
@@ -31,15 +63,5 @@ public class Result
 	public void setTotalEnlaces(int totalEnlaces)
 	{
 		this.totalEnlaces = totalEnlaces;
-	}
-
-	public float getTaxaReuso() 
-	{
-		return taxaReuso;
-	}
-
-	public void setTaxaReuso(float taxaReuso) 
-	{
-		this.taxaReuso = taxaReuso;
 	}
 }

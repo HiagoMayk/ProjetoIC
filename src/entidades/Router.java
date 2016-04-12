@@ -100,7 +100,7 @@ public class Router
 	        if(processor != null && (element.getCoordinateDestination().getLine() == processor.getCoordinate().getLine() &&
 	        element.getCoordinateDestination().getColumn() == processor.getCoordinate().getColumn()))
 	        {
-	        	//Apenas removemos, porém podemos inserir no processo em uma lista de pacotes recebidos para ter o controle
+	        	/*//Apenas removemos, porém podemos inserir no processo em uma lista de pacotes recebidos para ter o controle
 	        	//de quantos e quais pacotes foram recebidos por determinado processo
 	        	System.out.println("--------------------------------------- ");
 	  
@@ -112,7 +112,7 @@ public class Router
 	        	System.out.println("Enlaces: " + element.getEnlaces().size());
 	        	
 	        	System.out.println();
-	        	
+	        	*/
 	        	itr.remove();
 	        	count++;
 	        }

@@ -4,24 +4,16 @@ import entidades.Acumulator;
 import entidades.Edge;
 import entidades.Enlace;
 import entidades.Graph;
+import entidades.Pacote;
 import entidades.Processor;
 import entidades.Vertex;
 
-public class RoteamentoXY
+public class RoteamentoXY extends Roteamento
 {
-	private Graph grafo; 				// Grafo da aplicação
-	private Processor mapeamento[][];	// Rede para mapear os processos
-	private Acumulator acumulator;		// Armazena o valor dos acessos a cada enlace
-	private int linhas;					// Quantidade de linhas da rede
-	private int colunas;				// Quantidade de colunas da rede
-	
+
 	public RoteamentoXY(Graph grafo, Processor mapeamento[][], int linhas, int colunas)
 	{
-		this.grafo = grafo;
-		this.mapeamento = mapeamento;
-		this.acumulator = new Acumulator();
-		this.linhas = linhas;
-		this.colunas = colunas;
+		super(grafo, mapeamento, linhas, colunas);
 	}
 
 	public void executeFull()
@@ -120,112 +112,94 @@ public class RoteamentoXY
 			}
 		}
 	}
-	
-	public int totalReutilizado()
+
+	public void executeByStep()	
 	{
-		int totalReutilizado = 0;
-		
-		for(Enlace e: acumulator.getEnlace())
+		while(count < grafo.getEdges().size())
 		{
-			if(e.getAcessos() > 1)
+			for(int i = 0; i < linhas; i++)
 			{
-				totalReutilizado = totalReutilizado + e.getAcessos() - 1;
+				for(int j = 0; j < colunas; j++)
+				{
+					//Remove o primeiro pacote do bufferIn
+					//Assumimos que o pacote está sendo entregue ao processo que executa no processador referente a esse roteador
+					count += roteadores[i][j].pacoteToHere();
+				}
 			}
-		}
-		
-		return totalReutilizado;
-	}
-	
-	public float calculaTaxaReuso()
-	{
-		int totalAcessos = 0;
-		
-		for(Enlace e: acumulator.getEnlace())
-		{
-			totalAcessos = totalAcessos + e.getAcessos();
-		}
-		
-		return (100 * totalReutilizado()) / totalAcessos;
-	}
-	
-	/*
-	 * Imprime o resultado do acumulador
-	 */
-	public void printResult()
-	{
-		int hopAcumulator = 0;
-		System.out.println();
-		System.out.println("Total de hops e caminhos percorridos: ");
-		for(Edge e : grafo.getEdges())
-		{
-			  System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
-			  
-			  hopAcumulator = hopAcumulator + e.getHops();
-			  
-			  for(Enlace en : e.getEnlaces())
-			  {
-				  System.out.println(en.getSource() + " - " + en.getDestination());
-			  }
-			  System.out.println();
-		}
-
-		System.out.println("Enlaces acessados:");
-		acumulator.printAcumulator();
-		
-		System.out.println("Total de hops: " + hopAcumulator);
-		System.out.println("Quantidade de enlaces acessados: " + acumulator.getEnlace().size());
-		System.out.println("Total de reuso dos enlaces: " + totalReutilizado());
-		System.out.println("Taxa de reuso dos enlaces: " + calculaTaxaReuso() + "%");
-	}
-	
-	public Graph getGrafo() 
-	{
-		return grafo;
-	}
-
-	public void setGrafo(Graph grafo) 
-	{
-		this.grafo = grafo;
-	}
-
-	public Processor[][] getMapeamento() 
-	{
-		return mapeamento;
-	}
-
-	public void setMapeamento(Processor[][] mapeamento) 
-	{
-		this.mapeamento = mapeamento;
-	}
-
-	public Acumulator getAcumulator() 
-	{
-		return acumulator;
-	}
-
-	public void setAcumulator(Acumulator acumulator) 
-	{
-		this.acumulator = acumulator;
-	}
-
-	public int getLinhas() 
-	{
-		return linhas;
-	}
-
-	public void setLinhas(int linhas) 
-	{
-		this.linhas = linhas;
-	}
-
-	public int getColunas() 
-	{
-		return colunas;
-	}
-
-	public void setColunas(int colunas) 
-	{
-		this.colunas = colunas;
+			
+			for(int i = 0; i < linhas; i++)
+			{
+				for(int j = 0; j < colunas; j++)
+				{
+					//Aplica a troca dos pacotes entre os buffers
+					roteadores[i][j].changeBuffer();
+				}
+			}
+			
+			for(int i = 0; i < linhas; i++)
+			{
+				for(int j = 0; j < colunas; j++)
+				{
+					for(Pacote pacote : roteadores[i][j].getBufferOut())
+					{
+						pacote.setHops(pacote.getHops() + 1);
+					}
+				}
+			}
+			
+			for(int i = 0; i < linhas; i++)
+			{
+				for(int j = 0; j < colunas; j++)
+				{
+					if(roteadores[i][j].getBufferOut().size() > 0)
+					{
+						//Não precisa verificar se os pacotes estão em ordem de prioridade no buffer, pois
+						//isso já é feito na inserção dos pacotes no buffer na classe Router.
+						
+						//Devemos Verificar a coordenada do lugar de destino e mandar o pacote
+						
+						//Remove o primeiro pacote do buffer, lembre-se que esse tem a maior prioridade
+						Pacote pacote = roteadores[i][j].getBufferOut().remove(0);
+						if(pacote.getCurrentCoordinate().getColumn() < pacote.getCoordinateDestination().getColumn())
+			            {
+							 acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
+                             pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn() + 1].getId());
+                             pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
+                             //pacote.setHops(pacote.getHops() + 1);
+                             
+                             roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
+						}
+						else if(pacote.getCurrentCoordinate().getColumn() > pacote.getCoordinateDestination().getColumn())
+						{
+                			acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
+                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
+                            pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
+                            //pacote.setHops(pacote.getHops() + 1);   
+                                           
+                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);		
+						}
+						else if(pacote.getCurrentCoordinate().getLine() < pacote.getCoordinateDestination().getLine())
+						{
+							acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
+                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
+                            pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
+                            //pacote.setHops(pacote.getHops() + 1);
+                                   
+                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
+						}
+						else if(pacote.getCurrentCoordinate().getLine() > pacote.getCoordinateDestination().getLine())
+						{
+							acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
+                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
+                            pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
+                            //pacote.setHops(pacote.getHops()+1);
+                                   
+                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);			
+						}
+					}
+				}
+	         }
+	    }
 	}
 }
 	
