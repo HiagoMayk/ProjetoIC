@@ -8,6 +8,7 @@ import entidades.Vertex;
 import roteamentos.RoteamentoXY;
 import roteamentos.RoteamentoXY_YX;
 import inputOuput.Entrada;
+import main.java.com.rits.cloning.Cloner;
 import mapeamentos.PropostoV1;
 import mapeamentos.PropostoV2;
 
@@ -91,15 +92,26 @@ public class Calculator
 		  
 		xyFull.executeFull();
 		xyFull.printResultFull();
-		  
+		  	
+		//Usado para copiar somente os valores e não a instância dos edges
+		Cloner cloner=new Cloner();
+		ArrayList<Edge> copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
+		
 		grafo.zerarHops();
 		grafo.zerarEnlaces();
-		  
+		
+		for(Edge e : copyEdgers)
+		{
+			
+			System.out.println(e.getHops()); 
+			
+		}
+		
 		System.out.println();
 		System.out.println("ALGORITMO XY BY STEP:");
 		RoteamentoXY xyStep = new RoteamentoXY(grafo, mapeamento, lin, col);
 		xyStep.executeByStep();
-		xyStep.printResultByStep();
+		xyStep.printResultByStep(copyEdgers);
 		
 		grafo.zerarHops();
 		grafo.zerarEnlaces();
@@ -113,6 +125,9 @@ public class Calculator
 		  
 		xy_xyFull.executeFull();
 		xy_xyFull.printResultFull();
+		
+		//Usado para copiar somente os valores e não a instância dos edges
+		copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
 		  
 		grafo.zerarHops();
 		grafo.zerarEnlaces();
@@ -121,7 +136,7 @@ public class Calculator
 		System.out.println("ALGORITMO XY_YX BY STEP:");
 		RoteamentoXY_YX xy_xyStep = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
 		xy_xyStep.executeByStep();
-		xy_xyStep.printResultByStep();
+		xy_xyStep.printResultByStep(copyEdgers);
 	}
 	
 	public void printTasks()

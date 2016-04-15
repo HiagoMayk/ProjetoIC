@@ -4,6 +4,7 @@ public class Result
 {
 	private int totalHops;
 	private int totalEnlaces;
+	private int totalHopsParalelismo;
 	
 	public Result(int totalHops, int totalEnlaces, float taxaReuso)
 	{
@@ -13,6 +14,7 @@ public class Result
 	
 	public Result()
 	{
+		this.totalHopsParalelismo = 0;
 		this.totalHops = 0;
 		this.totalEnlaces = 0;
 	}
@@ -63,5 +65,17 @@ public class Result
 	public void setTotalEnlaces(int totalEnlaces)
 	{
 		this.totalEnlaces = totalEnlaces;
+	}
+	
+	
+	
+	public int getTotalHopsParalelismo() 
+	{
+		return totalHopsParalelismo;
+	}
+
+	public void setTotalHopsParalelismo(int totalHopsParalelismo)
+	{
+		this.totalHopsParalelismo = totalHopsParalelismo;
 	}
 }

@@ -5,7 +5,7 @@ import java.util.List;
 public class Acumulator
 {
 	private List<Enlace> enlace; // Armazena o uso de cada enlaces
-	
+
 	public Acumulator()
 	{
 		this.enlace = new ArrayList<Enlace>();
@@ -34,6 +34,8 @@ public class Acumulator
 			enlace.add(e);
 		}
 	}
+	
+	
 	
 	public Enlace returnEnlace(int i, int j)
 	{
@@ -71,5 +73,10 @@ public class Acumulator
 		{
 			System.out.println(e.getSource() + " - " + e.getDestination() + ": " + e.getAcessos());
 		}
+	}
+
+	public void setEnlace(List<Enlace> enlace)
+	{
+		this.enlace = enlace;
 	}
 }

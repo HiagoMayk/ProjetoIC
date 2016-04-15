@@ -5,6 +5,7 @@ public class Enlace
 	private int source;
 	private int destination;
 	private int acessos;
+	private Pacote pacote;
 	
 	public Enlace(int source, int destination)
 	{
@@ -30,5 +31,20 @@ public class Enlace
 	public int getAcessos()
 	{
 		return acessos;
+	}
+	
+	public Pacote getPacote()
+	{
+		return pacote;
+	}
+
+	public void setPacote(Pacote pacote)
+	{
+		this.pacote = pacote;
+	}
+	
+	public void deletePacote()
+	{
+		this.pacote = null;
 	}
 }

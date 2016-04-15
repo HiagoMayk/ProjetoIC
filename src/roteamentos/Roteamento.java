@@ -231,10 +231,13 @@ public class Roteamento
 	/*
 	 * Imprime o resultado do acumulator
 	 */
-	public void printResultByStep()
+	public void printResultByStep(ArrayList<Edge> edges)
 	{
 		result = new  Result();
 		int hopAcumulator = 0;
+		int maior = 0;
+		int maiorSemParalelismo = 0;
+		Pacote pacote = null;
 		/*System.out.println();
 		System.out.println("Caminhos percorridos e total de hops: ");*/
 		for(Pacote e : pacotes)
@@ -242,6 +245,11 @@ public class Roteamento
 			  //System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
 			  
 			  hopAcumulator += e.getHops();
+			  if(e.getHops() > maior)
+			  {
+				  maior = e.getHops(); 
+				  pacote = e;
+			  }
 			  
 			  /*
 			  for(Enlace en : e.getEnlaces())
@@ -256,8 +264,20 @@ public class Roteamento
 		
 		result.setTotalHops(hopAcumulator);
 		result.setTotalEnlaces(acumulator.getEnlace().size());
+		result.setTotalHopsParalelismo(maior);
 		
-		System.out.println("Total de hops: " + result.getTotalHops());
+		for(Edge e : edges)
+		{
+			if(pacote.getSource().getVertex().getId() == e.getSource().getId() && pacote.getDestination().getVertex().getId() == e.getDestination().getId())
+			{
+				
+				maiorSemParalelismo = e.getHops();
+			}
+		}
+		
+		System.out.println("Total de hops do mail lento COM: " + result.getTotalHopsParalelismo());
+		System.out.println("Total de hops do mais lento SEM paralelismo " + maiorSemParalelismo);
+		System.out.println("Somatório de hops: " + result.getTotalHops());
 		System.out.println("Quantidade de enlaces acessados: " + result.getTotalEnlaces());
 		System.out.println("Total de reuso dos enlaces: " + result.totalReutilizado(acumulator));
 		System.out.println("Taxa de reuso dos enlaces: " + result.calculaTaxaReuso(acumulator) + "%");
@@ -270,6 +290,7 @@ public class Roteamento
 	{
 		result = new  Result();
 		int hopAcumulator = 0;
+		int maior = 0;
 		/*System.out.println();
 		System.out.println("Caminhos percorridos e total de hops: ");*/
 		for(Edge e : grafo.getEdges())
@@ -277,6 +298,10 @@ public class Roteamento
 			  //System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
 			  
 			  hopAcumulator += e.getHops();
+			  if(e.getHops() > maior)
+			  {
+				  maior = e.getHops();
+			  }
 			  
 			  /*
 			  for(Enlace en : e.getEnlaces())
@@ -333,7 +358,7 @@ public class Roteamento
 		return linhas;
 	}
 
-	public void setLinhas(int linhas) 
+	public void setLinhas(int linhas)
 	{
 		this.linhas = linhas;
 	}
