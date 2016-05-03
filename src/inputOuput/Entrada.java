@@ -132,11 +132,9 @@ public class Entrada
 	 * Ler o mapeamento dos processadores na rede pelo console
 	 * Retorna o mapeamento
 	 */
-	public Processor[][] lerMapConsole(List<Vertex> nodes)
+	public Processor[][] lerMapConsole(List<Vertex> nodes, int l, int c)
 	{
 		int id = 0;
-		int l = sc.nextInt();
-		int c = sc.nextInt();
 		
 		linhasMap = l;
 		colunasMap = c;
@@ -151,6 +149,8 @@ public class Entrada
 			}
 		}
 		
+		System.out.println("Digite o mapeamento desejado:");
+		System.out.print(">>>");
 		// número do processador onde se quer inserir o processo
 		for(int k = 0; k < nodes.size(); k++)
 		{
