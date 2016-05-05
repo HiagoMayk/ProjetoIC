@@ -19,32 +19,41 @@ public class Result
 		this.totalEnlaces = 0;
 	}
 	
-	public int totalReutilizado(Acumulator acumulator)
+	public int totalUso(Acumulator acumulator)
 	{
-		int totalReutilizado = 0;
+		int totalReuso = 0;
+		
+		for(Enlace e: acumulator.getEnlace())
+		{
+			totalReuso = totalReuso + e.getAcessos();
+		}
+		
+		return totalReuso;
+	}
+	
+	public int totalReuso(Acumulator acumulator)
+	{
+		int totalReuso = 0;
 		
 		for(Enlace e: acumulator.getEnlace())
 		{
 			if(e.getAcessos() > 1)
 			{
-				totalReutilizado = totalReutilizado + e.getAcessos() - 1;
+				totalReuso = totalReuso + e.getAcessos() - 1;
 			}
 		}
 		
-		return totalReutilizado;
+		return totalReuso;
 	}
 	
+	public int totalReutilizado(Acumulator acumulator)
+	{
+		return totalUso(acumulator) - getTotalEnlaces();
+	}
 	
 	public float calculaTaxaReuso(Acumulator acumulator)
 	{
-		int totalAcessos = 0;
-		
-		for(Enlace e: acumulator.getEnlace())
-		{
-			totalAcessos = totalAcessos + e.getAcessos();
-		}
-		
-		return (100 * totalReutilizado(acumulator)) / totalAcessos;
+		return (100 * totalReutilizado(acumulator)) / totalUso(acumulator);
 	}
 
 	public int getTotalHops() 
@@ -66,8 +75,6 @@ public class Result
 	{
 		this.totalEnlaces = totalEnlaces;
 	}
-	
-	
 	
 	public int getTotalHopsParalelismo() 
 	{

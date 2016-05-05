@@ -125,7 +125,34 @@ public class Entrada
 		}
 
 		Graph graph = new Graph(nodes, edges);
+		
+		calculateDegrees(graph);
+		
 		return graph;
+	}
+	
+	/*
+	 * Método que incrementa os graus de saída e de entrada dos processos.
+	 * Esses graus sevem de comparação para o mapeamento e também para as comunicações.
+	 * Na implementação do simulador, esses graus serão a prioridade dos pacotes enviados por determinado processo. 
+	 */
+	public void calculateDegrees(Graph graph)
+	{
+		for(Vertex v: graph.getVertexes())
+		{
+			for(Edge e: graph.getEdges())
+			{
+				if(v.getId() == e.getSource().getId())
+				{
+					v.incrementsOutdegree();
+				}
+				
+				if(v.getId() == e.getDestination().getId())
+				{
+					v.incrementsIndegree();
+				}
+			}
+		}
 	}
 	
 	/*
@@ -140,11 +167,12 @@ public class Entrada
 		colunasMap = c;
 		Processor network[][] = new Processor [l][c];
 		
+		//Cria os processos com seus respectivos iIDs
 		for(int i = 0; i < l; i++)
 		{
 			for(int j = 0; j < c; j++)
 			{
-				network[i][j] = new Processor(id);
+				network[i][j] = new Processor(id, i, j);
 				id++;
 			}
 		}
@@ -168,6 +196,7 @@ public class Entrada
 							if(v.getName().equals(proc))
 							{
 								network[i][j].setVertex(v);
+								v.setAlocated(true); //Muda status para alocado
 							}
 						}
 					}

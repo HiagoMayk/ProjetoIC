@@ -147,30 +147,29 @@ public class Roteamento
 			}
 		}
 		
-		//Imprime todos os rotedores que possuem pacotes no buffeOut e seus respectivos pacotes
-		public void printBufferOutRouters()
+	//Imprime todos os rotedores que possuem pacotes no buffeOut e seus respectivos pacotes
+	public void printBufferOutRouters()
+	{
+		for(int i = 0; i < linhas; i++)
 		{
-			for(int i = 0; i < linhas; i++)
+			for(int j = 0; j < colunas; j++)
 			{
-				for(int j = 0; j < colunas; j++)
+				if(roteadores[i][j].getBufferOut().size() != 0)
 				{
-					if(roteadores[i][j].getBufferOut().size() != 0)
+					System.out.println("-------------------- Roteador (" + i + ", " + j + ") -------------------- ");
+					for(Pacote p : roteadores[i][j].getBufferOut())
 					{
-						System.out.println("-------------------- Roteador (" + i + ", " + j + ") -------------------- ");
-						for(Pacote p : roteadores[i][j].getBufferOut())
-						{
-							System.out.println("Coordenada: " + p.getCurrentCoordinate().getLine() + ", " + p.getCurrentCoordinate().getColumn());
-							System.out.println("Prioridade: " + p.getPriority() );
-							System.out.println("Origem: " + p.getSource().getId());
-							System.out.println("Destino: " + p.getDestination().getId());
-							System.out.println();
-						}
+						System.out.println("Coordenada: " + p.getCurrentCoordinate().getLine() + ", " + p.getCurrentCoordinate().getColumn());
+						System.out.println("Prioridade: " + p.getPriority() );
+						System.out.println("Origem: " + p.getSource().getId());
+						System.out.println("Destino: " + p.getDestination().getId());
+						System.out.println();
 					}
 				}
-				
 			}
+			
 		}
-	
+	}
 	
 	public void printRoteadores()
 	{
@@ -191,7 +190,6 @@ public class Roteamento
 			System.out.println();
 		}
 	}
-	
 	
 	public void sincronizeRouters()
 	{
@@ -214,7 +212,7 @@ public class Roteamento
 							{
 								//Contrutur de Pacote: 
 								//Pacote(int priority, Processor source, Processor destination, int x, int y)
-								//System.out.println(comunica.size() + " ====== " + roteadores[i][j].getProcessor().getVertex().getOutdegree());
+								//System.out.println(roteadores[i][j].getProcessor().getVertex().getName() + " ====== " + comunica.size());
 								Pacote pacote = new Pacote(roteadores[i][j].getProcessor().getVertex().getOutdegree(), roteadores[i][j].getProcessor(), comunica.get(k), i, j);
 								
 								//Assumimos aqui também que um processo pode enviar mensagem para ele mesmo
@@ -269,16 +267,17 @@ public class Roteamento
 		for(Edge e : edges)
 		{
 			if(pacote.getSource().getVertex().getId() == e.getSource().getId() && pacote.getDestination().getVertex().getId() == e.getDestination().getId())
-			{
-				
+			{			
 				maiorSemParalelismo = e.getHops();
 			}
 		}
 		
-		System.out.println("Total de hops do mail lento COM: " + result.getTotalHopsParalelismo());
-		System.out.println("Total de hops do mais lento SEM paralelismo " + maiorSemParalelismo);
-		System.out.println("Somatório de hops: " + result.getTotalHops());
+		System.out.println("Total de hops do mais lento COM: " + result.getTotalHopsParalelismo());
+		System.out.println("Total de hops do mais lento SEM paralelismo:" + maiorSemParalelismo);
+		//System.out.println("Somatório de hops: " + result.getTotalHops());
 		System.out.println("Quantidade de enlaces acessados: " + result.getTotalEnlaces());
+		System.out.println("Total de acessos aos enlaces: " + result.totalUso(acumulator));
+		System.out.println("Quatidade de enlaces reusados: " + result.totalReuso(acumulator));
 		System.out.println("Total de reuso dos enlaces: " + result.totalReutilizado(acumulator));
 		System.out.println("Taxa de reuso dos enlaces: " + result.calculaTaxaReuso(acumulator) + "%");
 	}
@@ -319,6 +318,8 @@ public class Roteamento
 		
 		System.out.println("Total de hops: " + result.getTotalHops());
 		System.out.println("Quantidade de enlaces acessados: " + result.getTotalEnlaces());
+		System.out.println("Total de acessos aos enlaces: " + result.totalUso(acumulator));
+		System.out.println("Quatidade de enlaces reusados: " + result.totalReuso(acumulator));
 		System.out.println("Total de reuso dos enlaces: " + result.totalReutilizado(acumulator));
 		System.out.println("Taxa de reuso dos enlaces: " + result.calculaTaxaReuso(acumulator) + "%");
 	}

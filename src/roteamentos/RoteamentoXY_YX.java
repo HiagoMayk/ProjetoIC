@@ -313,10 +313,10 @@ public class RoteamentoXY_YX extends Roteamento
 		}
 	}
 	
-	public void executeByStep()	
-	{
+	public void executeByStep()
+	{		
 		while(count < grafo.getEdges().size())
-		{
+		{	
 			for(int i = 0; i < linhas; i++)
 			{
 				for(int j = 0; j < colunas; j++)

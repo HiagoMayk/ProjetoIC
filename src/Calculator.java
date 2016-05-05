@@ -57,9 +57,14 @@ public class Calculator
 					lin = sc.nextInt();
 					col = sc.nextInt();
 					
+					copyEdgers = new ArrayList<Edge>();
+					copyEdgers = grafo.copyEdgers(grafo.getEdges());
+					
 					//Instancia o mapeamento proposto
 					mapeamento = entrada.lerMapConsole(grafo.getVertexes(), lin, col);
-						
+					
+					grafo.setEdges(copyEdgers);
+					
 					//getMapeamento(lin, col, copyEdgers);
 					//printMapeamento(lin, col);
 					executaRotemento(lin, col);
@@ -216,10 +221,12 @@ public class Calculator
 					grafo.zerarHops();
 					grafo.zerarEnlaces();
 					
+					/*
 					for(Edge e : copyEdgers)
 					{
 						System.out.println(e.getHops());		
 					}
+					*/
 					
 					System.out.println();
 					System.out.println("ALGORITMO XY BY STEP:");
@@ -244,7 +251,7 @@ public class Calculator
 					RoteamentoXY_YX xy_xyFull2 = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
 
 					xy_xyFull2.executeFull();
-					//xy_xyFull2.printResultFull();
+					xy_xyFull2.printResultFull();
 					
 					//Usado para copiar somente os valores e não a instância dos edges
 					copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
