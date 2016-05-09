@@ -39,7 +39,7 @@ public class Result
 		{
 			if(e.getAcessos() > 1)
 			{
-				totalReuso = totalReuso + e.getAcessos() - 1;
+				totalReuso = totalReuso + 1;
 			}
 		}
 		

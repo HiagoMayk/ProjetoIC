@@ -136,16 +136,18 @@ public class PropostoV2 extends PropostoHM
 		
 		int totalProcs = procs.size();
 		
-		// Calcula os graus de todos os vértices
-		calculateDegrees();
+		// Calcula os graus de todos os vértices (já esta sendo calculado na entrada do grafo)
+		//calculateDegrees();
 		
 		// Ordena de forma decrescente de graus totais
 		Collections.sort(procs);
 		
+		/*
 		for(Vertex v: procs)
 		{
 			System.out.println(v.getName() + " - " + v.getTotalDegree());
 		}
+		*/
 		
 		// Calcula a distancia máxima entre os processos
 		calculateMaxDist();
@@ -158,8 +160,8 @@ public class PropostoV2 extends PropostoHM
 		for(int i = 1; i < procs.size(); i++)
 		{
 			alocateNext(i);
-			printNetwork();
-			System.out.println("--------------------------");
+			//printNetwork();
+			//System.out.println("--------------------------");
 		}
 		
 		//printNetwork();	

@@ -23,11 +23,12 @@ public class PropostoV1 extends PropostoHM
 		
 		int totalProcs = procs.size();
 		
-		// Calcula os graus de todos os vértices
-		calculateDegrees();
+		// Calcula os graus de todos os vértices (já esta sendo calculado na entrada do grafo)
+		//calculateDegrees();
 		
 		// Ordena de forma decrescente de graus totais
 		Collections.sort(procs);
+		
 		/*
 		for(Vertex v: procs)
 		{

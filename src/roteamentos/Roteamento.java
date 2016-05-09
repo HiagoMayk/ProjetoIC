@@ -212,7 +212,7 @@ public class Roteamento
 							{
 								//Contrutur de Pacote: 
 								//Pacote(int priority, Processor source, Processor destination, int x, int y)
-								//System.out.println(roteadores[i][j].getProcessor().getVertex().getName() + " ====== " + comunica.size());
+								//System.out.println(roteadores[i][j].getProcessor().getVertex().getName() + " ====== " + comunica.size() + " ====== " + roteadores[i][j].getProcessor().getVertex().getOutdegree() );
 								Pacote pacote = new Pacote(roteadores[i][j].getProcessor().getVertex().getOutdegree(), roteadores[i][j].getProcessor(), comunica.get(k), i, j);
 								
 								//Assumimos aqui também que um processo pode enviar mensagem para ele mesmo
@@ -272,13 +272,13 @@ public class Roteamento
 			}
 		}
 		
-		System.out.println("Total de hops do mais lento COM: " + result.getTotalHopsParalelismo());
-		System.out.println("Total de hops do mais lento SEM paralelismo:" + maiorSemParalelismo);
+		System.out.println("Hops do mais lento COM: " + result.getTotalHopsParalelismo());
+		System.out.println("Hops do mais lento SEM paralelismo:" + maiorSemParalelismo);
 		//System.out.println("Somatório de hops: " + result.getTotalHops());
-		System.out.println("Quantidade de enlaces acessados: " + result.getTotalEnlaces());
-		System.out.println("Total de acessos aos enlaces: " + result.totalUso(acumulator));
-		System.out.println("Quatidade de enlaces reusados: " + result.totalReuso(acumulator));
-		System.out.println("Total de reuso dos enlaces: " + result.totalReutilizado(acumulator));
+		System.out.println("Enlaces acessados: " + result.getTotalEnlaces());
+		System.out.println("Somatorio de acessos aos enlaces: " + result.totalUso(acumulator));
+		System.out.println("Enlaces reusados: " + result.totalReuso(acumulator));
+		System.out.println("Reuso dos enlaces: " + result.totalReutilizado(acumulator));
 		System.out.println("Taxa de reuso dos enlaces: " + result.calculaTaxaReuso(acumulator) + "%");
 	}
 	
@@ -316,11 +316,22 @@ public class Roteamento
 		result.setTotalHops(hopAcumulator);
 		result.setTotalEnlaces(acumulator.getEnlace().size());
 		
-		System.out.println("Total de hops: " + result.getTotalHops());
-		System.out.println("Quantidade de enlaces acessados: " + result.getTotalEnlaces());
-		System.out.println("Total de acessos aos enlaces: " + result.totalUso(acumulator));
-		System.out.println("Quatidade de enlaces reusados: " + result.totalReuso(acumulator));
-		System.out.println("Total de reuso dos enlaces: " + result.totalReutilizado(acumulator));
+		//Total de hops: tempo total de entrega de todos os pacotes 
+		System.out.println("Hops: " + result.getTotalHops());
+		
+		//Quantidade de enlaces: quatidade de enlaces usados: quantidade de enlaces que foram criados para transportar pacotes;
+		System.out.println("Enlaces acessados: " + result.getTotalEnlaces());
+		
+		//Total de acesso aos enlaces: somatório dos acessos de todos os enlaces
+		System.out.println("Somatorio de acessos aos enlaces: " + result.totalUso(acumulator));
+		
+		//Quantidadede enlaces reusados: quantidadede enlaces criados que foram reusados
+		System.out.println("Enlaces reusados: " + result.totalReuso(acumulator));
+		
+		//Total de reuso dos enlaces: Diferença entre o somatorio de acessos aos enlaces e a quantidade de enlaces usados
+		System.out.println("Acessos aos enlaces reusados: " + result.totalReutilizado(acumulator));
+		
+		//Taxa de reuso dos enlaces: formila = (100 * [total_de_reuso_dos_enlaces])/[Total_de_acessos_aos_enlaces] 
 		System.out.println("Taxa de reuso dos enlaces: " + result.calculaTaxaReuso(acumulator) + "%");
 	}
 	

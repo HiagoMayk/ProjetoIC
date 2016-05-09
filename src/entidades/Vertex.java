@@ -30,6 +30,7 @@ public class Vertex implements Comparable<Vertex>
 		return alocated;
 	}
 	
+	/*
 	// Observe que os retornos estão invertidos 
 	// Isso é para ordenar de forma decrescente
 	public int compareTo(Vertex outraConta)
@@ -45,6 +46,23 @@ public class Vertex implements Comparable<Vertex>
         }
         return 0;
     }
+    */
+	
+	// Ordenar de forma crescente
+	public int compareTo(Vertex outraConta)
+	{
+		if (this.degree < outraConta.degree)
+		{
+			return -1;
+		}
+	        
+		if (this.degree > outraConta.degree) 
+		{
+			return 1;
+		}
+		
+		return 0;
+	}
   
 	/*
 	 * Retorna o id do vértice
