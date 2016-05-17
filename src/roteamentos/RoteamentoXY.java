@@ -132,6 +132,7 @@ public class RoteamentoXY extends Roteamento
 				for(int j = 0; j < colunas; j++)
 				{
 					//Aplica a troca dos pacotes entre os buffers
+					//insere os do in no out
 					roteadores[i][j].changeBuffer();
 				}
 			}
@@ -151,52 +152,65 @@ public class RoteamentoXY extends Roteamento
 			{
 				for(int j = 0; j < colunas; j++)
 				{
-					if(roteadores[i][j].getBufferOut().size() > 0)
-					{
-						//Não precisa verificar se os pacotes estão em ordem de prioridade no buffer, pois
-						//isso já é feito na inserção dos pacotes no buffer na classe Router.
-						
-						//Devemos Verificar a coordenada do lugar de destino e mandar o pacote
-						
-						//Remove o primeiro pacote do buffer, lembre-se que esse tem a maior prioridade
-						Pacote pacote = roteadores[i][j].getBufferOut().remove(0);
-						if(pacote.getCurrentCoordinate().getColumn() < pacote.getCoordinateDestination().getColumn())
-			            {
-							 acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
-                             pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn() + 1].getId());
-                             pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
-                             //pacote.setHops(pacote.getHops() + 1);
-                             
-                             roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
-						}
-						else if(pacote.getCurrentCoordinate().getColumn() > pacote.getCoordinateDestination().getColumn())
+					roteadores[i][j].setBaixo(true);
+					roteadores[i][j].setCima(true);
+					roteadores[i][j].setDireita(true);
+					roteadores[i][j].setEsquerda(true);
+					
+						while((roteadores[i][j].getBufferOut().size() > 0) && (roteadores[i][j].isBaixo() || roteadores[i][j].isCima() || roteadores[i][j].isDireita() || roteadores[i][j].isEsquerda()))
 						{
-                			acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
-                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
-                            pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
-                            //pacote.setHops(pacote.getHops() + 1);   
-                                           
-                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);		
+							//Não precisa verificar se os pacotes estão em ordem de prioridade no buffer, pois
+							//isso já é feito na inserção dos pacotes no buffer na classe Router.
+							
+							//Devemos verificar a coordenada do lugar de destino e mandar o pacote
+							
+							//Remove o primeiro pacote do buffer, lembre-se que esse tem a maior prioridade
+							Pacote pacote = roteadores[i][j].getBufferOut().remove(0);
+							if(roteadores[i][j].isDireita() && pacote.getCurrentCoordinate().getColumn() < pacote.getCoordinateDestination().getColumn())
+				            {
+								 acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
+	                             pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn() + 1].getId());
+	                             pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
+	                             roteadores[i][j].setDireita(false);
+	                             //pacote.setHops(pacote.getHops() + 1);
+	                             
+	                             roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
+							}
+							else if(roteadores[i][j].isEsquerda() && pacote.getCurrentCoordinate().getColumn() > pacote.getCoordinateDestination().getColumn())
+							{
+	                			acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
+	                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
+	                            pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
+	                            //pacote.setHops(pacote.getHops() + 1);   
+	                            roteadores[i][j].setEsquerda(false);
+	                                           
+	                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);		
+							}
+							else if(roteadores[i][j].isBaixo() && pacote.getCurrentCoordinate().getLine() < pacote.getCoordinateDestination().getLine())
+							{
+								acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                            pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
+	                            //pacote.setHops(pacote.getHops() + 1);
+	                            roteadores[i][j].setBaixo(false);
+	                                   
+	                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
+							}
+							else if(roteadores[i][j].isCima() && pacote.getCurrentCoordinate().getLine() > pacote.getCoordinateDestination().getLine())
+							{
+								acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                            pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
+	                            //pacote.setHops(pacote.getHops()+1);
+	                            roteadores[i][j].setCima(false);
+	                                   
+	                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);			
+							}
+							else
+							{
+								roteadores[i][j].addBufferAux(pacote);
+							}
 						}
-						else if(pacote.getCurrentCoordinate().getLine() < pacote.getCoordinateDestination().getLine())
-						{
-							acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
-                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
-                            pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
-                            //pacote.setHops(pacote.getHops() + 1);
-                                   
-                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
-						}
-						else if(pacote.getCurrentCoordinate().getLine() > pacote.getCoordinateDestination().getLine())
-						{
-							acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
-                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
-                            pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
-                            //pacote.setHops(pacote.getHops()+1);
-                                   
-                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);			
-						}
-					}
 				}
 	         }
 	    }

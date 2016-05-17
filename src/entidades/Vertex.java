@@ -63,7 +63,8 @@ public class Vertex implements Comparable<Vertex>
 		
 		return 0;
 	}
-  
+  	
+	
 	/*
 	 * Retorna o id do vértice
 	 */

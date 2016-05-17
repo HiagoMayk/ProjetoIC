@@ -272,8 +272,8 @@ public class Roteamento
 			}
 		}
 		
-		System.out.println("Hops do mais lento COM: " + result.getTotalHopsParalelismo());
-		System.out.println("Hops do mais lento SEM paralelismo:" + maiorSemParalelismo);
+		System.out.println("Latencia: " + result.getTotalHopsParalelismo());		
+		System.out.println("Latencia do mais lento SEM paralelismo:" + maiorSemParalelismo);
 		//System.out.println("Somatório de hops: " + result.getTotalHops());
 		System.out.println("Enlaces acessados: " + result.getTotalEnlaces());
 		System.out.println("Somatorio de acessos aos enlaces: " + result.totalUso(acumulator));
@@ -317,7 +317,7 @@ public class Roteamento
 		result.setTotalEnlaces(acumulator.getEnlace().size());
 		
 		//Total de hops: tempo total de entrega de todos os pacotes 
-		System.out.println("Hops: " + result.getTotalHops());
+		System.out.println("Latencia: " + result.getTotalHops());
 		
 		//Quantidade de enlaces: quatidade de enlaces usados: quantidade de enlaces que foram criados para transportar pacotes;
 		System.out.println("Enlaces acessados: " + result.getTotalEnlaces());

@@ -46,11 +46,13 @@ public class Result
 		return totalReuso;
 	}
 	
+	//Quantidade de vezes que os enlaces reutilizados foram acessados
 	public int totalReutilizado(Acumulator acumulator)
 	{
 		return totalUso(acumulator) - getTotalEnlaces();
 	}
 	
+	//Percentual da quantidade de vezes total de acesso aos enlaces reusados pelos acessos toral a todos os enlaces
 	public float calculaTaxaReuso(Acumulator acumulator)
 	{
 		return (100 * totalReutilizado(acumulator)) / totalUso(acumulator);
