@@ -46,6 +46,42 @@ public class Result
 		return totalReuso;
 	}
 	
+	public int totalUsoFlits(Acumulator acumulator)
+	{
+		int totalReuso = 0;
+		
+		for(Enlace e: acumulator.getEnlace())
+		{
+			totalReuso = totalReuso + e.getFlits();
+		}
+		
+		return totalReuso;
+	}
+	
+	/*
+	 * Pega a quantidde total de flits dos enlaces que foram reusados
+	 */
+	public int totalReutilizadoFlits(Acumulator acumulator)
+	{
+		int totalReuso = 0;
+		
+		for(Enlace e: acumulator.getEnlace())
+		{
+			if(e.getAcessos() > 1)
+			{
+				totalReuso = totalReuso + e.getFlits();
+			}
+		}
+		
+		return totalReuso;
+	}
+	
+	public float calculaTaxaReusoFlits(Acumulator acumulator)
+	{
+		return (100 * totalReutilizadoFlits(acumulator)) / totalUsoFlits(acumulator);
+	}
+
+	
 	//Quantidade de vezes que os enlaces reutilizados foram acessados
 	public int totalReutilizado(Acumulator acumulator)
 	{

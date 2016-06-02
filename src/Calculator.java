@@ -20,6 +20,7 @@ public class Calculator
 	public Processor mapeamento[][];
 	public PropostoV1 hmv1;
 	public PropostoV2 hmv2;
+	
 	public Calculator()
 	{
 		entrada = new Entrada();

@@ -33,6 +33,7 @@ public class Vertex implements Comparable<Vertex>
 	/*
 	// Observe que os retornos estão invertidos 
 	// Isso é para ordenar de forma decrescente
+ 	//maior no centro
 	public int compareTo(Vertex outraConta)
 	{
         if (this.degree < outraConta.degree)
@@ -49,6 +50,7 @@ public class Vertex implements Comparable<Vertex>
     */
 	
 	// Ordenar de forma crescente
+    // menor no centro
 	public int compareTo(Vertex outraConta)
 	{
 		if (this.degree < outraConta.degree)

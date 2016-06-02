@@ -2,6 +2,8 @@ package entidades;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * @author mayk
@@ -17,6 +19,10 @@ public class Router
 	private boolean esquerda;
 	private boolean cima;
 	private boolean baixo;
+	private int latenciaDireita;
+	private int latenciaEsquerda;
+	private int latenciaCima;
+	private int latenciaBaixo;
 	
 	public Router(Processor processor)
 	{
@@ -166,6 +172,46 @@ public class Router
 	    return count;
 	}
 	
+	public void incrementaLatencia()
+	{
+		int values[];
+		Iterator<Pacote> itr = bufferAux.iterator();
+	    while(itr.hasNext())
+	    {
+	        Pacote element = itr.next();
+	        values = new int[4];
+	        if(element.getCurrentCoordinate().getColumn() < element.getCoordinateDestination().getColumn())
+            {
+	        	values[0] = getLatenciaDireita();
+			}
+			else if(element.getCurrentCoordinate().getColumn() > element.getCoordinateDestination().getColumn())
+			{
+				values[1] = getLatenciaEsquerda();		
+			}
+			else if(element.getCurrentCoordinate().getLine() < element.getCoordinateDestination().getLine())
+			{
+				values[2] = getLatenciaBaixo();
+			}
+			else if(element.getCurrentCoordinate().getLine() > element.getCoordinateDestination().getLine())
+			{
+				values[3] = getLatenciaCima();
+			}
+	        
+	        Arrays.sort(values);
+
+	        for(int i = 0; i < 4; i++)
+	        {
+	        	if(values[i] != 0) 
+	        	{
+	        		element.setLatencia(element.getLatencia() + values[i]);
+	        		break;
+	        	}
+	        }
+	        //System.out.println(element.getLatencia());
+	        //System.exit(0);
+	     }
+	}
+	
 	public Pacote removeBufferOut()
 	{
 		if(bufferOut.size() == 0)
@@ -256,5 +302,54 @@ public class Router
 		this.baixo = baixo;
 	}
 	
+	public ArrayList<Pacote> getBufferAux() 
+	{
+		return bufferAux;
+	}
+
+	public int getLatenciaDireita()
+	{
+		return latenciaDireita;
+	}
+
+	public int getLatenciaEsquerda()
+	{
+		return latenciaEsquerda;
+	}
+
+	public int getLatenciaCima()
+	{
+		return latenciaCima;
+	}
+
+	public int getLatenciaBaixo()
+	{
+		return latenciaBaixo;
+	}
+
+	public void setBufferAux(ArrayList<Pacote> bufferAux) 
+	{
+		this.bufferAux = bufferAux;
+	}
+
+	public void setLatenciaDireita(int latencia_direita) 
+	{
+		this.latenciaDireita = latencia_direita;
+	}
+
+	public void setLatenciaEsquerda(int latencia_esquerda) 
+	{
+		this.latenciaEsquerda = latencia_esquerda;
+	}
+
+	public void setLatenciaCima(int latencia_cima) 
+	{
+		this.latenciaCima = latencia_cima;
+	}
+
+	public void setLatenciaBaixo(int latencia_baixo) 
+	{
+		this.latenciaBaixo = latencia_baixo;
+	}
 	
 }

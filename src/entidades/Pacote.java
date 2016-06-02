@@ -13,15 +13,18 @@ public class Pacote
 	private Processor source;
 	private Processor destination;
 	private int hops;
+	private int flits;
+	private int latencia;	
 	private ArrayList<Enlace> enlaces;
 
-	public Pacote(int priority, Processor source, Processor destination, int x, int y)
+	public Pacote(int priority, Processor source, Processor destination, int x, int y, int flits)
 	{
 		this.priority = priority;
 		this.source = source;
 		this.destination = destination;
 		this.currentCoordinate = new Coordinate(x, y);
 		this.enlaces = new ArrayList<Enlace>();
+		this.flits = flits;
 	}
 
 	public int getPriority() 
@@ -112,6 +115,26 @@ public class Pacote
 	public void setEnlaces(ArrayList<Enlace> enlaces) 
 	{
 		this.enlaces = enlaces;
+	}
+	
+	public int getFlits() 
+	{
+		return flits;
+	}
+
+	public void setFlits(int flits) 
+	{
+		this.flits = flits;
+	}
+	
+	public int getLatencia() 
+	{
+		return latencia;
+	}
+
+	public void setLatencia(int latencia) 
+	{
+		this.latencia = latencia;
 	}
 
 }

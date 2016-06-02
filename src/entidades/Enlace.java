@@ -5,6 +5,7 @@ public class Enlace
 	private int source;
 	private int destination;
 	private int acessos;
+	private int flits;
 	private Pacote pacote;
 	
 	public Enlace(int source, int destination)
@@ -28,6 +29,11 @@ public class Enlace
 		acessos++;
 	}
 	
+	public void incrementaFlits(int flits)
+	{
+		this.flits += flits;
+	}
+	
 	public int getAcessos()
 	{
 		return acessos;
@@ -46,5 +52,15 @@ public class Enlace
 	public void deletePacote()
 	{
 		this.pacote = null;
+	}
+	
+	public void setFlits(int flits)
+	{
+		this.flits = flits;
+	}
+	
+	public int getFlits()
+	{
+		return this.flits;
 	}
 }

@@ -35,7 +35,29 @@ public class Acumulator
 		}
 	}
 	
-	
+	/*
+	 * Incrementa o a quantidade de flits de um determinado enlace
+	 */
+	public void incrementaFlits(int i, int j, int flits)
+	{
+		boolean flag = false;
+		
+		for(Enlace e : enlace)
+		{
+			if((e.getSource() == i && e.getDestination() == j) || (e.getSource() == j && e.getDestination() == i))
+			{
+				e.incrementaFlits(flits);
+				flag = true;
+			}
+		}
+		
+		if(flag == false)
+		{
+			Enlace e = new Enlace(i, j);
+			e.incrementaFlits(flits);
+			enlace.add(e);
+		}
+	}
 	
 	public Enlace returnEnlace(int i, int j)
 	{

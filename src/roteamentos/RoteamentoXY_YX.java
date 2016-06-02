@@ -332,6 +332,16 @@ public class RoteamentoXY_YX extends Roteamento
 				for(int j = 0; j < colunas; j++)
 				{
 					//Aplica a troca dos pacotes entre os buffers
+					//insere os do in no out
+					roteadores[i][j].incrementaLatencia();
+				}
+			}
+			
+			for(int i = 0; i < linhas; i++)
+			{
+				for(int j = 0; j < colunas; j++)
+				{
+					//Aplica a troca dos pacotes entre os buffers
 					roteadores[i][j].changeBuffer();
 				}
 			}
@@ -355,6 +365,10 @@ public class RoteamentoXY_YX extends Roteamento
 					roteadores[i][j].setCima(true);
 					roteadores[i][j].setDireita(true);
 					roteadores[i][j].setEsquerda(true);
+					roteadores[i][j].setLatenciaDireita(0);
+					roteadores[i][j].setLatenciaEsquerda(0);
+					roteadores[i][j].setLatenciaBaixo(0);
+					roteadores[i][j].setLatenciaCima(0);
 					
 					while((roteadores[i][j].getBufferOut().size() > 0) && (roteadores[i][j].isBaixo() || roteadores[i][j].isCima() || roteadores[i][j].isDireita() || roteadores[i][j].isEsquerda()))
 					{
@@ -376,10 +390,16 @@ public class RoteamentoXY_YX extends Roteamento
 	                                   acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId()).getAcessos())) && roteadores[i][j].isDireita())
 	                                {
 	                                        acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
+	                                        acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId(), pacote.getFlits());
+
+	                                        
 	                                        pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn() + 1].getId());
 	                                        pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
 	                                        //pacote.setHops(pacote.getHops() + 1);
 	                                        roteadores[i][j].setDireita(false);
+	                                        roteadores[i][j].setLatenciaDireita(pacote.getFlits());
+	           	                         
+	        	                            pacote.setLatencia(pacote.getLatencia() + 1);
 	                                        
 	                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                }
@@ -391,10 +411,14 @@ public class RoteamentoXY_YX extends Roteamento
 	                                       acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId()).getAcessos())) && roteadores[i][j].isBaixo())
 	                                    {
 	                                           acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                                           acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId(), pacote.getFlits());
+	                                           
 	                                           pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
 	                                           pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
 	                                           //pacote.setHops(pacote.getHops() + 1); 
 	                                           roteadores[i][j].setBaixo(false);
+	                                           roteadores[i][j].setLatenciaBaixo(pacote.getFlits());
+		        	                           pacote.setLatencia(pacote.getLatencia() + 1);
 	                                           
 	                                           roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                    }
@@ -403,10 +427,14 @@ public class RoteamentoXY_YX extends Roteamento
 	                                        if(roteadores[i][j].isDireita())
 	                                        {
 	                                        	acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
-		                                        pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
+	                                        	acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId(), pacote.getFlits());
+
+	                                        	pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
 		                                        pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
 		                                        //pacote.setHops(pacote.getHops() + 1);    
 		                                        roteadores[i][j].setDireita(false);
+		                                        roteadores[i][j].setLatenciaDireita(pacote.getFlits());
+			        	                        pacote.setLatencia(pacote.getLatencia() + 1);
 		                                           
 		                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                        }
@@ -425,11 +453,16 @@ public class RoteamentoXY_YX extends Roteamento
 	                              acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId()).getAcessos())) && roteadores[i][j].isDireita())
 	                            {
 	                                    acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
+	                                    acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId(), pacote.getFlits());
+	                                    
 	                                    pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
 	                                    pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
 	                                    //pacote.setHops(pacote.getHops() + 1);  
 	                                    
 	                                    roteadores[i][j].setDireita(false);
+	                                    roteadores[i][j].setLatenciaDireita(pacote.getFlits());
+	        	                        pacote.setLatencia(pacote.getLatencia() + 1);
+	        	                        
 	                                    roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                            }
 	                            else
@@ -440,11 +473,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                        acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId()).getAcessos())) && roteadores[i][j].isCima())
 	                                         {
 	                                                   acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                                                   acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId(), pacote.getFlits());
+
 	                                                   pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
 	                                                   pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
 	                                                   //pacote.setHops(pacote.getHops() + 1);  
 	                                                   roteadores[i][j].setCima(false);
-	                                                   
+	                                                   roteadores[i][j].setLatenciaCima(pacote.getFlits());
+	    		        	                           pacote.setLatencia(pacote.getLatencia() + 1);
+	    		        	                           
 	                                                   roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                           }
 	                                           else
@@ -452,10 +489,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                        	   if(roteadores[i][j].isDireita())
 	                                        	   {
 	                                        		   acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
-	                                                   pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
+	                                        		   acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId(), pacote.getFlits());
+
+	                                        		   pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
 	                                                   pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
 	                                                   //pacote.setHops(pacote.getHops() + 1);     
 	                                                   roteadores[i][j].setDireita(false);
+	                                                   roteadores[i][j].setLatenciaDireita(pacote.getFlits());
+	    		        	                           pacote.setLatencia(pacote.getLatencia() + 1);
+	                                                   
 	                                                   roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                        	   }
 	                                        	   else
@@ -474,10 +516,14 @@ public class RoteamentoXY_YX extends Roteamento
 	                                         (acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId()).getAcessos())) && roteadores[i][j].isDireita())
 	                                       {
 	                                               acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
+	                                               acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId(), pacote.getFlits());
+
 	                                               pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
 	                                               pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
 	                                               //pacote.setHops(pacote.getHops() + 1);  
 	                                               roteadores[i][j].setDireita(false);
+	                                               roteadores[i][j].setLatenciaDireita(pacote.getFlits());
+			        	                           pacote.setLatencia(pacote.getLatencia() + 1);
 	                                               
 	                                               roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                       }
@@ -488,10 +534,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                                  (acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId()).getAcessos())) && roteadores[i][j].isBaixo())
 	                                               {
 	                                                       acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                                                       acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId(), pacote.getFlits());
+	                                                       
 	                                                       pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
 	                                                       pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);;
 	                                                       //pacote.setHops(pacote.getHops() + 1);
 	                                                       roteadores[i][j].setBaixo(false);
+	                                                       roteadores[i][j].setLatenciaBaixo(pacote.getFlits());
+	        		        	                           pacote.setLatencia(pacote.getLatencia() + 1);
+	        		        	                           
 	                                                       roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                               }
 	                                               else if((pacote.getCurrentCoordinate().getLine() > roteadores[i][j].getProcessor().getCoordinate().getLine()) &&
@@ -499,10 +550,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                                       (acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId()).getAcessos() < acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId()).getAcessos())) && roteadores[i][j].isCima())
 	                                               {
 	                                                       acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                                                       acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId(), pacote.getFlits());
+	                                                       
 	                                                       pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
 	                                                       pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
 	                                                       //pacote.setHops(pacote.getHops() + 1);   
 	                                                       roteadores[i][j].setCima(false);
+	                                                       roteadores[i][j].setLatenciaCima(pacote.getFlits());
+	        		        	                           pacote.setLatencia(pacote.getLatencia() + 1);
+	                                                       
 	                                                       roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                               }
 	                                               else
@@ -510,10 +566,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                            	   	   if(roteadores[i][j].isDireita())
 	                                            	   	   {
 	                                            	   		   acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
-		                                                       pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
+	                                            	   		   acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId(), pacote.getFlits());
+
+	                                            	   		   pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()+1].getId());
 		                                                       pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() + 1);
 		                                                       //pacote.setHops(pacote.getHops() + 1);   
 		                                                       roteadores[i][j].setDireita(false);
+		                                                       roteadores[i][j].setLatenciaDireita(pacote.getFlits());
+		        		        	                           pacote.setLatencia(pacote.getLatencia() + 1);
+		                                                       
 		                                                       roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                            	   	   }
 	                                            	   	   else
@@ -534,10 +595,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                (acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId()).getAcessos())) && roteadores[i][j].isEsquerda())
 	                                {
 	                        			acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
-	                                    pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
+	                        			acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId(), pacote.getFlits());
+
+	                        			pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
 	                                    pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
 	                                    //pacote.setHops(pacote.getHops() + 1);   
 	                                    roteadores[i][j].setEsquerda(false);
+	                                    roteadores[i][j].setLatenciaEsquerda(pacote.getFlits());
+	        	                        pacote.setLatencia(pacote.getLatencia() + 1);
+	        	                        
 	                                    roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                 }
 	                                 else
@@ -547,10 +613,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                    (acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId()).getAcessos())) && roteadores[i][j].isBaixo())
 	                                     {
 	                                     	acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
-	                                        pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                                     	acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId(), pacote.getFlits());
+
+	                                     	pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
 	                                        pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
 	                                        //pacote.setHops(pacote.getHops() + 1); 
 	                                        roteadores[i][j].setBaixo(false);
+	                                        roteadores[i][j].setLatenciaBaixo(pacote.getFlits());
+		        	                        pacote.setLatencia(pacote.getLatencia() + 1);
+		        	                           
 	                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                     }
 	                                     else
@@ -558,10 +629,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                    	 if(roteadores[i][j].isEsquerda())
 	                                    	 {
 	                                    		acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
-	 	                                        pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
+	                                    		acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId(), pacote.getFlits());
+
+	                                    		pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
 	 	                                        pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);;
 	 	                                        //pacote.setHops(pacote.getHops() + 1); 
 	 	                                        roteadores[i][j].setEsquerda(false);
+	 	                                        roteadores[i][j].setLatenciaEsquerda(pacote.getFlits());
+	 	                                       
+		        	                            pacote.setLatencia(pacote.getLatencia() + 1);
 	 	                                        roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                    	 }
 	                                    	 else
@@ -578,10 +654,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                 (acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId()).getAcessos()))  && roteadores[i][j].isEsquerda())
 	                                 {
 	                            		 acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
-	                                     pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
+	                            		 acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId(), pacote.getFlits());
+	                            		 
+	                            		 pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
 	                                     pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
 	                                     //pacote.setHops(pacote.getHops() + 1);          
 	                                     roteadores[i][j].setEsquerda(false);
+	                                     roteadores[i][j].setLatenciaEsquerda(pacote.getFlits());
+	        	                         pacote.setLatencia(pacote.getLatencia() + 1);
+	        	                           
 	                                     roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                  }
 	                                  else
@@ -591,10 +672,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                      (acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId()).getAcessos()  < acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId()).getAcessos())) && roteadores[i][j].isBaixo())
 	                                      {
 	                                		  acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
-	                                          pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                                		  acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId(), pacote.getFlits());
+
+	                                		  pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
 	                                          pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
 	                                          //pacote.setHops(pacote.getHops() + 1);  
 	                                          roteadores[i][j].setBaixo(false);
+	                                          roteadores[i][j].setLatenciaBaixo(pacote.getFlits());
+		        	                          pacote.setLatencia(pacote.getLatencia() + 1);
+	                                          
 	                                          roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                   }
 	                                	  else
@@ -602,10 +688,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                		  if(roteadores[i][j].isEsquerda())
 	                                		  {
 	                                			  	acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
-	      	                                    	pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
+	                                			  	acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId(), pacote.getFlits());
+
+	                                			  	pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
 	      	                                    	pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
 	      	                                    	//pacote.setHops(pacote.getHops() + 1); 
 	      	                                    	roteadores[i][j].setEsquerda(false);
+	      	                                    	roteadores[i][j].setLatenciaEsquerda(pacote.getFlits());
+	 		        	                            pacote.setLatencia(pacote.getLatencia() + 1);
+	      	                                    	
 	      	                                    	roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                		  }
 	                                		  else
@@ -624,10 +715,16 @@ public class RoteamentoXY_YX extends Roteamento
 	                            (acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId()).getAcessos() <= acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId()).getAcessos())) && roteadores[i][j].isEsquerda())
 	                            {
 	                        		acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
-	                                pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
+	                        		acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId(), pacote.getFlits());
+
+	                        		pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
 	                                pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
 	                                //pacote.setHops(pacote.getHops() + 1);  
-	                                roteadores[i][j].setEsquerda(false);    
+	                                roteadores[i][j].setEsquerda(false);
+	                                roteadores[i][j].setLatenciaEsquerda(pacote.getFlits());
+	                                
+     	                            pacote.setLatencia(pacote.getLatencia() + 1);
+	                                
 	                                roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                            }
 	                            else
@@ -637,10 +734,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                (acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId()).getAcessos() < acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId()).getAcessos())) && roteadores[i][j].isBaixo())
 	                                {
 	                            		acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
-	                                    pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                            		acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId(), pacote.getFlits());
+
+	                            		pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
 	                                    pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
 	                                    //pacote.setHops(pacote.getHops() + 1);  
 	                                    roteadores[i][j].setBaixo(false);
+	                                    roteadores[i][j].setLatenciaBaixo(pacote.getFlits());
+	        	                        pacote.setLatencia(pacote.getLatencia() + 1);
+	                                    
 	                                    roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                 }
 	                                 else if((pacote.getCurrentCoordinate().getLine() > pacote.getCoordinateDestination().getLine()) &&
@@ -648,10 +750,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                		(acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId()).getAcessos() < acumulator.returnEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId()).getAcessos())) && roteadores[i][j].isCima())
 	                                 		{
 	                                	 		acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
-	                                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                                	 		acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId(), pacote.getFlits());
+
+	                                	 		pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
 	                                            pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
 	                                            //pacote.setHops(pacote.getHops() + 1);     
 	                                            roteadores[i][j].setCima(false);
+	                                            roteadores[i][j].setLatenciaCima(pacote.getFlits());
+			        	                        pacote.setLatencia(pacote.getLatencia() + 1);
+	                                            
 	                                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                         }
 	                                         else
@@ -659,10 +766,15 @@ public class RoteamentoXY_YX extends Roteamento
 	                                        	 if(roteadores[i][j].isEsquerda())
 	                                        	 {
 	                                        		 acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
-		                                             pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
+	                                        		 acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId(), pacote.getFlits());
+
+	                                        		 pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()-1].getId());
 		                                             pacote.getCurrentCoordinate().setColumn(pacote.getCurrentCoordinate().getColumn() - 1);
 		                                             //pacote.setHops(pacote.getHops() + 1);    
 		                                             roteadores[i][j].setEsquerda(false);
+		                                             roteadores[i][j].setLatenciaEsquerda(pacote.getFlits());
+				        	                         pacote.setLatencia(pacote.getLatencia() + 1);
+		                                             
 		                                             roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                                        	 }
 	                                        	 else
@@ -676,19 +788,29 @@ public class RoteamentoXY_YX extends Roteamento
 	                        else if(pacote.getCurrentCoordinate().getLine() < pacote.getCoordinateDestination().getLine() && roteadores[i][j].isBaixo())
 	                        {
 	                        	acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
-	                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                        	acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId(), pacote.getFlits());
+
+	                        	pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()+1][pacote.getCurrentCoordinate().getColumn()].getId());
 	                            pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() + 1);
 	                            //pacote.setHops(pacote.getHops() + 1);
 	                            roteadores[i][j].setBaixo(false);
+	                            roteadores[i][j].setLatenciaBaixo(pacote.getFlits());
+ 	                            pacote.setLatencia(pacote.getLatencia() + 1);
+	                            
 	                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                        }
 	                        else if(pacote.getCurrentCoordinate().getLine() > pacote.getCoordinateDestination().getLine() && roteadores[i][j].isCima())
 	                        {
 	                        	acumulator.incrementaEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
-	                            pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
+	                        	acumulator.incrementaFlits(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId(), pacote.getFlits());
+
+	                        	pacote.addEnlace(mapeamento[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].getId(), mapeamento[pacote.getCurrentCoordinate().getLine()-1][pacote.getCurrentCoordinate().getColumn()].getId());
 	                            pacote.getCurrentCoordinate().setLine(pacote.getCurrentCoordinate().getLine() - 1);
 	                            //pacote.setHops(pacote.getHops()+1);
 	                            roteadores[i][j].setCima(false);
+	                            roteadores[i][j].setLatenciaCima(pacote.getFlits());
+ 	                            pacote.setLatencia(pacote.getLatencia() + 1);
+	                            
 	                            roteadores[pacote.getCurrentCoordinate().getLine()][pacote.getCurrentCoordinate().getColumn()].addBufferIn(pacote);
 	                        }
 	                        else

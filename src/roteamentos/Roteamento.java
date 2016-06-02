@@ -46,9 +46,9 @@ public class Roteamento
 	/*
 	 * Pega todos os processoa para o qual o processo passado como parâmetro manda pacotes
 	 */
-	public ArrayList<Processor> comunicateTo(Processor proc)
+	public ArrayList<Comunica> comunicateTo(Processor proc)
 	{
-		ArrayList<Processor> procs = new ArrayList<Processor>();
+		ArrayList<Comunica> procs = new ArrayList<Comunica>();
 		
 		//Para toda comunicação existste
 		for(Edge e : grafo.getEdges())
@@ -65,7 +65,7 @@ public class Roteamento
 					{
 						if(mapeamento[i][j].getVertex() != null && mapeamento[i][j].getVertex().getId() == e.getDestination().getId())
 						{
-							procs.add(mapeamento[i][j]);
+							procs.add(new Comunica(mapeamento[i][j], e.getWeight()));
 						}
 					}
 				}
@@ -200,8 +200,7 @@ public class Roteamento
 				roteadores[i][j] = new Router(mapeamento[i][j]);
 				if(mapeamento[i][j].getVertex() != null)
 				{
-					ArrayList<Processor> comunica = new ArrayList<Processor>();
-					comunica = comunicateTo(roteadores[i][j].getProcessor());
+					ArrayList<Comunica> comunica = comunicateTo(roteadores[i][j].getProcessor());
 					
 					//Pode ocorrer a existencia de processos que não  enviam mensagens
 					if(comunica.size() > 0)
@@ -213,7 +212,7 @@ public class Roteamento
 								//Contrutur de Pacote: 
 								//Pacote(int priority, Processor source, Processor destination, int x, int y)
 								//System.out.println(roteadores[i][j].getProcessor().getVertex().getName() + " ====== " + comunica.size() + " ====== " + roteadores[i][j].getProcessor().getVertex().getOutdegree() );
-								Pacote pacote = new Pacote(roteadores[i][j].getProcessor().getVertex().getOutdegree(), roteadores[i][j].getProcessor(), comunica.get(k), i, j);
+								Pacote pacote = new Pacote(roteadores[i][j].getProcessor().getVertex().getOutdegree(), roteadores[i][j].getProcessor(), comunica.get(k).getProc(), i, j, comunica.get(k).getPeso());
 								
 								//Assumimos aqui também que um processo pode enviar mensagem para ele mesmo
 								roteadores[i][j].addBufferIn(pacote);
@@ -233,20 +232,32 @@ public class Roteamento
 	{
 		result = new  Result();
 		int hopAcumulator = 0;
-		int maior = 0;
+		int maiorLatencia = 0;
+		int maiorHop = 0;
 		int maiorSemParalelismo = 0;
-		Pacote pacote = null;
+		int totalFlits = 0;
+		Pacote pacote1 = null;
+		Pacote pacote2 = null;
+		int totalLatencia = 0;
 		/*System.out.println();
 		System.out.println("Caminhos percorridos e total de hops: ");*/
 		for(Pacote e : pacotes)
 		{
-			  //System.out.println(e.getSource().getName() + "\t" + "-" + "\t" + e.getDestination().getName() + "\t" + "->" + "\t" + e.getWeight() + "\t Hops: " +  e.getHops());
+			  System.out.println(e.getSource().getVertex().getName() + "\t" + "-" + "\t" + e.getDestination().getVertex().getName() + "\t" + "->" + "\t" + e.getFlits() + "\t Hops: " +  e.getHops() + "\t Latencia: " + e.getLatencia());
 			  
 			  hopAcumulator += e.getHops();
-			  if(e.getHops() > maior)
+			  totalFlits += e.getFlits();
+			  totalLatencia += e.getLatencia();
+			  if(e.getLatencia() > maiorLatencia)
 			  {
-				  maior = e.getHops(); 
-				  pacote = e;
+				  maiorLatencia = e.getLatencia();
+				  pacote1 = e;
+			  }
+			  
+			  if(e.getHops() > maiorHop)
+			  {
+				  maiorHop = e.getHops();
+				  pacote2 = e;
 			  }
 			  
 			  /*
@@ -262,8 +273,8 @@ public class Roteamento
 		
 		result.setTotalHops(hopAcumulator);
 		result.setTotalEnlaces(acumulator.getEnlace().size());
-		result.setTotalHopsParalelismo(maior);
-		
+		//result.setTotalHopsParalelismo(maior);
+		/*
 		for(Edge e : edges)
 		{
 			if(pacote.getSource().getVertex().getId() == e.getSource().getId() && pacote.getDestination().getVertex().getId() == e.getDestination().getId())
@@ -271,15 +282,42 @@ public class Roteamento
 				maiorSemParalelismo = e.getHops();
 			}
 		}
+		*/
 		
-		System.out.println("Latencia: " + result.getTotalHopsParalelismo());		
-		System.out.println("Latencia do mais lento SEM paralelismo:" + maiorSemParalelismo);
+		System.out.println("(Pacote maior latencia) Lantencia: " + pacote1.getLatencia());
+		System.out.println("(Pacote maior latencia) Hops: " + pacote1.getHops());
+		System.out.println("(Pacote maior hop) Lantencia: " + pacote2.getLatencia());
+		System.out.println("(Pacote maior hop) Hops: " + pacote2.getHops());
+		System.out.println("Somatório das latencias: " + totalLatencia);
+		System.out.println("Latencia Média: " + (totalLatencia / pacotes.size()));
+		//System.out.println("Hops do mais lento (com atraso) SEM paralelismo:" + maiorSemParalelismo);
 		//System.out.println("Somatório de hops: " + result.getTotalHops());
 		System.out.println("Enlaces acessados: " + result.getTotalEnlaces());
 		System.out.println("Somatorio de acessos aos enlaces: " + result.totalUso(acumulator));
 		System.out.println("Enlaces reusados: " + result.totalReuso(acumulator));
 		System.out.println("Reuso dos enlaces: " + result.totalReutilizado(acumulator));
 		System.out.println("Taxa de reuso dos enlaces: " + result.calculaTaxaReuso(acumulator) + "%");
+	
+		System.out.println("Total Flits:" + totalFlits);
+		System.out.println("Somatorio de acessos aos enlaces (em flits): " + result.totalUsoFlits(acumulator));
+		System.out.println("Reuso dos enlaces (em flits): " + result.totalReutilizadoFlits(acumulator));
+		System.out.println("Taxa de reuso dos enlaces (em flits): " + result.calculaTaxaReusoFlits(acumulator) + "%");
+		
+		/*
+		System.out.println(result.getTotalHopsParalelismo());		
+		System.out.println(maiorSemParalelismo);
+		//System.out.println("Somatório de hops: " + result.getTotalHops());
+		System.out.println(result.getTotalEnlaces());
+		System.out.println(result.totalUso(acumulator));
+		System.out.println(result.totalReuso(acumulator));
+		System.out.println(result.totalReutilizado(acumulator));
+		System.out.println(result.calculaTaxaReuso(acumulator) + "%");
+		System.out.println(totalFlits);
+		System.out.println(result.totalUsoFlits(acumulator));
+		System.out.println(result.totalReutilizadoFlits(acumulator));
+		System.out.println(result.calculaTaxaReusoFlits(acumulator) + "%");
+		*/
+		
 	}
 	
 	/*
