@@ -284,6 +284,27 @@ public class Roteamento
 		}
 		*/
 		
+		/*
+		System.out.println("(Pacote maior latencia) Lantencia: " + pacote1.getLatencia());
+		System.out.println("(Pacote maior latencia) Hops: " + pacote1.getHops());
+		System.out.println("(Pacote maior hop) Lantencia: " + pacote2.getLatencia());
+		System.out.println("(Pacote maior hop) Hops: " + pacote2.getHops());
+		System.out.println("Somatório das latencias: " + totalLatencia);
+		System.out.println("Latencia Média: " + (totalLatencia / pacotes.size()));
+		//System.out.println("Hops do mais lento (com atraso) SEM paralelismo:" + maiorSemParalelismo);
+		//System.out.println("Somatório de hops: " + result.getTotalHops());
+		System.out.println("Enlaces acessados: " + result.getTotalEnlaces());
+		System.out.println("Somatorio de acessos aos enlaces: " + result.totalUso(acumulator));
+		System.out.println("Enlaces reusados: " + result.totalReuso(acumulator));
+		System.out.println("Reuso dos enlaces: " + result.totalReutilizado(acumulator));
+		System.out.println("Taxa de reuso dos enlaces: " + result.calculaTaxaReuso(acumulator) + "%");
+	
+		System.out.println("Total Flits:" + totalFlits);
+		System.out.println("Somatorio de acessos aos enlaces (em flits): " + result.totalUsoFlits(acumulator));
+		System.out.println("Reuso dos enlaces (em flits): " + result.totalReutilizadoFlits(acumulator));
+		System.out.println("Taxa de reuso dos enlaces (em flits): " + result.calculaTaxaReusoFlits(acumulator) + "%");
+		*/
+		
 		System.out.println("(Pacote maior latencia) Lantencia: " + pacote1.getLatencia());
 		System.out.println("(Pacote maior latencia) Hops: " + pacote1.getHops());
 		System.out.println("(Pacote maior hop) Lantencia: " + pacote2.getLatencia());
@@ -303,20 +324,6 @@ public class Roteamento
 		System.out.println("Reuso dos enlaces (em flits): " + result.totalReutilizadoFlits(acumulator));
 		System.out.println("Taxa de reuso dos enlaces (em flits): " + result.calculaTaxaReusoFlits(acumulator) + "%");
 		
-		/*
-		System.out.println(result.getTotalHopsParalelismo());		
-		System.out.println(maiorSemParalelismo);
-		//System.out.println("Somatório de hops: " + result.getTotalHops());
-		System.out.println(result.getTotalEnlaces());
-		System.out.println(result.totalUso(acumulator));
-		System.out.println(result.totalReuso(acumulator));
-		System.out.println(result.totalReutilizado(acumulator));
-		System.out.println(result.calculaTaxaReuso(acumulator) + "%");
-		System.out.println(totalFlits);
-		System.out.println(result.totalUsoFlits(acumulator));
-		System.out.println(result.totalReutilizadoFlits(acumulator));
-		System.out.println(result.calculaTaxaReusoFlits(acumulator) + "%");
-		*/
 		
 	}
 	

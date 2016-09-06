@@ -67,7 +67,7 @@ public class Calculator
 					grafo.setEdges(copyEdgers);
 					
 					//getMapeamento(lin, col, copyEdgers);
-					//printMapeamento(lin, col);
+					printMapeamento(lin, col);
 					executaRotemento(lin, col);
 					
 					System.out.print(">>>");
@@ -79,7 +79,7 @@ public class Calculator
 					 
 					 //printTasks();
 					 //printComunications();
-					 
+					
 					 //Usado para copiar somente os valores e não a instância dos edges
 					 copyEdgers = new ArrayList<Edge>();
 					 copyEdgers = grafo.copyEdgers(grafo.getEdges());
