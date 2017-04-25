@@ -1,0 +1,91 @@
+========================================
+1        Mapeamento por console
+2        Mapeamento padrão V1
+3        Mapeamento padrão V2
+0        Sair
+>>>3
+Digite o grafo de entrada:
+
+6
+5
+0 1 190
+0 2 310
+0 3 330
+1 4 190
+4 5 190
+Digite a quantidade de linhas e colunas da rede:
+4
+4
+========================================
+1        Rotemento XY Full
+2        Rotemento XY By Step
+3        Rotemento XY_YX Full
+4        Rotemento XY_YX By Step
+5        Rotemento XY e XY_YX By Step
+6        Todos
+>>>6
+3   1   0   3
+4   4   6   7
+5   9   2   11
+12  1   14  15
+
+ALGORITMO XY FULL:
+Latencia: 12
+Enlaces acessados: 9
+Somatorio de acessos aos enlaces: 12
+Enlaces reusados: 3
+Acessos aos enlaces reusados: 3
+Taxa de reuso dos enlaces: 25.0%
+
+ALGORITMO XY BY STEP:
+0   -   1   ->  190  Hops: 4     Latencia: 4
+0   -   2   ->  310  Hops: 2     Latencia: 2
+0   -   3   ->  330  Hops: 3     Latencia: 192
+4   -   5   ->  190  Hops: 2     Latencia: 2
+1   -   4   ->  190  Hops: 2     Latencia: 2
+(Pacote maior latencia) Lantencia: 192
+(Pacote maior latencia) Hops: 3
+(Pacote maior hop) Lantencia: 4
+(Pacote maior hop) Hops: 4
+Somatório das latencias: 202
+Latencia Média: 40
+Enlaces acessados: 9
+Somatorio de acessos aos enlaces: 12
+Enlaces reusados: 3
+Reuso dos enlaces: 3
+Taxa de reuso dos enlaces: 25.0%
+Total Flits:1210
+Somatorio de acessos aos enlaces (em flits): 2800
+Reuso dos enlaces (em flits): 1280
+Taxa de reuso dos enlaces (em flits): 45.0%
+
+ALGORITMO XY_YX FULL:
+Latencia: 12
+Enlaces acessados: 9
+Somatorio de acessos aos enlaces: 12
+Enlaces reusados: 3
+Acessos aos enlaces reusados: 3
+Taxa de reuso dos enlaces: 25.0%
+
+ALGORITMO XY_YX BY STEP:
+0   -   1   ->  190  Hops: 4     Latencia: 4
+0   -   2   ->  310  Hops: 2     Latencia: 2
+0   -   3   ->  330  Hops: 3     Latencia: 192
+4   -   5   ->  190  Hops: 2     Latencia: 2
+1   -   4   ->  190  Hops: 2     Latencia: 2
+(Pacote maior latencia) Lantencia: 192
+(Pacote maior latencia) Hops: 3
+(Pacote maior hop) Lantencia: 4
+(Pacote maior hop) Hops: 4
+Somatório das latencias: 202
+Latencia Média: 40
+Enlaces acessados: 9
+Somatorio de acessos aos enlaces: 12
+Enlaces reusados: 3
+Reuso dos enlaces: 3
+Taxa de reuso dos enlaces: 25.0%
+Total Flits:1210
+Somatorio de acessos aos enlaces (em flits): 2800
+Reuso dos enlaces (em flits): 1280
+Taxa de reuso dos enlaces (em flits): 45.0%
+>>>

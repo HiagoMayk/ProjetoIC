@@ -1,5 +1,7 @@
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import entidades.Edge;
@@ -12,6 +14,7 @@ import inputOuput.Entrada;
 import main.java.com.rits.cloning.Cloner;
 import mapeamentos.PropostoV1;
 import mapeamentos.PropostoV2;
+
 
 public class Calculator
 {	
@@ -439,4 +442,5 @@ public class Calculator
 		  
 		  c.init();
 	}
+
 }
