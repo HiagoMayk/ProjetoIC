@@ -6,6 +6,7 @@ import entidades.Edge;
 import entidades.Processor;
 import entidades.Vertex;
 
+// V1 Descrescente
 public class PropostoV1 extends PropostoHM
 {
 	public PropostoV1(List<Vertex> procs, List<Edge> comunications) {

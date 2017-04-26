@@ -14,6 +14,7 @@ import inputOuput.Entrada;
 import main.java.com.rits.cloning.Cloner;
 import mapeamentos.PropostoV1;
 import mapeamentos.PropostoV2;
+import mapeamentos.Sequencial;
 
 
 public class Calculator
@@ -23,6 +24,7 @@ public class Calculator
 	public Processor mapeamento[][];
 	public PropostoV1 hmv1;
 	public PropostoV2 hmv2;
+	public Sequencial seq;
 	
 	public Calculator()
 	{
@@ -41,6 +43,7 @@ public class Calculator
 			System.out.println("1 \t \t Mapeamento por console");
 			System.out.println("2 \t \t Mapeamento padrão V1");
 			System.out.println("3 \t \t Mapeamento padrão V2");
+			System.out.println("4 \t \t Mapeamento Sequencial");
 			System.out.println("0 \t \t Sair");
 			System.out.print(">>>");
 			 
@@ -127,6 +130,31 @@ public class Calculator
 					 opcao = sc.nextInt();
 					 break;
 					 
+				case 4:
+					grafo = entrada.lerGrafo();
+					 
+					 //printTasks();
+					 //printComunications();
+					 
+					 //Usado para copiar somente os valores e não a instância dos edges
+					 copyEdgers = new ArrayList<Edge>();
+					 copyEdgers = grafo.copyEdgers(grafo.getEdges());
+					 
+					 //Instancia o mapeamento Sequencial
+					 seq = new Sequencial(grafo.getVertexes(), grafo.getEdges());
+					  
+					 System.out.println("Digite a quantidade de linhas e colunas da rede: ");
+					
+					 lin = sc.nextInt();
+					 col = sc.nextInt();
+					 getMapeamentoSequencial(lin, col, copyEdgers);
+					 //printMapeamento(lin, col);
+					 executaRotemento(lin, col);
+					 
+					 System.out.print(">>>");
+					 opcao = sc.nextInt();
+					 break;
+				
 				case 0:
 					System.exit(0);
 			}
@@ -151,6 +179,19 @@ public class Calculator
 		if(lin * col >= grafo.getVertexes().size())
 		{
 			  mapeamento = hmv2.execute(lin, col);
+			  grafo.setEdges(copyEdgers);
+		 }
+		 else
+		 {
+			 System.out.println("Número de processos maior que o de processadores!");
+		 }
+	}
+	
+	public void getMapeamentoSequencial(int lin, int col, ArrayList<Edge> copyEdgers)
+	{
+		if(lin * col >= grafo.getVertexes().size())
+		{
+			  mapeamento = seq.execute(lin, col);
 			  grafo.setEdges(copyEdgers);
 		 }
 		 else

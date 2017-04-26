@@ -1,0 +1,122 @@
+========================================
+1        Mapeamento por console
+2        Mapeamento padrão V1
+3        Mapeamento padrão V2
+0        Sair
+>>>3
+Digite o grafo de entrada:
+
+13
+14
+0   1   10
+1   2   10
+1   3   100
+1   4   10
+1   5   600
+1   6   100
+1   8   100
+1   9   400
+5   7   100
+6   7   100
+8   10 200
+9   10 450
+10 11 680
+10 12 240
+Digite a quantidade de linhas e colunas da rede:
+8
+8
+========================================
+1        Rotemento XY Full
+2        Rotemento XY By Step
+3        Rotemento XY_YX Full
+4        Rotemento XY_YX By Step
+5        Rotemento XY e XY_YX By Step
+6        Todos
+>>>6
+5   1   2   3   1   5   6   7
+8   9   10  8   12  13  14  15
+12  17  18  19  11  21  22  23
+24  25  26  6   28  29  30  4
+7   33  34  35  0   37  38  39
+40  41  42  43  44  45  46  47
+9   49  50  51  10  53  54  55
+56  57  58  2   60  61  62  3
+
+ALGORITMO XY FULL:
+Latencia: 78
+Enlaces acessados: 41
+Somatorio de acessos aos enlaces: 78
+Enlaces reusados: 28
+Acessos aos enlaces reusados: 37
+Taxa de reuso dos enlaces: 47.0%
+
+ALGORITMO XY BY STEP:
+5   -   7   ->  100  Hops: 4     Latencia: 4
+1   -   2   ->  10   Hops: 8     Latencia: 8
+1   -   3   ->  100  Hops: 10    Latencia: 10
+1   -   4   ->  10   Hops: 7     Latencia: 106
+1   -   5   ->  600  Hops: 5     Latencia: 14
+1   -   6   ->  100  Hops: 5     Latencia: 14
+1   -   8   ->  100  Hops: 4     Latencia: 612
+1   -   9   ->  400  Hops: 12    Latencia: 620
+8   -   10  ->  200  Hops: 6     Latencia: 6
+6   -   7   ->  100  Hops: 5     Latencia: 104
+0   -   1   ->  10   Hops: 4     Latencia: 4
+9   -   10  ->  450  Hops: 4     Latencia: 4
+10  -   11  ->  680  Hops: 4     Latencia: 4
+10  -   12  ->  240  Hops: 8     Latencia: 8
+(Pacote maior latencia) Lantencia: 620
+(Pacote maior latencia) Hops: 12
+(Pacote maior hop) Lantencia: 620
+(Pacote maior hop) Hops: 12
+Somatório das latencias: 1518
+Latencia Média: 108
+Enlaces acessados: 47
+Somatorio de acessos aos enlaces: 78
+Enlaces reusados: 22
+Reuso dos enlaces: 31
+Taxa de reuso dos enlaces: 39.0%
+Total Flits:3100
+Somatorio de acessos aos enlaces (em flits): 16620
+Reuso dos enlaces (em flits): 12350
+Taxa de reuso dos enlaces (em flits): 74.0%
+
+ALGORITMO XY_YX FULL:
+Latencia: 78
+Enlaces acessados: 50
+Somatorio de acessos aos enlaces: 78
+Enlaces reusados: 20
+Acessos aos enlaces reusados: 28
+Taxa de reuso dos enlaces: 35.0%
+
+ALGORITMO XY_YX BY STEP:
+5   -   7   ->  100  Hops: 4     Latencia: 4
+1   -   2   ->  10   Hops: 8     Latencia: 8
+1   -   3   ->  100  Hops: 10    Latencia: 10
+1   -   4   ->  10   Hops: 7     Latencia: 106
+1   -   5   ->  600  Hops: 5     Latencia: 14
+1   -   6   ->  100  Hops: 5     Latencia: 14
+1   -   8   ->  100  Hops: 4     Latencia: 612
+1   -   9   ->  400  Hops: 12    Latencia: 620
+8   -   10  ->  200  Hops: 6     Latencia: 6
+6   -   7   ->  100  Hops: 5     Latencia: 104
+0   -   1   ->  10   Hops: 4     Latencia: 4
+9   -   10  ->  450  Hops: 4     Latencia: 4
+10  -   11  ->  680  Hops: 4     Latencia: 4
+10  -   12  ->  240  Hops: 8     Latencia: 8
+(Pacote maior latencia) Lantencia: 620
+(Pacote maior latencia) Hops: 12
+(Pacote maior hop) Lantencia: 620
+(Pacote maior hop) Hops: 12
+Somatório das latencias: 1518
+Latencia Média: 108
+Enlaces acessados: 50
+Somatorio de acessos aos enlaces: 78
+Enlaces reusados: 19
+Reuso dos enlaces: 28
+Taxa de reuso dos enlaces: 35.0%
+Total Flits:3100
+Somatorio de acessos aos enlaces (em flits): 16620
+Reuso dos enlaces (em flits): 10330
+Taxa de reuso dos enlaces (em flits): 62.0%
+>>>
