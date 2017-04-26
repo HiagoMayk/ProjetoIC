@@ -44,6 +44,7 @@ public class Calculator
 			System.out.println("2 \t \t Mapeamento padrão V1");
 			System.out.println("3 \t \t Mapeamento padrão V2");
 			System.out.println("4 \t \t Mapeamento Sequencial");
+			System.out.println("5 \t \t Mapeamento por arquivo (caso especial)");
 			System.out.println("0 \t \t Sair");
 			System.out.print(">>>");
 			 
@@ -155,6 +156,34 @@ public class Calculator
 					 opcao = sc.nextInt();
 					 break;
 				
+				case 5:
+					grafo = entrada.lerGrafo();
+					 
+					//printTasks();
+					//printComunications();
+					 
+					System.out.println("Digite a quantidade de linhas e colunas da rede: ");
+					
+					lin = sc.nextInt();
+					col = sc.nextInt();
+					
+					//copyEdgers = new ArrayList<Edge>();
+					//copyEdgers = grafo.copyEdgers(grafo.getEdges());
+					
+					//Instancia o mapeamento proposto
+					//mapeamento = entrada.lerMapConsole(grafo.getVertexes(), lin, col);
+					entrada.lerMapsArquivo(grafo.getVertexes(), lin, col);
+					
+					//grafo.setEdges(copyEdgers);
+					
+					//getMapeamento(lin, col, copyEdgers);
+					//printMapeamento(lin, col);
+					//executaRotemento(lin, col);
+					
+					//System.out.print(">>>");
+					//opcao = sc.nextInt();
+					break;
+					
 				case 0:
 					System.exit(0);
 			}

@@ -21,8 +21,8 @@ def inputFile():
     la = []
     lb = []
 
-    arq_a = open("ResultadosTCC/V2/16/Table/table_xy.txt", 'a')
-    arq_b = open("ResultadosTCC/V2/16/Table/table_xy_yx.txt", 'a')
+    arq_a = open("ResultadosTCC/Sequencial/64/Table/table_xy.txt", 'a')
+    arq_b = open("ResultadosTCC/Sequencial/64/Table/table_xy_yx.txt", 'a')
 
     for line in fileinput.input():
         if flag == 0:

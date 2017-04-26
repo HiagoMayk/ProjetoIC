@@ -84,7 +84,7 @@ public class Sequencial
 				}
 			}
 		}
-		printNetwork();
+		//printNetwork();
 		return network;
 	}
 	

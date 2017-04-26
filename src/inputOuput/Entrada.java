@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import entidades.Edge;
 import entidades.Graph;
 import entidades.Processor;
@@ -205,6 +209,43 @@ public class Entrada
 		}
 
 		return network;
+	}
+	
+	/*
+	 * Ler o mapeamento dos processadores na rede por arquivo
+	 * Ler uma sequencia de papeamentos e aplica as métricas sobre ele dando as médias gerais
+	 * Retorna um ArrayList de Mapeamentos de 
+	 */
+	public void lerMapsArquivo(List<Vertex> nodes, int l, int c)
+	{
+		//System.out.printf("Informe o nome de arquivo texto:\n");
+	    //String nome = sc.nextLine();
+
+	    System.out.printf("\nConteúdo do arquivo texto:\n");
+	    try 
+	    {
+	    	FileReader arq = new FileReader("/home/mayk/Documentos/Workspace/ProjetoIC/InstanciasTCC/pipe.in");
+	     	BufferedReader lerArq = new BufferedReader(arq);
+	 
+	     	String linha = lerArq.readLine(); // lê a primeira linha
+	     	// a variável "linha" recebe o valor "null" quando o processo
+	     	// de repetição atingir o final do arquivo texto
+	     	while (linha != null) 
+	     	{
+	     		System.out.printf("%s\n", linha);
+	 
+	     		linha = lerArq.readLine(); // lê da segunda até a última linha
+	     	}
+	 
+	     	arq.close();
+	    } 
+	    catch (IOException e) 
+	    {
+	    	System.err.printf("Erro na abertura do arquivo: %s.\n",
+	    	e.getMessage());
+	    }
+	 
+	    System.out.println();
 	}
 	
 	public int getLinhasMap()
