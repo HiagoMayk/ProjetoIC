@@ -27,9 +27,9 @@ public class PropostoHM
 		this.procs = (ArrayList<Vertex>) procs;
 	}
 	
-	public Processor[][] criateNetwork(int linhas, int colunas)
+	public Processor[][] createNetwork(int linhas, int colunas)
 	{
-		int id = 0;
+		int id = 1; // Identificador dos processadores
 		
 		Processor network[][] = new Processor [linhas][colunas];
 		

@@ -6,9 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+// Para ler de arquivos
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
+// Para gravar em arquivos
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 import entidades.Edge;
 import entidades.Graph;
@@ -216,15 +221,15 @@ public class Entrada
 	 * Ler uma sequencia de papeamentos e aplica as métricas sobre ele dando as médias gerais
 	 * Retorna um ArrayList de Mapeamentos de 
 	 */
-	public void lerMapsArquivo(List<Vertex> nodes, int l, int c)
+	public ArrayList<Processor[][]> lerMapsArquivo(List<Vertex> nodes, int l, int c)
 	{
-		//System.out.printf("Informe o nome de arquivo texto:\n");
-	    //String nome = sc.nextLine();
-
+		ArrayList<Processor[][]> processors = new ArrayList<Processor[][]>();
+		String content = "";
+		
 	    System.out.printf("\nConteúdo do arquivo texto:\n");
 	    try 
 	    {
-	    	FileReader arq = new FileReader("/home/mayk/Documentos/Workspace/ProjetoIC/InstanciasTCC/pipe.in");
+	    	FileReader arq = new FileReader("/home/mayk/Documentos/Projetos/ProjetoIC/BLS_solutions/toSimulator16_Integral_de_Romberg.txt");
 	     	BufferedReader lerArq = new BufferedReader(arq);
 	 
 	     	String linha = lerArq.readLine(); // lê a primeira linha
@@ -232,11 +237,77 @@ public class Entrada
 	     	// de repetição atingir o final do arquivo texto
 	     	while (linha != null) 
 	     	{
-	     		System.out.printf("%s\n", linha);
+	     		String[] curr = linha.split(" ");
+	     		int id = 0;
+	    		
+	    		linhasMap = l;
+	    		colunasMap = c;
+	    		Processor network[][] = new Processor [l][c];
+	    		
+	    		//Cria os processos com seus respectivos iIDs
+	    		for(int i = 0; i < l; i++)
+	    		{
+	    			for(int j = 0; j < c; j++)
+	    			{
+	    				network[i][j] = new Processor(id, i, j);
+	    				id++;
+	    			}
+	    		}
+	    		
+	    		int index = 0;
+	    		boolean flag;
+	    		for(Vertex node: nodes)
+	    		{
+	    			flag = true;
+	    			for(int i = 0; i < l && flag; i++)
+		    		{
+		    			for(int j = 0; j < c && flag; j++)
+		    			{	
+		    				if(index < curr.length)
+		    				{
+		    					if(network[i][j].getId() == Integer.parseInt(curr[index])-1)
+			    				{
+			    					network[i][j].setVertex(node);
+			    					index++;
+			    					flag = false;
+			    				}
+		    				}
+		    			}
+		    		}
+	    		}		
+	    		
+	    		processors.add(network);	
 	 
 	     		linha = lerArq.readLine(); // lê da segunda até a última linha
 	     	}
 	 
+	     	int indexMap = 1;
+	     	for(Processor p[][] : processors)
+			{	
+	     		content = content + "Mapeamento de Indice: " + indexMap + "\n";
+	     		indexMap += 1;
+				for(int i = 0; i < l; i++)
+	    		{
+	    			for(int j = 0; j < c; j++)
+	    			{
+	    				//System.out.print(p[i][j].getVertex());
+	    				//System.out.print("\t");
+	    				content += p[i][j].getVertex();
+	    				content += "\t"; 
+	    			}
+	    			//System.out.println("");
+	    			content += "\n";
+	    		}
+				
+				//System.out.println();
+				//System.out.println();
+				content += "\n\n";
+				
+			}
+		 
+		    //System.out.println();
+	     	content += "\n";
+	     	
 	     	arq.close();
 	    } 
 	    catch (IOException e) 
@@ -244,8 +315,30 @@ public class Entrada
 	    	System.err.printf("Erro na abertura do arquivo: %s.\n",
 	    	e.getMessage());
 	    }
-	 
-	    System.out.println();
+	    
+	    outputFile(content);
+	    
+	    return processors;
+	}
+	
+	public void outputFile(String content)
+	{
+		try
+		{
+			FileWriter arq = new FileWriter("/home/mayk/Documentos/Projetos/ProjetoIC/BLS_solutions/Resultado.txt");
+			PrintWriter gravarArq = new PrintWriter(arq);
+			 
+			gravarArq.printf(content);
+			
+			arq.close();
+		}
+		catch (IOException e) 
+	    {
+	    	System.err.printf("Erro na escrita no arquivo: %s.\n",
+	    	e.getMessage());
+	    }
+		
+		
 	}
 	
 	public int getLinhasMap()

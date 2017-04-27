@@ -20,7 +20,7 @@ public class PropostoV1 extends PropostoHM
 		this.colunas = colunas;
 				
 		// Cria a rede
-		network = criateNetwork(linhas, colunas);
+		network = createNetwork(linhas, colunas);
 		
 		int totalProcs = procs.size();
 		
