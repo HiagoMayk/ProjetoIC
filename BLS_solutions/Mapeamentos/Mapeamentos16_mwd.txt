@@ -1,0 +1,211 @@
+Mapeamento de Indice: 1
+5	6	10	11	
+9	7	8	null	
+4	0	3	null	
+null	1	2	null	
+
+
+Mapeamento de Indice: 2
+3	8	7	6	
+2	10	11	5	
+1	0	9	null	
+null	null	4	null	
+
+
+Mapeamento de Indice: 3
+null	null	9	4	
+6	5	0	1	
+7	8	3	2	
+null	10	11	null	
+
+
+Mapeamento de Indice: 4
+null	4	null	null	
+0	9	5	6	
+1	2	3	7	
+11	10	8	null	
+
+
+Mapeamento de Indice: 5
+null	4	null	null	
+null	9	0	1	
+11	5	6	2	
+10	8	7	3	
+
+
+Mapeamento de Indice: 6
+null	null	11	10	
+5	6	7	8	
+0	1	2	3	
+9	4	null	null	
+
+
+Mapeamento de Indice: 7
+4	1	2	null	
+9	0	3	11	
+5	null	8	10	
+6	7	null	null	
+
+
+Mapeamento de Indice: 8
+10	11	6	5	
+8	7	4	9	
+3	2	1	0	
+null	null	null	null	
+
+
+Mapeamento de Indice: 9
+11	10	8	3	
+null	null	7	2	
+null	5	6	null	
+4	9	0	1	
+
+
+Mapeamento de Indice: 10
+7	8	10	11	
+6	5	3	2	
+4	9	0	1	
+null	null	null	null	
+
+
+Mapeamento de Indice: 11
+1	2	3	null	
+0	9	5	6	
+null	4	8	7	
+null	null	10	11	
+
+
+Mapeamento de Indice: 12
+null	4	null	null	
+0	9	5	null	
+1	7	6	11	
+2	3	8	10	
+
+
+Mapeamento de Indice: 13
+11	10	1	2	
+7	8	0	3	
+6	5	9	4	
+null	null	null	null	
+
+
+Mapeamento de Indice: 14
+11	10	8	null	
+5	6	7	3	
+9	0	1	2	
+4	null	null	null	
+
+
+Mapeamento de Indice: 15
+2	1	0	null	
+3	8	7	6	
+11	10	9	5	
+null	null	4	null	
+
+
+Mapeamento de Indice: 16
+2	1	4	null	
+3	0	9	5	
+8	null	7	6	
+10	11	null	null	
+
+
+Mapeamento de Indice: 17
+11	10	8	null	
+2	3	7	6	
+1	0	9	5	
+null	null	4	null	
+
+
+Mapeamento de Indice: 18
+4	9	0	1	
+5	null	3	2	
+6	7	8	10	
+null	null	null	11	
+
+
+Mapeamento de Indice: 19
+3	8	10	null	
+2	7	11	null	
+1	6	5	null	
+0	4	9	null	
+
+
+Mapeamento de Indice: 20
+3	8	7	null	
+null	10	6	null	
+2	11	5	null	
+1	0	9	4	
+
+
+Mapeamento de Indice: 21
+null	6	5	null	
+null	7	9	4	
+10	8	0	1	
+11	null	3	2	
+
+
+Mapeamento de Indice: 22
+null	11	null	null	
+3	10	8	7	
+2	1	0	6	
+null	4	9	5	
+
+
+Mapeamento de Indice: 23
+null	6	7	11	
+3	5	8	10	
+2	9	4	null	
+1	0	null	null	
+
+
+Mapeamento de Indice: 24
+null	4	null	null	
+0	9	5	6	
+1	2	3	7	
+11	10	8	null	
+
+
+Mapeamento de Indice: 25
+4	11	10	null	
+9	5	8	null	
+0	6	7	null	
+1	2	3	null	
+
+
+Mapeamento de Indice: 26
+null	null	6	7	
+1	2	3	8	
+0	9	5	10	
+null	4	null	11	
+
+
+Mapeamento de Indice: 27
+null	4	null	null	
+5	9	0	1	
+6	11	10	2	
+7	null	8	3	
+
+
+Mapeamento de Indice: 28
+3	2	1	null	
+8	7	0	null	
+10	6	4	null	
+11	5	9	null	
+
+
+Mapeamento de Indice: 29
+null	2	1	0	
+3	6	5	9	
+8	7	null	4	
+10	11	null	null	
+
+
+Mapeamento de Indice: 30
+null	4	null	11	
+0	9	5	10	
+1	2	3	8	
+null	null	6	7	
+
+
+

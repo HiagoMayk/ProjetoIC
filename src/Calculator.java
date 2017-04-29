@@ -21,7 +21,7 @@ public class Calculator
 {	
 	public Entrada entrada;
 	public Graph grafo;
-	public Processor mapeamento[][];
+	public ArrayList<Processor[][]> mapeamentos;
 	public PropostoV1 hmv1;
 	public PropostoV2 hmv2;
 	public Sequencial seq;
@@ -30,6 +30,7 @@ public class Calculator
 	{
 		entrada = new Entrada();
 		grafo = new Graph();
+		mapeamentos = new ArrayList<Processor[][]>();
 	}
 	
 	public void init()
@@ -37,6 +38,7 @@ public class Calculator
 		Boolean flag = true;
 		while(flag)
 		{	
+			mapeamentos = new ArrayList<Processor[][]>();
 			Scanner sc = new Scanner(System.in);
 			ArrayList<Edge> copyEdgers;
 			System.out.println("========================================");
@@ -69,12 +71,12 @@ public class Calculator
 					copyEdgers = grafo.copyEdgers(grafo.getEdges());
 					
 					//Instancia o mapeamento proposto
-					mapeamento = entrada.lerMapConsole(grafo.getVertexes(), lin, col);
+					mapeamentos.add(entrada.lerMapConsole(grafo.getVertexes(), lin, col));
 					
 					grafo.setEdges(copyEdgers);
 					
 					//getMapeamento(lin, col, copyEdgers);
-					printMapeamento(lin, col);
+					//printMapeamento(lin, col);
 					executaRotemento(lin, col);
 					
 					System.out.print(">>>");
@@ -167,21 +169,21 @@ public class Calculator
 					lin = sc.nextInt();
 					col = sc.nextInt();
 					
-					//copyEdgers = new ArrayList<Edge>();
-					//copyEdgers = grafo.copyEdgers(grafo.getEdges());
+					copyEdgers = new ArrayList<Edge>();
+					copyEdgers = grafo.copyEdgers(grafo.getEdges());
 					
 					//Instancia o mapeamento proposto
 					//mapeamento = entrada.lerMapConsole(grafo.getVertexes(), lin, col);
-					entrada.lerMapsArquivo(grafo.getVertexes(), lin, col);
+					mapeamentos = entrada.lerMapsArquivo(grafo.getVertexes(), lin, col);
 					
-					//grafo.setEdges(copyEdgers);
+					grafo.setEdges(copyEdgers);
 					
 					//getMapeamento(lin, col, copyEdgers);
 					//printMapeamento(lin, col);
-					//executaRotemento(lin, col);
+					executaRotemento(lin, col);
 					
-					//System.out.print(">>>");
-					//opcao = sc.nextInt();
+					System.out.print(">>>");
+					opcao = sc.nextInt();
 					break;
 					
 				case 0:
@@ -194,7 +196,7 @@ public class Calculator
 	{
 		if(lin * col >= grafo.getVertexes().size())
 		{
-			  mapeamento = hmv1.execute(lin, col);
+			  mapeamentos.add(hmv1.execute(lin, col));
 			  grafo.setEdges(copyEdgers);
 		 }
 		 else
@@ -207,7 +209,7 @@ public class Calculator
 	{
 		if(lin * col >= grafo.getVertexes().size())
 		{
-			  mapeamento = hmv2.execute(lin, col);
+			  mapeamentos.add(hmv2.execute(lin, col));
 			  grafo.setEdges(copyEdgers);
 		 }
 		 else
@@ -220,7 +222,7 @@ public class Calculator
 	{
 		if(lin * col >= grafo.getVertexes().size())
 		{
-			  mapeamento = seq.execute(lin, col);
+			  mapeamentos.add(seq.execute(lin, col));
 			  grafo.setEdges(copyEdgers);
 		 }
 		 else
@@ -233,20 +235,27 @@ public class Calculator
 	{
 		 System.out.println();
 		 System.out.println("Mapeamento: ");
-		 	  
-		 for(int i = 0; i < lin; i++)
+		 
+		 for(Processor [][] mapeamento : mapeamentos)
 		 {
-			 for(int j = 0; j < col; j++)
+			 for(int i = 0; i < lin; i++)
 			 {
-				 if(mapeamento[i][j].getVertex() != null)
+				 for(int j = 0; j < col; j++)
 				 {
-					 System.out.print(mapeamento[i][j].getVertex().getName() + " \t");
+					 if(mapeamento[i][j].getVertex() != null)
+					 {
+						 System.out.print(mapeamento[i][j].getVertex().getName() + " \t");
+					 }
+					 else
+					 {
+						 System.out.print("null" + "\t");
+						 //System.out.print(mapeamento[i][j].getId() + "\t");
+					 }
 				 }
-				 else
-				 {
-					 System.out.print(mapeamento[i][j].getId() + "\t");
-				 }
+				 System.out.println();
 			 }
+			 
+			 System.out.println();
 			 System.out.println();
 		 }
 	}
@@ -274,171 +283,194 @@ public class Calculator
 			switch(opcao)
 			{
 				case 1: 
-					RoteamentoXY xyFull1 = new RoteamentoXY(grafo, mapeamento, lin, col);
-					xyFull1.printRoteadores();
-					System.out.println();
-					System.out.println("ALGORITMO XY FULL:");
-					  
-					xyFull1.executeFull();
-					xyFull1.printResultFull();
+					for(Processor[][] mapeamento: mapeamentos)
+					{
+						RoteamentoXY xyFull1 = new RoteamentoXY(grafo, mapeamento, lin, col);
+						xyFull1.printRoteadores();
+						System.out.println();
+						System.out.println("ALGORITMO XY FULL:");
+						  
+						xyFull1.executeFull();
+						xyFull1.printResultFull();
+					}
 					flag = false;
 					break;
 			
 				case 2:
-					//Precisa rodar o full também para pegar o desemprenho o pacote que mais demora no parelelismo também no full 
-					RoteamentoXY xyFull2 = new RoteamentoXY(grafo, mapeamento, lin, col);
-					//xyFull2.printRoteadores();
-			
-					xyFull2.executeFull();
-					//xyFull2.printResultFull();
-					
-					//Usado para copiar somente os valores e não a instância dos edges
-					copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
-					
-					grafo.zerarHops();
-					grafo.zerarEnlaces();
-					
-					/*
-					for(Edge e : copyEdgers)
+					for(Processor[][] mapeamento: mapeamentos)
 					{
-						System.out.println(e.getHops());		
+						//Precisa rodar o full também para pegar o desemprenho o pacote que mais demora no parelelismo também no full 
+						RoteamentoXY xyFull2 = new RoteamentoXY(grafo, mapeamento, lin, col);
+						//xyFull2.printRoteadores();
+				
+						xyFull2.executeFull();
+						//xyFull2.printResultFull();
+						
+						//Usado para copiar somente os valores e não a instância dos edges
+						copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
+						
+						grafo.zerarHops();
+						grafo.zerarEnlaces();
+						
+						/*
+						for(Edge e : copyEdgers)
+						{
+							System.out.println(e.getHops());		
+						}
+						*/
+						
+						System.out.println();
+						System.out.println("ALGORITMO XY BY STEP:");
+						RoteamentoXY xyStep = new RoteamentoXY(grafo, mapeamento, lin, col);
+						xyStep.executeByStep();				    
+						xyStep.printResultByStep(copyEdgers);
 					}
-					*/
 					
-					System.out.println();
-					System.out.println("ALGORITMO XY BY STEP:");
-					RoteamentoXY xyStep = new RoteamentoXY(grafo, mapeamento, lin, col);
-					xyStep.executeByStep();				    
-					xyStep.printResultByStep(copyEdgers);
 					flag = false;
 					break;
 					
 				case 3:
-					RoteamentoXY_YX xy_xyFull1 = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
+					for(Processor[][] mapeamento: mapeamentos)
+					{
+						RoteamentoXY_YX xy_xyFull1 = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
 
-					System.out.println();
-					System.out.println("ALGORITMO XY_YX FULL:");
-					  
-					xy_xyFull1.executeFull();	
-					xy_xyFull1.printResultFull();
+						System.out.println();
+						System.out.println("ALGORITMO XY_YX FULL:");
+						  
+						xy_xyFull1.executeFull();	
+						xy_xyFull1.printResultFull();
+					}
+					
 					flag = false;
 					break;
 					
 				case 4:
-					RoteamentoXY_YX xy_xyFull2 = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
+					for(Processor[][] mapeamento: mapeamentos)
+					{
+						RoteamentoXY_YX xy_xyFull2 = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
 
-					xy_xyFull2.executeFull();
-					//xy_xyFull2.printResultFull();
+						xy_xyFull2.executeFull();
+						//xy_xyFull2.printResultFull();
+						
+						//Usado para copiar somente os valores e não a instância dos edges
+						copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
+						  
+						grafo.zerarHops();
+						grafo.zerarEnlaces();
+						  
+						System.out.println();
+						System.out.println("ALGORITMO XY_YX BY STEP:");
+						RoteamentoXY_YX xy_xyStep = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
+						xy_xyStep.executeByStep();
+					    xy_xyStep.printResultByStep(copyEdgers);
+					}
 					
-					//Usado para copiar somente os valores e não a instância dos edges
-					copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
-					  
-					grafo.zerarHops();
-					grafo.zerarEnlaces();
-					  
-					System.out.println();
-					System.out.println("ALGORITMO XY_YX BY STEP:");
-					RoteamentoXY_YX xy_xyStep = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
-					xy_xyStep.executeByStep();
-				    xy_xyStep.printResultByStep(copyEdgers);
 				    flag = false;
 					break;
 					
 				case 5:
+					for(Processor[][] mapeamento: mapeamentos)
+					{
+						RoteamentoXY xyFulla = new RoteamentoXY(grafo, mapeamento, lin, col);
+						//xyFulla.printRoteadores();
+						  
+						xyFulla.executeFull();
+						//xyFulla.printResultFull();
+						
+						//Usado para copiar somente os valores e não a instância dos edges
+						copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
+						
+						grafo.zerarHops();
+						grafo.zerarEnlaces();
+						
+						//-----------------------------------------------------------------------------------------------------------
+						
+						System.out.println();
+						System.out.println("ALGORITMO XY BY STEP:");
+						RoteamentoXY xyStepa = new RoteamentoXY(grafo, mapeamento, lin, col);
+						xyStepa.executeByStep();				    
+						xyStepa.printResultByStep(copyEdgers);
+						
+						grafo.zerarHops();
+						grafo.zerarEnlaces();
+						
+						//-----------------------------------------------------------------------------------------------------------
+						RoteamentoXY_YX xy_xyFullc = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
+						  
+						xy_xyFullc.executeFull();	
+						//xy_xyFullc.printResultFull();
+		
+						//-----------------------------------------------------------------------------------------------------------
+				
+						//Usado para copiar somente os valores e não a instância dos edges
+						copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
+						  
+						grafo.zerarHops();
+						grafo.zerarEnlaces();
+						  
+						System.out.println();
+						System.out.println("ALGORITMO XY_YX BY STEP:");
+						RoteamentoXY_YX xy_xyStepq = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
+						xy_xyStepq.executeByStep();
+					    xy_xyStepq.printResultByStep(copyEdgers);
+					}
 					
-					RoteamentoXY xyFulla = new RoteamentoXY(grafo, mapeamento, lin, col);
-					xyFulla.printRoteadores();
-					  
-					xyFulla.executeFull();
-					//xyFulla.printResultFull();
-					
-					//Usado para copiar somente os valores e não a instância dos edges
-					copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
-					
-					grafo.zerarHops();
-					grafo.zerarEnlaces();
-					
-					//-----------------------------------------------------------------------------------------------------------
-					
-					System.out.println();
-					System.out.println("ALGORITMO XY BY STEP:");
-					RoteamentoXY xyStepa = new RoteamentoXY(grafo, mapeamento, lin, col);
-					xyStepa.executeByStep();				    
-					xyStepa.printResultByStep(copyEdgers);
-					
-					grafo.zerarHops();
-					grafo.zerarEnlaces();
-					
-					//-----------------------------------------------------------------------------------------------------------
-					RoteamentoXY_YX xy_xyFullc = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
-					  
-					xy_xyFullc.executeFull();	
-					//xy_xyFullc.printResultFull();
-	
-					//-----------------------------------------------------------------------------------------------------------
-			
-					//Usado para copiar somente os valores e não a instância dos edges
-					copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
-					  
-					grafo.zerarHops();
-					grafo.zerarEnlaces();
-					  
-					System.out.println();
-					System.out.println("ALGORITMO XY_YX BY STEP:");
-					RoteamentoXY_YX xy_xyStepq = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
-					xy_xyStepq.executeByStep();
-				    xy_xyStepq.printResultByStep(copyEdgers);
 				    flag = false;
 					break;
 				case 6:
-					
-					RoteamentoXY xyFulla2 = new RoteamentoXY(grafo, mapeamento, lin, col);
-					xyFulla2.printRoteadores();
-					System.out.println();
-					System.out.println("ALGORITMO XY FULL:");
-					  
-					xyFulla2.executeFull();
-					xyFulla2.printResultFull();
-					
-					//Usado para copiar somente os valores e não a instância dos edges
-					copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
-					
-					grafo.zerarHops();
-					grafo.zerarEnlaces();
-					
-					//-----------------------------------------------------------------------------------------------------------
-					
-					System.out.println();
-					System.out.println("ALGORITMO XY BY STEP:");
-					RoteamentoXY xyStepa3 = new RoteamentoXY(grafo, mapeamento, lin, col);
-					xyStepa3.executeByStep();				    
-					xyStepa3.printResultByStep(copyEdgers);
-					
-					grafo.zerarHops();
-					grafo.zerarEnlaces();
-					
-					//-----------------------------------------------------------------------------------------------------------
-					RoteamentoXY_YX xy_xyFullcc = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
+					int index = 1;
+					for(Processor[][] mapeamento: mapeamentos)
+					{
+						System.out.println("Mapeamento: " + index);
+						RoteamentoXY xyFulla2 = new RoteamentoXY(grafo, mapeamento, lin, col);
+						//xyFulla2.printRoteadores();
+						System.out.println();
+						System.out.println("ALGORITMO XY FULL:");
+						  
+						xyFulla2.executeFull();
+						xyFulla2.printResultFull();
+						
+						//Usado para copiar somente os valores e não a instância dos edges
+						copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
+						
+						grafo.zerarHops();
+						grafo.zerarEnlaces();
+						
+						//-----------------------------------------------------------------------------------------------------------
+						
+						System.out.println();
+						System.out.println("ALGORITMO XY BY STEP:");
+						RoteamentoXY xyStepa3 = new RoteamentoXY(grafo, mapeamento, lin, col);
+						xyStepa3.executeByStep();				    
+						xyStepa3.printResultByStep(copyEdgers);
+						
+						grafo.zerarHops();
+						grafo.zerarEnlaces();
+						
+						//-----------------------------------------------------------------------------------------------------------
+						RoteamentoXY_YX xy_xyFullcc = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
 
-					System.out.println();
-					System.out.println("ALGORITMO XY_YX FULL:");
-					  
-					xy_xyFullcc.executeFull();	
-					xy_xyFullcc.printResultFull();
-	
-					//-----------------------------------------------------------------------------------------------------------
-			
-					//Usado para copiar somente os valores e não a instância dos edges
-					copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
-					  
-					grafo.zerarHops();
-					grafo.zerarEnlaces();
-					  
-					System.out.println();
-					System.out.println("ALGORITMO XY_YX BY STEP:");
-					RoteamentoXY_YX xy_xyStepqq = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
-					xy_xyStepqq.executeByStep();
-				    xy_xyStepqq.printResultByStep(copyEdgers);
+						System.out.println();
+						System.out.println("ALGORITMO XY_YX FULL:");
+						  
+						xy_xyFullcc.executeFull();	
+						xy_xyFullcc.printResultFull();
+		
+						//-----------------------------------------------------------------------------------------------------------
+				
+						//Usado para copiar somente os valores e não a instância dos edges
+						copyEdgers = (ArrayList<Edge>) cloner.deepClone(grafo.getEdges());
+						  
+						grafo.zerarHops();
+						grafo.zerarEnlaces();
+						  
+						System.out.println();
+						System.out.println("ALGORITMO XY_YX BY STEP:");
+						RoteamentoXY_YX xy_xyStepqq = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
+						xy_xyStepqq.executeByStep();
+					    xy_xyStepqq.printResultByStep(copyEdgers);
+					}
+					
 				    flag = false;
 					break;
 			}
@@ -486,14 +518,14 @@ public class Calculator
 		this.grafo = grafo;
 	}
 
-	public Processor[][] getMapeamento()
+	public ArrayList<Processor[][]> getMapeamento()
 	{
-		return mapeamento;
+		return mapeamentos;
 	}
 
-	public void setMapeamento(Processor[][] mapeamento) 
+	public void setMapeamento(ArrayList<Processor[][]> mapeamento) 
 	{
-		this.mapeamento = mapeamento;
+		this.mapeamentos = mapeamento;
 	}
 
 	public PropostoV1 getHmV1()

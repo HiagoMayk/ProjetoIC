@@ -8,6 +8,8 @@ import fileinput
 # tamanho do problema
 # ligações
 
+volta = 0
+
 def inputFile():
 
     flag = 0
@@ -21,8 +23,8 @@ def inputFile():
     la = []
     lb = []
 
-    arq_a = open("ResultadosTCC/Sequencial/64/Table/table_xy.txt", 'a')
-    arq_b = open("ResultadosTCC/Sequencial/64/Table/table_xy_yx.txt", 'a')
+    arq_a = open("ResultadosTCC/BLS/64/Table/vopd_table_xy.txt",'w')
+    arq_b = open("ResultadosTCC/BLS/64/Table/vopd_table_xy_yx.txt",'w')
 
     for line in fileinput.input():
         if flag == 0:
@@ -57,47 +59,10 @@ def inputFile():
                 count = 0
                 #lista_b.append(lb)
                 arq_b.write("\\\\ \n")
-                flag = 1
+                flag = 0
 
     arq_a.close()
     arq_b.close()
-
-
-
-    #print lista_a
-    #print ""
-    #print lista_b
-
-
-
-
-def printInFile(distGraph):
-    arq = open("Codigos/InstanciasQAP64/" + name + ".in", 'w')
-
-    arq.write("0")
-    arq.write("\n")
-    arq.write("\n")
-
-    nodes = distGraph.keys()
-    arq.write(str(len(nodes)))
-    arq.write("\n")
-    arq.write("\n")
-
-    arq2 = open("Distance_matrix/mesh" + str(int(sqrt(len(nodes)))) + "x" + str(int(sqrt(len(nodes)))) + "_distance_matrix.in", 'r')
-    texto = arq2.read()
-
-    for i in nodes:
-        for j in nodes:
-            arq.write("%s\t"%(distGraph[i][j]))
-
-        arq.write("\n")
-
-    arq.write("\n")
-    arq.write(texto)
-
-    arq.close()
-    arq2.close()
-
 
 if __name__ == '__main__':
 

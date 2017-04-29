@@ -229,7 +229,7 @@ public class Entrada
 	    System.out.printf("\nConteúdo do arquivo texto:\n");
 	    try 
 	    {
-	    	FileReader arq = new FileReader("/home/mayk/Documentos/Projetos/ProjetoIC/BLS_solutions/toSimulator16_Integral_de_Romberg.txt");
+	    	FileReader arq = new FileReader("/home/mayk/Documentos/Projetos/ProjetoIC/BLS_solutions/toSimulator16_vopd.txt");
 	     	BufferedReader lerArq = new BufferedReader(arq);
 	 
 	     	String linha = lerArq.readLine(); // lê a primeira linha
@@ -280,7 +280,10 @@ public class Entrada
 	 
 	     		linha = lerArq.readLine(); // lê da segunda até a última linha
 	     	}
-	 
+	     	
+	     	/*
+	     	 * // Usado para imprimir os mapeamentos
+	     	 * 
 	     	int indexMap = 1;
 	     	for(Processor p[][] : processors)
 			{	
@@ -308,6 +311,8 @@ public class Entrada
 		    //System.out.println();
 	     	content += "\n";
 	     	
+	     	*/
+	     	
 	     	arq.close();
 	    } 
 	    catch (IOException e) 
@@ -316,7 +321,7 @@ public class Entrada
 	    	e.getMessage());
 	    }
 	    
-	    outputFile(content);
+	    //outputFile(content);
 	    
 	    return processors;
 	}
@@ -325,7 +330,7 @@ public class Entrada
 	{
 		try
 		{
-			FileWriter arq = new FileWriter("/home/mayk/Documentos/Projetos/ProjetoIC/BLS_solutions/Resultado.txt");
+			FileWriter arq = new FileWriter("/home/mayk/Documentos/Projetos/ProjetoIC/BLS_solutions/Integral_de_Romberg16.txt");
 			PrintWriter gravarArq = new PrintWriter(arq);
 			 
 			gravarArq.printf(content);

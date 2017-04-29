@@ -179,7 +179,8 @@ public class Roteamento
 			{
 				if(roteadores[i][j].getProcessor().getVertex() == null)
 				{
-					System.out.print(roteadores[i][j].getProcessor().getId() + "\t");
+					System.out.print("null" + "\t");
+					//System.out.print(roteadores[i][j].getProcessor().getId() + "\t");
 				}
 				else
 				{
