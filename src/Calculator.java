@@ -41,13 +41,13 @@ public class Calculator
 			mapeamentos = new ArrayList<Processor[][]>();
 			Scanner sc = new Scanner(System.in);
 			ArrayList<Edge> copyEdgers;
-			System.out.println("========================================");
-			System.out.println("1 \t \t Mapeamento por console");
-			System.out.println("2 \t \t Mapeamento padrão V1");
-			System.out.println("3 \t \t Mapeamento padrão V2");
-			System.out.println("4 \t \t Mapeamento Sequencial");
-			System.out.println("5 \t \t Mapeamento por arquivo (caso especial)");
-			System.out.println("0 \t \t Sair");
+			System.out.println("=================    SiNoC    =================");
+			System.out.println("1 \t \t Mapeamento por console;");
+			System.out.println("2 \t \t Mapeamento V1_Decrecente;");
+			System.out.println("3 \t \t Mapeamento V1_Crescente;");
+			System.out.println("4 \t \t Mapeamento Sequencial;");
+			System.out.println("5 \t \t Mapeamento por arquivo;");
+			System.out.println("0 \t \t Sair.");
 			System.out.print(">>>");
 			 
 			int opcao = sc.nextInt();

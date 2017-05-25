@@ -229,7 +229,7 @@ public class Entrada
 	    System.out.printf("\nConteúdo do arquivo texto:\n");
 	    try 
 	    {
-	    	FileReader arq = new FileReader("/home/mayk/Documentos/Projetos/ProjetoIC/BLS_solutions/toSimulator16_vopd.txt");
+	    	FileReader arq = new FileReader("/home/mayk/Documentos/Projetos/ProjetoIC/BLS_solutions/toSimulator16_Integral_de_Romberg.txt");
 	     	BufferedReader lerArq = new BufferedReader(arq);
 	 
 	     	String linha = lerArq.readLine(); // lê a primeira linha
