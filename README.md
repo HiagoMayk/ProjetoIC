@@ -1,3 +1,4 @@
+(Portuguese)
 SiNoC - Simulador de Mapeamentos em Redes em Chip
 
 Diante da dificuldade de encontrar simuladores de redes em chip de alto nível de abstração fáceis de usar, de aprender e que tenham implementadas todas as métricas para aviaço apenas ao nivel de mapeamento de tarefas, foi proposta a implementação de um simulador.
@@ -41,3 +42,7 @@ Por simplicidade, no SiNoC, a largura de banda dos canais e os buffers dos rotea
 - Arbitragem: é feita de forma distribuída, onde  roteamento e a arbitragem são realizados separadamente. Assim, o algoritmo de roteamento apenas diz ao roteador qual direção o pacote deve seguir, e o árbitro de cada roteador é quem vai dizer qual melhor caminho imediato a seguir para que o pacote percorra para aquela determinada direção.
  
 - Memorização: é feita de forma centralizada em cada roteador, onde os pacotes que chegam de qualquer direção são armazenados em um único buffer, o qual usa a política First-In First-Out (FIFO). Entretanto, caso em um dado instante da simulação, chegue mais de um pacote em um determinado roteador, eles são armazenados no buffer de forma crescente de acordo com seus tamanhos, em flits. Caso o tamanho seja igual, a alocação é feita de forma arbitrária.
+
+(English)
+SiNoC - Network on Chip Mapping Simulator
+...
