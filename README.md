@@ -1,3 +1,4 @@
+SiNoC - Simulador de Mapeamentos em Redes em Chip
 
 Diante da dificuldade de encontrar simuladores de redes em chip de alto nível de abstração fáceis de usar, de aprender e que tenham implementadas todas as métricas para aviaço apenas ao nivel de mapeamento de tarefas, foi proposta a implementação de um simulador.
  
