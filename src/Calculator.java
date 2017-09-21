@@ -56,7 +56,7 @@ public class Calculator
 			 
 			switch(opcao)
 			{
-				case 1: 
+				case 1: // Console
 					grafo = entrada.lerGrafo();
 					 
 					//printTasks();
@@ -83,11 +83,11 @@ public class Calculator
 					opcao = sc.nextInt();
 					break;
 					 
-				case 2:
+				case 2: // Decrescente
 					 grafo = entrada.lerGrafo();
 					 
-					 //printTasks();
-					 //printComunications();
+					 printTasks();
+					 printComunications();
 					
 					 //Usado para copiar somente os valores e não a instância dos edges
 					 copyEdgers = new ArrayList<Edge>();
@@ -101,14 +101,16 @@ public class Calculator
 					 lin = sc.nextInt();
 					 col = sc.nextInt();
 					 getMapeamentoV1(lin, col, copyEdgers);
-					 //printMapeamento(lin, col);
+					 
+					 printMapeamento(lin, col);
+					 
 					 executaRotemento(lin, col);
 					 
 					 System.out.print(">>>");
 					 opcao = sc.nextInt();
 					 break;
 					 
-				case 3:
+				case 3: // Crescente
 					 grafo = entrada.lerGrafo();
 					 
 					 //printTasks();
@@ -133,7 +135,7 @@ public class Calculator
 					 opcao = sc.nextInt();
 					 break;
 					 
-				case 4:
+				case 4: // Sequencial
 					grafo = entrada.lerGrafo();
 					 
 					 //printTasks();
@@ -158,7 +160,7 @@ public class Calculator
 					 opcao = sc.nextInt();
 					 break;
 				
-				case 5:
+				case 5: // Arquivo
 					grafo = entrada.lerGrafo();
 					 
 					//printTasks();
