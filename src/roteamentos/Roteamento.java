@@ -226,13 +226,6 @@ public class Roteamento
 		}
 	}
 	
-	public void printLatencia()
-	{
-		System.out.println("Taxa de reuso dos enlaces: " + result.calculaTaxaReuso(acumulator) + "%");		
-	}
-	
-	
-
 	/*
 	 * Calcula e armazena em result o resultado do acumulator
 	 */
@@ -251,7 +244,7 @@ public class Roteamento
 		System.out.println("Caminhos percorridos e total de hops: ");*/
 		for(Pacote e : pacotes)
 		{
-			  System.out.println(e.getSource().getVertex().getName() + "\t" + "-" + "\t" + e.getDestination().getVertex().getName() + "\t" + "->" + "\t" + e.getFlits() + "\t Hops: " +  e.getHops() + "\t Latencia: " + e.getLatencia());
+			  //System.out.println(e.getSource().getVertex().getName() + "\t" + "-" + "\t" + e.getDestination().getVertex().getName() + "\t" + "->" + "\t" + e.getFlits() + "\t Hops: " +  e.getHops() + "\t Latencia: " + e.getLatencia());
 			  
 			  hopAcumulator += e.getHops();
 			  totalFlits += e.getFlits();
@@ -447,6 +440,16 @@ public class Roteamento
 	public void setColunas(int colunas) 
 	{
 		this.colunas = colunas;
+	}
+	
+	public Result getResult() 
+	{
+		return result;
+	}
+
+	public void setResult(Result result) 
+	{
+		this.result = result;
 	}
 }
 	

@@ -221,15 +221,15 @@ public class Entrada
 	 * Ler uma sequencia de papeamentos e aplica as métricas sobre ele dando as médias gerais
 	 * Retorna um ArrayList de Mapeamentos de 
 	 */
-	public ArrayList<Processor[][]> lerMapsArquivo(List<Vertex> nodes, int l, int c)
+	public ArrayList<Processor[][]> lerMapsArquivo(List<Vertex> nodes, int l, int c, String file)
 	{
 		ArrayList<Processor[][]> processors = new ArrayList<Processor[][]>();
 		String content = "";
 		
-	    System.out.printf("\nConteúdo do arquivo texto:\n");
+	    //System.out.printf("\nConteúdo do arquivo texto:\n");
 	    try 
 	    {
-	    	FileReader arq = new FileReader("/home/mayk/Documentos/Projetos/ProjetoIC/BLS_solutions/toSimulator16_Integral_de_Romberg.txt");
+	    	FileReader arq = new FileReader(file);
 	     	BufferedReader lerArq = new BufferedReader(arq);
 	 
 	     	String linha = lerArq.readLine(); // lê a primeira linha
