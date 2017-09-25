@@ -216,6 +216,46 @@ public class Entrada
 		return network;
 	}
 	
+	public Processor[][] lerMapMyCode(List<Vertex> nodes, int l, int c)
+	{
+		int id = 0;
+		
+		linhasMap = l;
+		colunasMap = c;
+		Processor network[][] = new Processor [l][c];
+		
+		//Cria os processos com seus respectivos iIDs
+		for(int i = 0; i < l; i++)
+		{
+			for(int j = 0; j < c; j++)
+			{
+				network[i][j] = new Processor(id, i, j);
+				id++;
+			}
+		}
+		
+		System.out.println("Digite o mapeamento desejado:");
+		System.out.print(">>>");
+		// número do processador onde se quer inserir o processo
+		for(int k = 0; k < nodes.size(); k++)
+		{
+			int local = sc.nextInt()-1;
+				
+			for(int i = 0; i < l; i++)
+			{
+				for(int j = 0; j < c; j++)
+				{
+					if(network[i][j].getId() == local)
+					{
+						network[i][j].setVertex(nodes.get(k));
+					}
+				}
+			}	
+		}
+
+		return network;
+	}
+	
 	/*
 	 * Ler o mapeamento dos processadores na rede por arquivo
 	 * Ler uma sequencia de papeamentos e aplica as métricas sobre ele dando as médias gerais
@@ -281,9 +321,9 @@ public class Entrada
 	     		linha = lerArq.readLine(); // lê da segunda até a última linha
 	     	}
 	     	
-	     	/*
-	     	 * // Usado para imprimir os mapeamentos
-	     	 * 
+	     	
+	     	 // Usado para imprimir os mapeamentos
+	     	 
 	     	int indexMap = 1;
 	     	for(Processor p[][] : processors)
 			{	
@@ -311,7 +351,7 @@ public class Entrada
 		    //System.out.println();
 	     	content += "\n";
 	     	
-	     	*/
+	     	
 	     	
 	     	arq.close();
 	    } 

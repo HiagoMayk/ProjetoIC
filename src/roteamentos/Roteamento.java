@@ -213,6 +213,8 @@ public class Roteamento
 								//Contrutur de Pacote: 
 								//Pacote(int priority, Processor source, Processor destination, int x, int y)
 								//System.out.println(roteadores[i][j].getProcessor().getVertex().getName() + " ====== " + comunica.size() + " ====== " + roteadores[i][j].getProcessor().getVertex().getOutdegree() );
+								
+								// ERRO por aqui
 								Pacote pacote = new Pacote(roteadores[i][j].getProcessor().getVertex().getOutdegree(), roteadores[i][j].getProcessor(), comunica.get(k).getProc(), i, j, comunica.get(k).getPeso());
 								
 								//Assumimos aqui também que um processo pode enviar mensagem para ele mesmo

@@ -46,9 +46,9 @@ public class Calculator
 		Scanner sc = new Scanner(System.in);
 		grafo = entrada.lerGrafo();
 		
-		String app = "vopd5";
+		String app = "r10";
 		
-		FileWriter arq = new FileWriter("/home/hiago/Documentos/SiNoC/Mapeamentos_variacoes/Result_two_phase/"+app+".out");
+		FileWriter arq = new FileWriter("/home/hiago/Documentos/SiNoC/Mapeamentos_variacoes/Results_CastNet/results.out");
 		PrintWriter gravarArq = new PrintWriter(arq);
 		
 		System.out.println("Digite a quantidade de linhas e colunas da rede: ");
@@ -64,7 +64,7 @@ public class Calculator
 		
 		//Instancia o mapeamento proposto
 		//getMapeamentoSequencial(lin, col, copyEdgers);
-		mapeamentos = entrada.lerMapsArquivo(grafo.getVertexes(), lin, col, "/home/hiago/Documentos/SiNoC/Mapeamentos_variacoes/Two_phase/"+app+".txt");
+		mapeamentos = entrada.lerMapsArquivo(grafo.getVertexes(), lin, col, "/home/hiago/Documentos/SiNoC/Mapeamentos_variacoes/Results_CastNet/"+app+".txt");
 		
 		grafo.setEdges(copyEdgers);
 		
@@ -79,20 +79,23 @@ public class Calculator
 		
 		//System.out.println();
 		//System.out.println("ALGORITMO XY BY STEP:");
-		gravarArq.printf("\n");
-		gravarArq.printf("ALGORITMO XY BY STEP:");
-		gravarArq.printf("\n");
+		//gravarArq.printf("\n");
+		//gravarArq.printf("ALGORITMO XY BY STEP:");
+		//gravarArq.printf("\n");
 		for(Processor[][] mapeamento: mapeamentos)
 		{
 			RoteamentoXY xyStepa = new RoteamentoXY(grafo, mapeamento, lin, col);
+			
 			xyStepa.executeByStep();	
+			//System.out.println("HOP");
 			//System.out.println("hop");
 			xyStepa.ResultByStep(copyEdgers);
 			//xyStepa.printResultByStep();
 			//showResults(xyStepa, copyEdgers);
-			//System.out.println(xyStepa.getResult().getLatencia_pct_maior_latencia());
-			gravarArq.printf(""+xyStepa.getResult().getLatencia_pct_maior_latencia());
-			gravarArq.printf("\n");
+			System.out.print(xyStepa.getResult().getLatencia_pct_maior_latencia() + " ");
+			//gravarArq.printf(""+xyStepa.getResult().getLatencia_pct_maior_latencia() + " ");
+			//gravarArq.printf("\n");
+			
 		}
 		
 		grafo.zerarHops();
@@ -109,9 +112,9 @@ public class Calculator
 		//System.out.println();
 		//System.out.println("ALGORITMO XY_YX BY STEP:");
 		
-		gravarArq.printf("\n");
-		gravarArq.printf("ALGORITMO XY_YX BY STEP:");
-		gravarArq.printf("\n");
+		//gravarArq.printf("\n");
+		//gravarArq.printf("ALGORITMO XY_YX BY STEP:");
+		//gravarArq.printf("\n");
 		for(Processor[][] mapeamento: mapeamentos)
 		{
 			RoteamentoXY_YX xy_xyStepq = new RoteamentoXY_YX(grafo, mapeamento, lin, col);
@@ -120,12 +123,12 @@ public class Calculator
 			xy_xyStepq.ResultByStep(copyEdgers);
 			//xy_xyStepq.printResultByStep();					    
 			//showResults(xy_xyStepq, copyEdgers);
-			//System.out.println(xy_xyStepq.getResult().getLatencia_pct_maior_latencia());
-			gravarArq.printf(""+xy_xyStepq.getResult().getLatencia_pct_maior_latencia());
-			gravarArq.printf("\n");
+			System.out.println(xy_xyStepq.getResult().getLatencia_pct_maior_latencia());
+			//gravarArq.printf(""+xy_xyStepq.getResult().getLatencia_pct_maior_latencia());
+			//gravarArq.printf("\n");
 		}
 		
-		arq.close();
+		//arq.close();
 	}
 	
 	public void init()
@@ -731,8 +734,8 @@ public class Calculator
 	{		
 		  Calculator c = new Calculator();
 		  
-		  c.init();
-		  /*
+		  //c.init();
+		  
 		  try
 		  {
 			  c.myCode();
@@ -742,7 +745,7 @@ public class Calculator
 			  System.err.printf("Erro na abertura do arquivo: %s.\n",
 			  e.getMessage());
 		  }
-		  */
+		  
 	}
 
 }
